@@ -13,6 +13,7 @@ public class ServerThread implements Runnable {
 
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
+	private ServerManager manager = new ServerManager();
 
 	public ServerThread(ObjectInputStream ois, ObjectOutputStream oos) {
 		this.ois = ois;
@@ -28,12 +29,17 @@ public class ServerThread implements Runnable {
 				switch ((String) protocol[0]) {
 				case "join":
 					Member member1 = (Member) protocol[1];
+					oos.writeObject(manager.join(member1));
 					break;
 
 				case "login":
 					Member member2 = (Member) protocol[1];
 					break;
 
+				case "logout":
+					Member member3 = (Member) protocol[1];
+					break;
+					
 				case "showList":
 					Category category1 = (Category) protocol[1];
 					int showList = (int) protocol[2];
@@ -45,10 +51,6 @@ public class ServerThread implements Runnable {
 
 				case "evaluate":
 					Evaluation evaluation = (Evaluation) protocol[1];
-					break;
-
-				case "logout":
-					Member member3 = (Member) protocol[1];
 					break;
 
 				case "askRestaurant":
