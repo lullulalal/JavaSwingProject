@@ -1,0 +1,430 @@
+package GUI;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import client.SESClientManager;
+import vo.Human;
+import vo.Professor;
+import vo.Staff;
+import vo.Trainee;
+
+public class SESGUI extends JFrame {
+   private SESClientManager manager;
+
+   private DefaultListModel<Human> dm;
+
+   private JLabel lb_North;
+
+   private JPanel panel_West;
+
+   private JPanel panel_West_One;
+   private JLabel lb_Name;
+   private JTextField tf_Name;
+
+   private JPanel panel_West_Two;
+   private JLabel lb_Age;
+   private JTextField tf_Age;
+
+   private JPanel panel_West_Three;
+   private JLabel lb_Jumin;
+   private JTextField tf_Jumin;
+
+   private JPanel panel_West_Four;
+   private JLabel lb_Major;
+   private JTextField tf_Major;
+
+   private JPanel panel_West_Five;
+   private JLabel lb_StdNo;
+   private JTextField tf_StdNo;
+
+   private JPanel panel_West_Six;
+   private JLabel lb_Dpt;
+   private JTextField tf_Dpt;
+
+   private JScrollPane scrollPane;
+   private JList<Human> humanList;
+
+   private JPanel panel_South;
+   private JComboBox<String> comboBox;
+   private JButton btnInsert;
+   private JButton btnSearch;
+   private JButton btnUpdate;
+   private JButton btnDelete;
+   private JButton btnOk;
+   private JButton btnCancel;
+   
+   private String preBtn;
+   private String type;
+
+   public SESGUI() {
+      manager = new SESClientManager();
+      this.setBounds(100, 100, 600, 400);
+      this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+
+      this.makeSouth();
+      this.makeWest();
+      this.makeCenter();
+      this.makeNorth();
+
+      // init
+      tf_Age.setEditable(false);
+      tf_Name.setEditable(false);
+      tf_Jumin.setEditable(false);
+      tf_Major.setEditable(false);
+      tf_StdNo.setEditable(false);
+      tf_Dpt.setEditable(false);
+
+      btnOk.setEnabled(false);
+      btnCancel.setEnabled(false);
+
+      this.setVisible(true);
+   }
+
+   public void makeNorth() {
+      lb_North = new JLabel("SES School Manager");
+      this.add(lb_North, BorderLayout.NORTH);
+   }
+
+   public void makeWest() {
+      panel_West = new JPanel(new GridLayout(6, 1));
+
+      // Name
+      panel_West_One = new JPanel();
+      lb_Name = new JLabel("Name");
+      tf_Name = new JTextField();
+      tf_Name.setColumns(15);
+      panel_West_One.add(lb_Name);
+      panel_West_One.add(tf_Name);
+
+      // Age
+      panel_West_Two = new JPanel();
+      lb_Age = new JLabel("Age");
+      tf_Age = new JTextField();
+      tf_Age.setColumns(15);
+      panel_West_Two.add(lb_Age);
+      panel_West_Two.add(tf_Age);
+
+      // Jumin
+      panel_West_Three = new JPanel();
+      lb_Jumin = new JLabel("Jumin");
+      tf_Jumin = new JTextField();
+      tf_Jumin.setColumns(15);
+      panel_West_Three.add(lb_Jumin);
+      panel_West_Three.add(tf_Jumin);
+
+      // Major
+      panel_West_Four = new JPanel();
+      lb_Major = new JLabel("Major");
+      tf_Major = new JTextField();
+      tf_Major.setColumns(15);
+      panel_West_Four.add(lb_Major);
+      panel_West_Four.add(tf_Major);
+
+      // StdNo
+      panel_West_Five = new JPanel();
+      lb_StdNo = new JLabel("StdNo");
+      tf_StdNo = new JTextField();
+      tf_StdNo.setColumns(15);
+      panel_West_Five.add(lb_StdNo);
+      panel_West_Five.add(tf_StdNo);
+
+      // Dpt
+      panel_West_Six = new JPanel();
+      lb_Dpt = new JLabel("Dpt");
+      tf_Dpt = new JTextField();
+      tf_Dpt.setColumns(15);
+      panel_West_Six.add(lb_Dpt);
+      panel_West_Six.add(tf_Dpt);
+
+      panel_West.add(panel_West_One);
+      panel_West.add(panel_West_Two);
+      panel_West.add(panel_West_Three);
+      panel_West.add(panel_West_Four);
+      panel_West.add(panel_West_Five);
+      panel_West.add(panel_West_Six);
+
+      this.add(panel_West, BorderLayout.WEST);
+   }
+
+   public void makeCenter() {
+      scrollPane = new JScrollPane();
+      humanList = new JList<>();
+
+      dm = new DefaultListModel<>();
+      humanList.setModel(dm);
+      getAll();
+      
+      MouseAction ma = new MouseAction();
+      humanList.addMouseListener(ma);
+      
+      scrollPane.setViewportView(humanList);
+      this.add(scrollPane, BorderLayout.CENTER);
+   }
+
+   public void makeSouth() {
+      panel_South = new JPanel();
+
+      SESBtnListener sl = new SESBtnListener();
+
+      // 1
+      comboBox = new JComboBox<>();
+      comboBox.addItem("====");
+      comboBox.addItem("Professor");
+      comboBox.addItem("Student");
+      comboBox.addItem("Staff");
+
+      // add listener
+      comboBox.addActionListener(sl);
+
+      // 2
+      /*
+       * String[] itemList = {"====", "Professor" , "Student", "Staff"};
+       * comboBox = new JComboBox<>(itemList);
+       */
+
+      btnInsert = new JButton("Insert");
+      btnSearch = new JButton("Search");
+      btnUpdate = new JButton("Update");
+      btnDelete = new JButton("Delete");
+      btnOk = new JButton("Ok");
+      btnCancel = new JButton("Cancel");
+
+      // addBtnListener
+      btnInsert.addActionListener(sl);
+      btnSearch.addActionListener(sl);
+      btnUpdate.addActionListener(sl);
+      btnDelete.addActionListener(sl);
+      btnOk.addActionListener(sl);
+      btnCancel.addActionListener(sl);
+
+      panel_South.add(comboBox);
+      panel_South.add(btnInsert);
+      panel_South.add(btnSearch);
+      panel_South.add(btnUpdate);
+      panel_South.add(btnDelete);
+      panel_South.add(btnOk);
+      panel_South.add(btnCancel);
+      
+      this.add(panel_South, BorderLayout.SOUTH);
+   }
+
+   class SESBtnListener implements ActionListener {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+         Object obj = e.getSource();
+         if (obj instanceof JButton) {
+            String cmd = e.getActionCommand();
+
+            if (cmd.equals("Insert")) {
+               String item = (String) comboBox.getSelectedItem();
+               preBtn = "insert";
+
+               if (item.equals("====")) {
+                  JOptionPane.showMessageDialog(null, "!!!", null, JOptionPane.WARNING_MESSAGE);
+                  tfInitFalse();
+               } else if (item.equals("Student")) {
+                  tfInit();
+                  tf_StdNo.setEditable(true);
+                  okCancelBtnInit();
+               } else if (item.equals("Professor")) {
+                  tfInit();
+                  tf_Major.setEditable(true);
+                  okCancelBtnInit();
+               } else if (item.equals("Staff")) {
+                  tfInit();
+                  tf_Dpt.setEditable(true);
+                  okCancelBtnInit();
+               }
+            } else if (cmd.equals("Search")) {
+               preBtn = "search";
+               tf_Jumin.setEditable(true);
+               okCancelBtnInit();
+            } else if (cmd.equals("Update")) {
+               preBtn = "update";
+               tf_Name.setEditable(true);
+               tf_Age.setEditable(true);
+               tf_Jumin.setEditable(true);
+               if(type.equals("p")){
+                  tf_Major.setEditable(true);
+               }else if(type.equals("t")){
+                  tf_StdNo.setEditable(true);
+               }else if(type.equals("s")){
+                  tf_Dpt.setEditable(true);
+               }
+               
+               
+            } else if (cmd.equals("Delete")) {
+               preBtn = "delete";
+            } else if (cmd.equals("Ok")) {
+               if (preBtn.equals("insert")) {
+                  String item = (String) comboBox.getSelectedItem();
+                  Human human = null;
+                  String name = tf_Name.getText();
+                  int age = 0;
+                  try {
+                     age = Integer.parseInt(tf_Age.getText());
+                  } catch (Exception e1) {
+                     JOptionPane.showMessageDialog(null, "Please input only number");
+                  }
+                  String jumin = tf_Jumin.getText();
+                  if (item.equals("Professor")) {
+                     String major = tf_Major.getText();
+                     human = new Professor(name, age, jumin, major);
+                  } else if (item.equals("Trainee")) {
+                     String stdNo = tf_StdNo.getText();
+                     human = new Trainee(name, age, jumin, stdNo);
+                  } else if (item.equals("Staff")) {
+                     String field = tf_Dpt.getText();
+                     human = new Staff(name, age, jumin, field);
+                  }
+                  if (manager.insertHuman(human)) {
+                     JOptionPane.showMessageDialog(null, "complete!");
+                  } else
+                     JOptionPane.showMessageDialog(null, "failed");
+
+               } else if (preBtn.equals("search")) {
+                  String jumin = tf_Jumin.getText();
+                  if (jumin.equals("")) {
+                     JOptionPane.showMessageDialog(null, "please input Jumin");
+                     return;
+                  }
+                  Human human = manager.findHuman(jumin);
+                  if (human != null) {
+                     tf_Name.setText(human.getName());
+                     tf_Age.setText(human.getAge() + "");
+                     tf_Jumin.setText(human.getJumin());
+                     if (human instanceof Professor) {
+                        tf_Major.setText(((Professor) human).getMajor());
+                     } else if (human instanceof Trainee) {
+                        tf_StdNo.setText(((Trainee) human).getStdNo());
+                     } else if (human instanceof Staff) {
+                        tf_Dpt.setText(((Staff) human).getField());
+                     }
+                  }
+               } else if (preBtn.equals("update")) {
+                  okCancelBtnInit();
+                  Human h = null;
+                  int index = humanList.getSelectedIndex();
+                  String name = tf_Name.getText();
+                  int age = Integer.parseInt(tf_Age.getText());
+                  String jumin = tf_Jumin.getText();
+                  if(type.equals("p")){
+                     String major = tf_Major.getText();
+                     h = new Professor(name, age, jumin, major);
+                  }else if(type.equals("t")){
+                     String stdNo = tf_StdNo.getText();
+                     h = new Trainee(name, age, jumin, stdNo);
+                  }else if(type.equals("s")){
+                     String field = tf_Dpt.getText();
+                     h = new Staff(name, age, jumin, field);
+                  }
+                  manager.updateHuman(index, h);
+                  okCancelBtnFalse();
+                  getAll();
+               } else if (preBtn.equals("delete")) {
+
+               }
+               getAll();
+            } else if (cmd.equals("Cancel")) {
+               okCancelBtnFalse();
+               getAll();
+            }
+         } else if (obj instanceof JComboBox) {
+         }
+      }
+   }
+   
+   class MouseAction extends MouseAdapter{
+      public void mouseClicked(MouseEvent e){
+         Human human = humanList.getSelectedValue();
+         tfInitFalse();
+         tf_Name.setText(human.getName());
+         tf_Age.setText(human.getAge()+"");
+         tf_Jumin.setText(human.getJumin());
+         if(human instanceof Professor){
+            tf_Major.setText(((Professor) human).getMajor());
+            type = "p";
+         } else if(human instanceof Trainee){
+            tf_StdNo.setText(((Trainee) human).getStdNo());
+            type = "t";
+         } else if(human instanceof Staff){
+            tf_Dpt.setText(((Staff) human).getField());
+            type = "s";
+         }
+      }
+   }
+   
+   
+   public void okCancelBtnInit() {
+      btnOk.setEnabled(true);
+      btnCancel.setEnabled(true);
+   }
+
+   public void okCancelBtnFalse() {
+      btnOk.setEnabled(false);
+      btnCancel.setEnabled(false);
+   }
+
+   public void tfInitFalse() {
+      tf_Name.setText("");
+      tf_Age.setText("");
+      tf_Jumin.setText("");
+      tf_Major.setText("");
+      tf_StdNo.setText("");
+      tf_Dpt.setText("");
+      tf_Name.setEditable(false);
+      tf_Age.setEditable(false);
+      tf_Jumin.setEditable(false);
+      tf_Major.setEditable(false);
+      tf_StdNo.setEditable(false);
+      tf_Dpt.setEditable(false);
+   }
+
+   public void tfInit() {
+      this.tfInitFalse();
+
+      tf_Name.setEditable(true);
+      tf_Age.setEditable(true);
+      tf_Jumin.setEditable(true);
+   }
+
+   public void getAll() {
+      dm.removeAllElements();
+      ArrayList<Human> humanList = manager.showAll();
+      if (humanList != null) {
+         for (Human h : humanList) {
+            dm.addElement(h);
+         }
+      }
+      /*
+       * for(int i = 0 ; i < humanList.size() ; i++){
+       * dm.addElement(humanList.get(i)); }
+       */
+      /*
+       * Human h = humanlist.get(0); dm.addElement(h);
+       */
+      // h객체가 가지고 있는 toString 값이 붙는다.
+   }
+   
+   public static void main(String[] args) {
+      new SESGUI();
+   }
+
+}// SESGUI

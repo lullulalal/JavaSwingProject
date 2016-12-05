@@ -1,0 +1,176 @@
+package GUI;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+import vo.Human;
+
+public class SESGUI extends JFrame {
+	
+	private JLabel lb_North;
+	
+	private JPanel panel_West;
+	
+		private JPanel panel_West_One;
+			private JLabel lb_Name;
+			private JTextField tf_Name;
+		
+		private JPanel panel_West_Two;
+			private JLabel lb_Age;
+			private JTextField tf_Age;
+			
+		private JPanel panel_West_Three;
+			private JLabel lb_Jumin;
+			private JTextField tf_Jumin;
+			
+		private JPanel panel_West_Four;
+			private JLabel lb_Major;
+			private JTextField tf_Major;
+		
+		private JPanel panel_West_Five;
+			private JLabel lb_StdNo;
+			private JTextField tf_StdNo;
+		
+		private JPanel panel_West_Six;
+			private JLabel lb_Dpt;
+			private JTextField tf_Dpt;
+		
+		private JScrollPane scrollPane;
+			private JList<Human> humanList;
+			
+	private JPanel panel_South;
+		private JComboBox<String> comboBox;
+		private JButton btnInsert;
+		private JButton btnSearch;
+		private JButton btnUpdate;
+		private JButton btnDelete;
+		private JButton btnOk;
+		private JButton btnCancel;
+	
+	public SESGUI() {
+		this.setBounds(100, 100, 600, 400);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		
+		this.makeSouth();
+		this.makeWest();
+		this.makeCenter();
+		this.makeNorth();
+		
+		this.setVisible(true);
+	}
+	
+	public void makeNorth(){
+		lb_North = new JLabel("SES School Manager");
+		this.add(lb_North, BorderLayout.NORTH);
+	}
+	
+	public void makeWest() {
+		panel_West = new JPanel(new GridLayout(6, 1));
+		
+		//name
+		panel_West_One = new JPanel();
+		lb_Name = new JLabel("Name");
+		tf_Name = new JTextField();
+		tf_Name.setColumns(15);
+		panel_West_One.add(lb_Name);
+		panel_West_One.add(tf_Name);
+		
+		//age
+		panel_West_Two = new JPanel();
+		lb_Age = new JLabel("Age");
+		tf_Age = new JTextField();
+		tf_Age.setColumns(15);
+		panel_West_Two.add(lb_Age);
+		panel_West_Two.add(tf_Age);
+		
+		//jumin
+		panel_West_Three = new JPanel();
+		lb_Jumin = new JLabel("Jumin");
+		tf_Jumin = new JTextField();
+		tf_Jumin.setColumns(15);
+		panel_West_Three.add(lb_Jumin);
+		panel_West_Three.add(tf_Jumin);
+		
+		//major
+		panel_West_Four = new JPanel();
+		lb_Major = new JLabel("Major");
+		tf_Major = new JTextField();
+		tf_Major.setColumns(15);
+		panel_West_Four.add(lb_Major);
+		panel_West_Four.add(tf_Major);
+		
+		//stdNo
+		panel_West_Five = new JPanel();
+		lb_StdNo = new JLabel("StdNo");
+		tf_StdNo = new JTextField();
+		tf_StdNo.setColumns(15);
+		panel_West_Five.add(lb_StdNo);
+		panel_West_Five.add(tf_StdNo);
+		
+		//dpt
+		panel_West_Six = new JPanel();
+		lb_Dpt = new JLabel("Dpt");
+		tf_Dpt = new JTextField();
+		tf_Dpt.setColumns(15);
+		panel_West_Six.add(lb_Dpt);
+		panel_West_Six.add(tf_Dpt);
+		
+		panel_West.add(panel_West_One);
+		panel_West.add(panel_West_Two);
+		panel_West.add(panel_West_Three);
+		panel_West.add(panel_West_Four);
+		panel_West.add(panel_West_Five);
+		panel_West.add(panel_West_Six);
+		
+		this.add(panel_West, BorderLayout.WEST);
+	}
+	
+	public void makeCenter() {
+		scrollPane = new JScrollPane();
+		humanList = new JList<>();
+		scrollPane.setViewportView(humanList);
+		this.add(scrollPane, BorderLayout.CENTER);
+	}
+	
+	public void makeSouth() {
+		panel_South = new JPanel();
+		
+		// 1
+		comboBox = new JComboBox<>();
+		comboBox.addItem("====");
+		comboBox.addItem("Professor");
+		comboBox.addItem("Student");
+		comboBox.addItem("Staff");
+		
+		// 2 
+		/*String[] itemList = {"====", "Professor"
+				, "Student", "Staff"};
+		comboBox = new JComboBox<>(itemList);*/
+		
+		btnInsert = new JButton("Insert");
+		btnSearch = new JButton("Search");
+		btnUpdate = new JButton("Update");
+		btnDelete = new JButton("Delete");
+		btnOk = new JButton("Ok");
+		btnCancel = new JButton("Cancle");
+		
+		panel_South.add(comboBox);
+		panel_South.add(btnInsert);
+		panel_South.add(btnSearch);
+		panel_South.add(btnUpdate);
+		panel_South.add(btnDelete);
+		panel_South.add(btnOk);
+		panel_South.add(btnCancel);
+		
+		this.add(panel_South, BorderLayout.SOUTH);	
+	}
+}

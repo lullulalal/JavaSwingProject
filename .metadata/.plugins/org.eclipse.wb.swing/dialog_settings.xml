@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.wb.internal.core.utils.ui.dialogs.StringsDialog">
+		<item value="497" key="x"/>
+		<item value="372" key="width"/>
+		<item value="208" key="y"/>
+		<item value="312" key="height"/>
+	</section>
+	<section name="org.eclipse.wb.internal.swing.model.property.editor.border.BorderDialog">
+		<item value="443" key="x"/>
+		<item value="479" key="width"/>
+		<item value="174" key="y"/>
+		<item value="380" key="height"/>
+	</section>
+</section>

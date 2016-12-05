@@ -1,0 +1,64 @@
+package multi;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import vo.Human;
+
+public class SESServerThread implements Runnable {
+	private SESServerManager manager = new SESServerManager();
+	private ObjectOutputStream oos; 
+	private ObjectInputStream ois;
+	private boolean exit;
+	
+	public SESServerThread(ObjectOutputStream oos, ObjectInputStream ois) {
+		this.oos = oos;
+		this.ois = ois;
+	}
+	
+	@Override
+	public void run() {
+		manager.readData();
+		while (!exit) {
+			boolean exit = false;
+			try {
+				Object[] data = (Object[]) ois.readObject();// 읽어들이는_객체의_타입은_Object의_[]배열
+				String type = (String) data[0];
+				switch (type) { // 0번방에_요청의_종류가_들어있음
+				case "insert":
+					Human h = (Human) data[1];
+					boolean result = manager.insertHuman(h);
+					oos.writeObject(result);
+					break;
+				case "find":
+					String jumin = (String) data[1];
+					Human findIt = manager.findHuman(jumin);
+					oos.writeObject(findIt);
+					break;
+				case "update":
+					Human human = (Human) data[1];
+					int index = (int) data[2];
+					manager.updateHuman(index, human);
+					oos.writeObject(null);
+					break;
+				case "delete":
+					String juminForDelete = (String) data[1];
+					boolean deleteResult = manager.deleteHuman(juminForDelete);
+					oos.writeObject(deleteResult);
+					break;
+				case "showAll":
+					oos.writeObject(manager.showAll());
+					break;	
+				}// switch
+				manager.saveData();
+			} catch (ClassNotFoundException e) {
+				exit = true;
+				e.printStackTrace();
+			} catch (IOException ioe) {
+				exit = true;
+			} // inner try
+		} // inner while
+	}
+
+}
