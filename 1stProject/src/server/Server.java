@@ -27,7 +27,7 @@ public class Server {
 				thread.start();
 			}
 		} catch (IOException e) {
-			System.out.println("IOE");
+			System.out.println("IOE..");
 		}
 	}
 	
