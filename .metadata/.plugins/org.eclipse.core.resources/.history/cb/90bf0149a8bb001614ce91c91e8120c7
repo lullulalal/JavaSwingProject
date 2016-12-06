@@ -91,8 +91,6 @@ public class ServerManager implements Interface {
 			ResultSet rs = st.executeQuery(sql);
 			Restaurant restaurant = null;
 			Member user = null;
-			Evaluation Evaluation = null;
-			Category categories = null;
 			while(rs.next()){
 				String restaurantName = rs.getString("restaurant_name");
 				String location = rs.getString("location");
@@ -131,21 +129,8 @@ public class ServerManager implements Interface {
 						menuList.add(splitedMenus[i]);
 					}
 				int Recommend = rs.getInt("Recommend");
-				Evaluation = new Evaluation(taste_score, service_score, hygiene_score, average_score, comments, user);
-				categories = new Category(address, type, Evaluation);
 				
-				Statement st3 = connection.createStatement();
-				String sql3 = "select eval.* "
-								+ "from evaluations eval, restaurants rest "
-								+ "where eval.location = rest.location";
-				ResultSet rs3 = st3.executeQuery(sql3);
-				while(rs3.next()){
-					
-				}
 				
-				ArrayList<Evaluation> userEvalution = new ArrayList<>();
-				
-				restaurant = new Restaurant(restaurantName, price, operationHour, categories, imageList, userEvaluations, menuList, Recommend);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

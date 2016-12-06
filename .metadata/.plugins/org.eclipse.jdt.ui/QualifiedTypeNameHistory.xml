@@ -51,13 +51,13 @@
 <fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="server.ConnectionManager"/>
-<fullyQualifiedTypeName name="vo.Restaurant"/>
-<fullyQualifiedTypeName name="vo.Category"/>
-<fullyQualifiedTypeName name="vo.Evaluation"/>
-<fullyQualifiedTypeName name="java.sql.Statement"/>
-<fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="vo.Member"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 <fullyQualifiedTypeName name="vo.Address"/>
+<fullyQualifiedTypeName name="vo.Category"/>
+<fullyQualifiedTypeName name="vo.Restaurant"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="vo.Evaluation"/>
 </qualifiedTypeNameHistroy>
