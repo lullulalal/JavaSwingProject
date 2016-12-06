@@ -9,7 +9,7 @@ import vo.Evaluation;
 import vo.Member;
 import vo.Restaurant;
 
-public class ServerThread implements Runnable {
+public class ServerThread implements Runnable { 
 
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
