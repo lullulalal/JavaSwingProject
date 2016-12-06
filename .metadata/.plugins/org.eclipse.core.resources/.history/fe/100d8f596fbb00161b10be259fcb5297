@@ -15,16 +15,6 @@ public class Evaluation {
 	public static final double FOUR = 4;
 	public static final double FIVE = 5;
 	
-	public Evaluation(double taste, double service, double hygiene, double average, String comment, Member user) {
-		super();
-		this.taste = taste;
-		this.service = service;
-		this.hygiene = hygiene;
-		this.average = average;
-		this.comment = comment;
-		this.user = user;
-	}
-	
 	public double getTaste() {
 		return taste;
 	}

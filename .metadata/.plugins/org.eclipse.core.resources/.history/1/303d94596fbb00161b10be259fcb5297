@@ -12,6 +12,7 @@ public class Member {
 	public static final int VALUER = 2;
 	
 	public Member(String id, String password, String name, int permission, String birth) {
+		super();
 		this.id = id;
 		this.password = password;
 		this.name = name;

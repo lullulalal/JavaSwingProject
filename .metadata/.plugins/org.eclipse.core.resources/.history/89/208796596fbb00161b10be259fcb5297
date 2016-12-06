@@ -17,19 +17,6 @@ public class Restaurant {
 	
 	public static final int STANDBY = 1;
 	public static final int REGISTRATION = 2;
-	
-	public Restaurant(String restaurantName, String price, String operationHour, Category category,
-			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int state) {
-		this.restaurantName = restaurantName;
-		this.price = price;
-		this.operationHour = operationHour;
-		this.category = category;
-		this.images = images;
-		this.userEvaluations = userEvaluations;
-		this.menu = menu;
-		this.state = state;
-	}
-	
 	public String getRestaurantName() {
 		return restaurantName;
 	}

@@ -10,18 +10,6 @@ public class Address {
 	private String postCode;
 	private String detail;
 	
-	public Address(String sido, String sigungu, String eubmyundong, String streetName, String buildingName,
-			String postCode, String detail) {
-		super();
-		this.sido = sido;
-		this.sigungu = sigungu;
-		this.eubmyundong = eubmyundong;
-		this.streetName = streetName;
-		this.buildingName = buildingName;
-		this.postCode = postCode;
-		this.detail = detail;
-	}
-	
 	public String getSido() {
 		return sido;
 	}
