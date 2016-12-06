@@ -22,10 +22,6 @@ public class Address {
 		this.detail = detail;
 	}
 	
-	public Address(String str) {
-
-	}
-	
 	public String getSido() {
 		return sido;
 	}
@@ -68,6 +64,5 @@ public class Address {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-
 	
 }

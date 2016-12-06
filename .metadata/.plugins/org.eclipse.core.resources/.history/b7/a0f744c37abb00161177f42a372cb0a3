@@ -14,7 +14,6 @@ public class ConnectionManager {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -23,7 +22,6 @@ public class ConnectionManager {
 		try {
 			con = DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return con;
 	}
@@ -33,7 +31,6 @@ public class ConnectionManager {
 			try {
 				con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 		}
 	}

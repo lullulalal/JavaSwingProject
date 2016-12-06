@@ -12,7 +12,6 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 import manager.Interface;
-import vo.Address;
 import vo.Category;
 import vo.Evaluation;
 import vo.Member;
@@ -94,7 +93,6 @@ public class ServerManager implements Interface {
 			while(rs.next()){
 				String restaurantName = rs.getString("restaurant_name");
 				String location = rs.getString("location");
-				Address address = new Address(location);
 				int type = rs.getInt("food_type");
 				String price = rs.getString("price_range");
 				String operationHour = rs.getString("operation_Hour");

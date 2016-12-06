@@ -20,6 +20,9 @@ public class ServerThread implements Runnable {
 		this.oos = oos;
 		manager = new ServerManager(oos);
 	}
+	
+	public ServerThread() {
+	}
 
 	@Override
 	public void run() {
@@ -40,7 +43,6 @@ public class ServerThread implements Runnable {
 
 				case "logout":
 					Member member3 = (Member) protocol[1];
-					oos.writeObject(manager.logout(member3));
 					break;
 					
 				case "showList":
@@ -72,10 +74,10 @@ public class ServerThread implements Runnable {
 					break;
 				}
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				System.out.println("ClassNotFoundException");
 			} catch (IOException e) {
 				flag = false;
-				e.printStackTrace();
+				System.out.println("IOException");
 			}
 		}
 	}

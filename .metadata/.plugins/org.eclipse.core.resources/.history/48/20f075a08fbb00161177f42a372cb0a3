@@ -12,7 +12,6 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 import manager.Interface;
-import vo.Address;
 import vo.Category;
 import vo.Evaluation;
 import vo.Member;
@@ -94,12 +93,11 @@ public class ServerManager implements Interface {
 			while(rs.next()){
 				String restaurantName = rs.getString("restaurant_name");
 				String location = rs.getString("location");
-				Address address = new Address(location);
 				int type = rs.getInt("food_type");
 				String price = rs.getString("price_range");
 				String operationHour = rs.getString("operation_Hour");
 				String id = rs.getString("id");
-					Statement st2 = connection.createStatement();
+				Statement st2 = connection.createStatement();
 					String sql2 = "select * from users where id = '" + id + "'";
 					ResultSet rs2 = st2.executeQuery(sql2);
 					if(rs2.next()){
@@ -123,10 +121,10 @@ public class ServerManager implements Interface {
 						imageList.add(icon);
 					}
 				String menus = rs.getString("menus");
-				String[] splitedMenus = menus.split(";");
+				String[] menu = menus.split(";");
 					ArrayList<String> menuList = new ArrayList<>();
-					for(int i = 0 ; i < splitedMenus.length ; i++){
-						menuList.add(splitedMenus[i]);
+					for(int i = 0 ; i < menu.length ; i++){
+						menuList.add(menu[i]);
 					}
 				int Recommend = rs.getInt("Recommend");
 				
