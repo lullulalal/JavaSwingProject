@@ -16,6 +16,21 @@ public class Address {
 	
 	private String completedAddress;
 	
+	public Address() {
+		/*super();
+		this.sido = sido;
+		this.sigungu = sigungu;
+		this.eubmyundong = eubmyundong;
+		this.streetName = streetName;
+		this.buildingName = buildingName;
+		this.postCode = postCode;
+		this.detail = detail;*/
+	}
+	
+	public Address(String str) {
+		completedAddress = str;
+	}
+	
 	public String getSido() {
 		return sido;
 	}
@@ -85,10 +100,5 @@ public class Address {
 			rtnStr = completedAddress;
 		
 		return rtnStr;
-	}
-
-	//lullulalal
-	public void strToAddress(String str){
-		completedAddress = str;
 	}
 }

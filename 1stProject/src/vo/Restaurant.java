@@ -17,6 +17,18 @@ public class Restaurant {
 	
 	public static final int BOUNDARY_OF_ASCEND = 10;
 	
+	public Restaurant(String restaurantName, String price, String operationHour, Category category,
+			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int recommendNum) {
+		this.restaurantName = restaurantName;
+		this.price = price;
+		this.operationHour = operationHour;
+		this.category = category;
+		this.images = images;
+		this.userEvaluations = userEvaluations;
+		this.menu = menu;
+		this.recommendNum = recommendNum;
+	}
+	
 	public String getRestaurantName() {
 
 		return restaurantName;
