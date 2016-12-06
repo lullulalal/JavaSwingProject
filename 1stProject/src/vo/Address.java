@@ -8,23 +8,13 @@ public class Address {
 	private String streetName;
 	private String buildingName;
 	private String postCode;
+	private String streetPrimaryNo;
+	private String streetSecondaryNo;
+	private String dong;
+	private String ri;
 	private String detail;
 	
-	public Address(String sido, String sigungu, String eubmyundong, String streetName, String buildingName,
-			String postCode, String detail) {
-		super();
-		this.sido = sido;
-		this.sigungu = sigungu;
-		this.eubmyundong = eubmyundong;
-		this.streetName = streetName;
-		this.buildingName = buildingName;
-		this.postCode = postCode;
-		this.detail = detail;
-	}
-	
-	public Address(String str) {
-
-	}
+	private String completedAddress;
 	
 	public String getSido() {
 		return sido;
@@ -68,6 +58,37 @@ public class Address {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-
 	
+	//lullulalal
+	@Override
+	public String toString() {
+		String rtnStr = null;
+		if(sido != null){
+			StringBuilder strb = new StringBuilder();
+			strb.append("(");
+			strb.append(postCode);
+			strb.append(") ");
+			if (sido != null) strb.append(sido);
+			if (sigungu != null) strb.append(" " + sigungu);
+			if (eubmyundong != null) strb.append(" " + eubmyundong);
+			if (streetName != null) strb.append(" " + streetName);
+			if (streetPrimaryNo != null) strb.append(" " + streetPrimaryNo);
+			if (streetSecondaryNo != null) strb.append("-" + streetSecondaryNo);
+			strb.append(" (");
+			if (dong != null) strb.append(dong);
+			if (ri != null) strb.append(" ," + ri);
+			if (buildingName != null) strb.append(" ," + buildingName);
+			strb.append(")");
+			rtnStr = strb.toString();
+		}
+		else
+			rtnStr = completedAddress;
+		
+		return rtnStr;
+	}
+
+	//lullulalal
+	public void strToAddress(String str){
+		completedAddress = str;
+	}
 }

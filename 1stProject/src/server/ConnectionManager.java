@@ -14,7 +14,6 @@ public class ConnectionManager {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 	}
 

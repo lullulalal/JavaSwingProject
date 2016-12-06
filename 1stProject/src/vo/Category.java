@@ -11,12 +11,6 @@ public class Category {
 	public static final int JAPAN = 3;
 	public static final int WESTERN = 4;
 	
-	public Category(Address location, int type, Evaluation evaluation) {
-		this.location = location;
-		this.type = type;
-		this.evaluation = evaluation;
-	}
-	
 	public Address getLocation() {
 		return location;
 	}
@@ -36,4 +30,5 @@ public class Category {
 		this.evaluation = evaluation;
 	}
 
+	
 }

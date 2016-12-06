@@ -2,21 +2,16 @@ package vo;
 
 public class Member {
 	
+	private String name;
 	private String id;
 	private String password;
-	private String name;
 	private int permission;
-	private String birth;
 	
 	public static final int USER = 1;
 	public static final int VALUER = 2;
 	
-	public Member(String id, String password, String name, int permission, String birth) {
-		this.id = id;
-		this.password = password;
-		this.name = name;
-		this.permission = permission;
-		this.birth = birth;
+	public Member() {
+		
 	}
 
 	public String getName() {
@@ -49,14 +44,6 @@ public class Member {
 
 	public void setPermission(int permission) {
 		this.permission = permission;
-	}
-	
-	public String getBirth() {
-		return birth;
-	}
-	
-	public void setBirth(String birth) {
-		this.birth = birth;
 	}
 	
 }

@@ -8,16 +8,14 @@ import java.net.Socket;
 
 public class Server {
 	
-	private ServerSocket server;
 	private Socket client;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 	private ServerThread st;
 	
 	public Server() {
-
-		try {
-			server = new ServerSocket(8888);
+		try(ServerSocket server = new ServerSocket(8888)) {
+			
 			while(true){
 				client = server.accept();
 				ois = new ObjectInputStream(client.getInputStream());
@@ -27,6 +25,7 @@ public class Server {
 				thread.start();
 			}
 		} catch (IOException e) {
+			System.out.println("IOE..");
 			e.printStackTrace();
 		}
 	}
