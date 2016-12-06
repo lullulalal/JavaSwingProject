@@ -46,11 +46,10 @@ public class ServerManager implements Interface {
 							+ "' and password = '" + member.getPassword() + "'";
 			ResultSet rs = st.executeQuery(sql);
 			if(rs.next()){
-				
+				return true;
 			}
 		} catch (SQLException e) {
 		}
-		
 		return false;
 	}
 
@@ -84,4 +83,22 @@ public class ServerManager implements Interface {
 
 	}
 
+	//test main
+	public static void main(String[] args) {
+		
+		Member m1 = new Member("lullulalal", "1234", "하은영", 1, "921226");
+		
+		ServerManager manager = new ServerManager();
+		
+		/*if(manager.join(m1)){
+			System.out.println("등록성공");
+		} else 
+			System.out.println("등록실패");*/
+		
+		if(manager.login(m1))
+			System.out.println("로그인 성공");
+		else System.out.println("로그인 실패");
+		
+	}
+	
 }

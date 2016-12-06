@@ -1,0 +1,19 @@
+package manager;
+
+import java.util.ArrayList;
+
+import vo.Category;
+import vo.Evaluation;
+import vo.Users;
+import vo.Restaurant;
+
+public interface Interface {
+	public boolean insertRestaurant(Restaurant restaurant);
+	public boolean login(Users member);
+	public boolean join(Users member);
+	public boolean evaluateResataurant(Evaluation evalauation);
+	public ArrayList<Restaurant> showList(Category category, int num);
+	public boolean logout(Users member);
+	public void askRestaurant(Category category, Users member, boolean isRandom);
+	public void replyRestaurant(Category category, Restaurant restaurant, Users to, Users from);
+}
