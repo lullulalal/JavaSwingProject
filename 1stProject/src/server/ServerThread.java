@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import vo.Address;
 import vo.Category;
@@ -71,14 +72,17 @@ public class ServerThread implements Runnable {
 				//lullulalal	
 				case "findAddress" :
 					Address address = (Address) protocol[1];
-					address = manager.findAddresses(address);
-					oos.writeObject(address);
+					ArrayList<Address> addresses = manager.findAddresses(address);
+					oos.writeObject(addresses);
 					break;
 
 				case "askRestaurant":
 					Category category2 = (Category) protocol[1];
 					Member member4 = (Member) protocol[2];
-					boolean isRecommend = (boolean) protocol[3];
+					boolean isRandom = (boolean) protocol[3];
+					
+					manager.askRestaurant(category2, member4, isRandom);
+					
 					break;
 
 				case "replyRestaurant":

@@ -17,6 +17,6 @@ public interface Interface {
 	public ArrayList<Restaurant> showList(Category category, int num);
 	public boolean logout(Member member);
 	public void askRestaurant(Category category, Member member, boolean isRandom);
-	public void replyRestaurant(Category category, Restaurant restaurant, Member to, Member from);
-	public Address findAddresses(Address address);
+	public void replyRestaurant(Restaurant restaurant, Member to, Member from);
+	public ArrayList<Address> findAddresses(Address address);
 }
