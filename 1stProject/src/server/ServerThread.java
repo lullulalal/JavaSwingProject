@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import vo.Address;
 import vo.Category;
 import vo.Evaluation;
 import vo.Member;
@@ -55,12 +56,23 @@ public class ServerThread implements Runnable {
 				//lullulalal
 				case "evaluate":
 					Evaluation evaluation = (Evaluation) protocol[1];
-					Restaurant restauran = (Restaurant) protocol[2];
-					boolean rstEvaluation = manager.evaluateResataurant(evaluation, restauran);
+					restaurant = (Restaurant) protocol[2];
+					boolean rstEvaluation = manager.evaluateResataurant(evaluation, restaurant);
 					oos.writeObject(rstEvaluation);
 					break;
 					
+				//lullulalal
 				case "recommend" :
+					restaurant = (Restaurant) protocol[1];
+					boolean rstRecommend = manager.recommendRestaurant(restaurant);
+					oos.writeObject(rstRecommend);
+					break;
+					
+				//lullulalal	
+				case "findAddress" :
+					Address address = (Address) protocol[1];
+					address = manager.findAddresses(address);
+					oos.writeObject(address);
 					break;
 
 				case "askRestaurant":

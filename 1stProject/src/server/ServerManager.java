@@ -43,16 +43,13 @@ public class ServerManager implements Interface{
 	public boolean join(Member member) {
 		Connection connection = ConnectionManager.getConnection();
 		String sql = "insert into users(id, password, name, permission, birth) values(?,?,?,?,?)";
-		
-		try(PreparedStatement ps = connection.prepareStatement(sql);) {
-			
+		try(PreparedStatement ps = connection.prepareStatement(sql); ) {
 			ps.setString(1, member.getId());
 			ps.setString(2, member.getPassword());
 			ps.setString(3, member.getName());
 			ps.setInt(4, Member.USER); //신규회원가입자는 모두 user 권한만을 가진다.
 			ps.setString(5, member.getBirth());
 			ps.executeUpdate();
-			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -77,7 +74,7 @@ public class ServerManager implements Interface{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
+		}finally{
 			ConnectionManager.close(connection);
 		}
 		return false;
@@ -101,6 +98,8 @@ public class ServerManager implements Interface{
 			ResultSet rs = st.executeQuery(sql);
 			Restaurant restaurant = null;
 			Member user = null;
+			Evaluation Evaluation = null;
+			Category categories = null;
 			while(rs.next()){
 				String restaurantName = rs.getString("restaurant_name");
 				String location = rs.getString("location");
@@ -139,8 +138,21 @@ public class ServerManager implements Interface{
 						menuList.add(splitedMenus[i]);
 					}
 				int Recommend = rs.getInt("Recommend");
+				Evaluation = new Evaluation(taste_score, service_score, hygiene_score, average_score, comments, user);
+				categories = new Category(address, type, Evaluation);
 				
+				Statement st3 = connection.createStatement();
+				String sql3 = "select eval.* "
+								+ "from evaluations eval, restaurants rest "
+								+ "where eval.location = rest.location";
+				ResultSet rs3 = st3.executeQuery(sql3);
+				while(rs3.next()){
+					
+				}
 				
+				ArrayList<Evaluation> userEvaluation = new ArrayList<>();
+				
+				restaurant = new Restaurant(restaurantName, price, operationHour, categories, imageList, userEvaluation, menuList, Recommend);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -195,7 +207,7 @@ public class ServerManager implements Interface{
 		Connection conn = ConnectionManager.getConnection();
 		
 		String sql = "insert into stanby values(?, ?, ?, ?, ?,"
-											+ " ?, ?, ?, ?, ?, "
+											+ " ?, ?, ?, ?, ?,"
 											+ " ?, ?, ?, ?)";
 		
 		try(PreparedStatement pstmt = conn.prepareCall(sql);){
@@ -288,7 +300,6 @@ public class ServerManager implements Interface{
 				try(PreparedStatement pstmt = conn.prepareCall(sql)){
 					pstmt.setString(1, restaurant.getCategory().getLocation().toString());
 					pstmt.executeUpdate();
-					
 				} catch (SQLException e) {
 					e.printStackTrace();
 					return false;
@@ -312,5 +323,32 @@ public class ServerManager implements Interface{
 		
 	}
 
-	
+	@Override
+	public Address findAddresses(Address address) {
+		
+		/*Connection conn = ConnectionManager.getConnection();
+		try {
+			String si_do = address.getSido();
+			String si_gun_gu = address.getSigungu();
+			String streatName = address.getStreetName();
+			String primBuildNum = address.getBuildPrimaryNo();
+			String secBuildNum = address.getBuildSecondaryNo();
+			
+			String sql = "select * from addresses where si_do=? and si_gun_gu=?"
+					+ " and street_name=? and building_primary_no=? and ";
+			try(PreparedStatement pstmt = conn.prepareCall(sql)){
+				pstmt.setString(1, restaurant.getCategory().getLocation().toString());
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			//null 
+			
+		}finally{
+			ConnectionManager.close(conn);
+		}
+		return address;*/
+		return null;
+	}
 }

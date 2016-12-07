@@ -2,6 +2,7 @@ package manager;
 
 import java.util.ArrayList;
 
+import vo.Address;
 import vo.Category;
 import vo.Evaluation;
 import vo.Member;
@@ -17,4 +18,5 @@ public interface Interface {
 	public boolean logout(Member member);
 	public void askRestaurant(Category category, Member member, boolean isRandom);
 	public void replyRestaurant(Category category, Restaurant restaurant, Member to, Member from);
+	public Address findAddresses(Address address);
 }

@@ -8,8 +8,8 @@ public class Address {
 	private String streetName;
 	private String buildingName;
 	private String postCode;
-	private String streetPrimaryNo;
-	private String streetSecondaryNo;
+	private String buildPrimaryNo;
+	private String buildSecondaryNo;
 	private String dong;
 	private String ri;
 	private String detail;
@@ -27,6 +27,31 @@ public class Address {
 		this.detail = detail;*/
 	}
 	
+	public String getBuildSecondaryNo() {
+		return buildSecondaryNo;
+	}
+
+	public void setBuildSecondaryNo(String buildSecondaryNo) {
+		this.buildSecondaryNo = buildSecondaryNo;
+	}
+
+	
+	public String getBuildPrimaryNo() {
+		return buildPrimaryNo;
+	}
+
+	public void setBuildPrimaryNo(String buildPrimaryNo) {
+		this.buildPrimaryNo = buildPrimaryNo;
+	}
+
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+
 	public Address(String str) {
 		completedAddress = str;
 	}
@@ -87,8 +112,8 @@ public class Address {
 			if (sigungu != null) strb.append(" " + sigungu);
 			if (eubmyundong != null) strb.append(" " + eubmyundong);
 			if (streetName != null) strb.append(" " + streetName);
-			if (streetPrimaryNo != null) strb.append(" " + streetPrimaryNo);
-			if (streetSecondaryNo != null) strb.append("-" + streetSecondaryNo);
+			if (buildPrimaryNo != null) strb.append(" " + buildPrimaryNo);
+			if (buildSecondaryNo != null) strb.append("-" + buildSecondaryNo);
 			strb.append(" (");
 			if (dong != null) strb.append(dong);
 			if (ri != null) strb.append(" ," + ri);
