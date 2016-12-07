@@ -31,15 +31,20 @@ public class ServerThread implements Runnable {
 				switch ((String) protocol[0]) {
 				case "join":
 					Member member1 = (Member) protocol[1];
-					oos.writeObject(manager.join(member1));
+					boolean rstJoin = manager.join(member1);
+					oos.writeObject(rstJoin);
 					break;
 
 				case "login":
 					Member member2 = (Member) protocol[1];
+					boolean rstLogin = manager.login(member2);
+					oos.writeObject(rstLogin);
 					break;
 
 				case "logout":
 					Member member3 = (Member) protocol[1];
+					boolean rstLogout = manager.logout(member3);
+					oos.writeObject(rstLogout);
 					break;
 					
 				case "showList":
