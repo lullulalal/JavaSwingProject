@@ -15,7 +15,7 @@ public class Restaurant {
 	private ArrayList<String> menu;
 	private int recommendNum;
 	
-	public static final int BOUNDARY_OF_ASCEND = 10;
+	public static final int BOUNDARY_OF_ASCEND = 3;
 	
 	public Restaurant(String restaurantName, String price, String operationHour, Category category,
 			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int recommendNum) {
@@ -27,6 +27,10 @@ public class Restaurant {
 		this.userEvaluations = userEvaluations;
 		this.menu = menu;
 		this.recommendNum = recommendNum;
+	}
+	
+	public Restaurant(){
+		
 	}
 	
 	public String getRestaurantName() {

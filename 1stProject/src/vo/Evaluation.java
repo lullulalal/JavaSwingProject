@@ -25,6 +25,10 @@ public class Evaluation {
 		this.user = user;
 	}
 	
+	public Evaluation(){
+		
+	}
+	
 	public double getTaste() {
 		return taste;
 	}

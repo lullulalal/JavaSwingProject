@@ -18,6 +18,10 @@ public class Member {
 		this.permission = permission;
 		this.birth = birth;
 	}
+	
+	public Member() {
+		
+	}
 
 	public String getName() {
 		return name;

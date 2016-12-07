@@ -17,6 +17,10 @@ public class Category {
 		this.evaluation = evaluation;
 	}
 	
+	public Category() {
+		
+	}
+	
 	public Address getLocation() {
 		return location;
 	}
