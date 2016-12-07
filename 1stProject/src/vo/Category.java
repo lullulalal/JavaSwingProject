@@ -35,5 +35,5 @@ public class Category {
 	public void setEvaluation(Evaluation evaluation) {
 		this.evaluation = evaluation;
 	}
-
+	
 }

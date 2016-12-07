@@ -8,22 +8,52 @@ public class Address {
 	private String streetName;
 	private String buildingName;
 	private String postCode;
+	private String buildPrimaryNo;
+	private String buildSecondaryNo;
+	private String dong;
+	private String ri;
 	private String detail;
 	
-	public Address(String sido, String sigungu, String eubmyundong, String streetName, String buildingName,
-			String postCode, String detail) {
-		super();
+	private String completedAddress;
+	
+	public Address() {
+		/*super();
 		this.sido = sido;
 		this.sigungu = sigungu;
 		this.eubmyundong = eubmyundong;
 		this.streetName = streetName;
 		this.buildingName = buildingName;
 		this.postCode = postCode;
-		this.detail = detail;
+		this.detail = detail;*/
 	}
 	
-	public Address(String str) {
+	public String getBuildSecondaryNo() {
+		return buildSecondaryNo;
+	}
 
+	public void setBuildSecondaryNo(String buildSecondaryNo) {
+		this.buildSecondaryNo = buildSecondaryNo;
+	}
+
+	
+	public String getBuildPrimaryNo() {
+		return buildPrimaryNo;
+	}
+
+	public void setBuildPrimaryNo(String buildPrimaryNo) {
+		this.buildPrimaryNo = buildPrimaryNo;
+	}
+
+	public void setDong(String dong) {
+		this.dong = dong;
+	}
+
+	public void setRi(String ri) {
+		this.ri = ri;
+	}
+
+	public Address(String str) {
+		completedAddress = str;
 	}
 	
 	public String getSido() {
@@ -68,6 +98,32 @@ public class Address {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
-
 	
+	//lullulalal
+	@Override
+	public String toString() {
+		String rtnStr = null;
+		if(sido != null){
+			StringBuilder strb = new StringBuilder();
+			strb.append("(");
+			strb.append(postCode);
+			strb.append(") ");
+			if (sido != null) strb.append(sido);
+			if (sigungu != null) strb.append(" " + sigungu);
+			if (eubmyundong != null) strb.append(" " + eubmyundong);
+			if (streetName != null) strb.append(" " + streetName);
+			if (buildPrimaryNo != null) strb.append(" " + buildPrimaryNo);
+			if (buildSecondaryNo != null) strb.append("-" + buildSecondaryNo);
+			strb.append(" (");
+			if (dong != null) strb.append(dong);
+			if (ri != null) strb.append(" ," + ri);
+			if (buildingName != null) strb.append(" ," + buildingName);
+			strb.append(")");
+			rtnStr = strb.toString();
+		}
+		else
+			rtnStr = completedAddress;
+		
+		return rtnStr;
+	}
 }

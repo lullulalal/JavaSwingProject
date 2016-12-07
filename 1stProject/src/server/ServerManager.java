@@ -1,5 +1,10 @@
 package server;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import manager.Interface;
@@ -18,10 +24,11 @@ import vo.Evaluation;
 import vo.Member;
 import vo.Restaurant;
 
-public class ServerManager implements Interface {
+public class ServerManager implements Interface{
 
 	private ObjectOutputStream oos;
 	private static HashMap<String, ObjectOutputStream> userList = new HashMap<>();
+	
 	private ArrayList<Restaurant> showList = new ArrayList<>();
 	
 	public ServerManager(ObjectOutputStream oos) {
@@ -36,16 +43,13 @@ public class ServerManager implements Interface {
 	public boolean join(Member member) {
 		Connection connection = ConnectionManager.getConnection();
 		String sql = "insert into users(id, password, name, permission, birth) values(?,?,?,?,?)";
-		PreparedStatement ps = null;
-		try {
-			ps = connection.prepareStatement(sql);
+		try(PreparedStatement ps = connection.prepareStatement(sql); ) {
 			ps.setString(1, member.getId());
 			ps.setString(2, member.getPassword());
 			ps.setString(3, member.getName());
 			ps.setInt(4, Member.USER); //신규회원가입자는 모두 user 권한만을 가진다.
 			ps.setString(5, member.getBirth());
 			ps.executeUpdate();
-			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -58,17 +62,20 @@ public class ServerManager implements Interface {
 	@Override
 	public boolean login(Member member) {
 		Connection connection = ConnectionManager.getConnection();
-		try {
-			Statement st = connection.createStatement();
+		try(Statement st = connection.createStatement();) {
+			
 			String sql = "select id, password from users where id = '" + member.getId() 
 							+ "' and password = '" + member.getPassword() + "'";
-			ResultSet rs = st.executeQuery(sql);
-			if(rs.next()){
-				userList.put(member.getId(), oos);
-				return true;
+			try(ResultSet rs = st.executeQuery(sql);){
+				if(rs.next()){
+					userList.put(member.getId(), oos);
+					return true;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			ConnectionManager.close(connection);
 		}
 		return false;
 	}
@@ -143,9 +150,9 @@ public class ServerManager implements Interface {
 					
 				}
 				
-				ArrayList<Evaluation> userEvalution = new ArrayList<>();
+				ArrayList<Evaluation> userEvaluation = new ArrayList<>();
 				
-				restaurant = new Restaurant(restaurantName, price, operationHour, categories, imageList, userEvaluations, menuList, Recommend);
+				restaurant = new Restaurant(restaurantName, price, operationHour, categories, imageList, userEvaluation, menuList, Recommend);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,17 +160,159 @@ public class ServerManager implements Interface {
 		
 		return null;
 	}
-
+	
 	@Override
-	public boolean evaluateResataurant(Evaluation evalauation) {
-		return false;
-	}
+	public boolean evaluateResataurant(Evaluation evaluation, Restaurant restaurant) {
+		
+		boolean rtn = false;
+		
+		Connection conn = ConnectionManager.getConnection();
+		try {
+				String sql = "select * from evaluations where id=? and location=?";
+				try(PreparedStatement pstmt = conn.prepareCall(sql)){
+					pstmt.setString(1, evaluation.getUser().getId());
+					pstmt.setString(2, restaurant.getCategory().getLocation().toString());
+					
+					try(ResultSet rs = pstmt.executeQuery();) {
+						while(rs.next()){
+							return rtn;
+						}
+					}
+				}catch (SQLException e) {
+					e.printStackTrace();
+					return rtn;
+				}
+				
+				sql = "insert into evaluations values(?, ?, ?, ?)";
+				try(PreparedStatement pstmt = conn.prepareCall(sql)){
+					pstmt.setString(1, evaluation.getUser().getId());
+					pstmt.setString(2, restaurant.getCategory().getLocation().toString());
+					pstmt.setDouble(3, evaluation.getAverage());
+					pstmt.setString(4, evaluation.getComment());
+					pstmt.executeUpdate();
+					rtn = true;
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 
+		}  finally {
+			ConnectionManager.close(conn);
+		}
+		
+		return rtn;
+	}
+	
 	@Override
 	public boolean insertRestaurant(Restaurant restaurant) {
-		return false;
+		Connection conn = ConnectionManager.getConnection();
+		
+		String sql = "insert into stanby values(?, ?, ?, ?, ?,"
+											+ " ?, ?, ?, ?, ?,"
+											+ " ?, ?, ?, ?)";
+		
+		try(PreparedStatement pstmt = conn.prepareCall(sql);){
+			pstmt.setString(1, restaurant.getRestaurantName());
+			pstmt.setString(2, restaurant.getCategory().getLocation().toString());
+			pstmt.setInt(3, restaurant.getCategory().getType());
+			pstmt.setString(4, restaurant.getPrice());
+			pstmt.setString(5, restaurant.getOperationHour());
+			pstmt.setString(6, restaurant.getCategory().getEvaluation().getUser().getId());
+			pstmt.setString(7, restaurant.getCategory().getEvaluation().getComment());
+			pstmt.setDouble(8, restaurant.getCategory().getEvaluation().getTaste());
+			pstmt.setDouble(9, restaurant.getCategory().getEvaluation().getService());
+			pstmt.setDouble(10, restaurant.getCategory().getEvaluation().getHygiene());
+			pstmt.setDouble(11, restaurant.getCategory().getEvaluation().getAverage());
+	
+			StringBuilder strbImagePath = new StringBuilder();
+			for(ImageIcon icon : restaurant.getImages()){
+		
+				try {
+					Image img = icon.getImage();
+
+					BufferedImage bi = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+
+					Graphics2D g2 = bi.createGraphics();
+					g2.drawImage(img, 0, 0, null);
+					g2.dispose();
+			
+					String imagePath = "d:/" + Long.toString( System.currentTimeMillis() ) + ".jpg";
+					ImageIO.write(bi, "jpg", new File(imagePath));
+					
+					strbImagePath.append(imagePath);
+					strbImagePath.append(";");
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			pstmt.setString(12, strbImagePath.toString());
+			
+			StringBuilder strbMenu = new StringBuilder();
+			for(String s : restaurant.getMenu()) {
+				strbMenu.append(s);
+				strbMenu.append(";");
+			}
+
+			pstmt.setString(13, strbMenu.toString());
+			
+			pstmt.setInt(14, restaurant.getRecommendNum());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		} finally{
+			ConnectionManager.close(conn);
+		}
+		
+		return true;
 	}
 
+	@Override
+	public boolean recommendRestaurant(Restaurant restaurant) {
+		Connection conn = ConnectionManager.getConnection();
+		String sql = "update restaurants set recommend=? where location=?";
+		
+		try {
+			try(PreparedStatement pstmt = conn.prepareCall(sql)){
+				pstmt.setInt(1, restaurant.getRecommendNum());
+				pstmt.setString(2, restaurant.getCategory().getLocation().toString());
+				
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			
+			if (restaurant.getRecommendNum() >= Restaurant.BOUNDARY_OF_ASCEND ){
+				sql = "insert into Restaurants select * from stanby where location=?";
+				try(PreparedStatement pstmt = conn.prepareCall(sql)){
+					pstmt.setString(1, restaurant.getCategory().getLocation().toString());
+					pstmt.executeUpdate();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+				
+				sql = "delete stanby where location=?";
+				try(PreparedStatement pstmt = conn.prepareCall(sql)){
+					pstmt.setString(1, restaurant.getCategory().getLocation().toString());
+					pstmt.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return false;
+				}
+				
+			}
+		} finally {
+			ConnectionManager.close(conn);
+		}
+		
+		return true;
+	}
+	
 	@Override
 	public void askRestaurant(Category category, Member member, boolean isRandom) {
 		
@@ -171,25 +320,35 @@ public class ServerManager implements Interface {
 
 	@Override
 	public void replyRestaurant(Category category, Restaurant restaurant, Member to, Member from) {
-
-	}
-
-	//test main
-	public static void main(String[] args) {
-		
-		Member m1 = new Member("lullulalal", "1234", "하은영", 1, "921226");
-		
-		ServerManager manager = new ServerManager();
-		
-		/*if(manager.join(m1)){
-			System.out.println("등록성공");
-		} else 
-			System.out.println("등록실패");*/
-		
-		if(manager.login(m1))
-			System.out.println("로그인 성공");
-		else System.out.println("로그인 실패");
 		
 	}
-	
+
+	@Override
+	public Address findAddresses(Address address) {
+		
+		/*Connection conn = ConnectionManager.getConnection();
+		try {
+			String si_do = address.getSido();
+			String si_gun_gu = address.getSigungu();
+			String streatName = address.getStreetName();
+			String primBuildNum = address.getBuildPrimaryNo();
+			String secBuildNum = address.getBuildSecondaryNo();
+			
+			String sql = "select * from addresses where si_do=? and si_gun_gu=?"
+					+ " and street_name=? and building_primary_no=? and ";
+			try(PreparedStatement pstmt = conn.prepareCall(sql)){
+				pstmt.setString(1, restaurant.getCategory().getLocation().toString());
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			//null 
+			
+		}finally{
+			ConnectionManager.close(conn);
+		}
+		return address;*/
+		return null;
+	}
 }

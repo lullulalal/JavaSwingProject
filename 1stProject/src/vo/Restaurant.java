@@ -13,13 +13,12 @@ public class Restaurant {
 	private ArrayList<ImageIcon> images;
 	private ArrayList<Evaluation> userEvaluations;
 	private ArrayList<String> menu;
-	private int state;
+	private int recommendNum;
 	
-	public static final int STANDBY = 1;
-	public static final int REGISTRATION = 2;
+	public static final int BOUNDARY_OF_ASCEND = 10;
 	
 	public Restaurant(String restaurantName, String price, String operationHour, Category category,
-			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int state) {
+			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int recommendNum) {
 		this.restaurantName = restaurantName;
 		this.price = price;
 		this.operationHour = operationHour;
@@ -27,11 +26,13 @@ public class Restaurant {
 		this.images = images;
 		this.userEvaluations = userEvaluations;
 		this.menu = menu;
-		this.state = state;
+		this.recommendNum = recommendNum;
 	}
 	
 	public String getRestaurantName() {
+
 		return restaurantName;
+		
 	}
 	public void setRestaurantName(String restaurantName) {
 		this.restaurantName = restaurantName;
@@ -72,12 +73,11 @@ public class Restaurant {
 	public void setMenu(ArrayList<String> menu) {
 		this.menu = menu;
 	}
-	public int getState() {
-		return state;
+	public int getRecommendNum() {
+		return recommendNum;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void plusRecommend() {
+		recommendNum++;
 	}
-	
 	
 }

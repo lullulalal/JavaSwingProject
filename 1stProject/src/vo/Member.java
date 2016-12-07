@@ -59,4 +59,5 @@ public class Member {
 		this.birth = birth;
 	}
 	
+	
 }
