@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -315,40 +316,97 @@ public class ServerManager implements Interface{
 	
 	@Override
 	public void askRestaurant(Category category, Member member, boolean isRandom) {
+		if (isRandom == true){
+			//?
+		}
+		else{
+			Object[] data = new Object[3];
+			data[0] = "askRestaurant";
+			data[1] = category;
+			data[2] = member;
+			
+			for(Map.Entry<String, ObjectOutputStream> entry : userList.entrySet()) {
+			    //String key = entry.getKey();
+			    ObjectOutputStream oos = entry.getValue();
+			    try {
+					oos.writeObject(data);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void replyRestaurant( Restaurant restaurant, Member to, Member from) {
+		Object[] data = new Object[4];
+		
+		data[0] = "replyRestaurant";
+		data[1] = restaurant;
+		data[2] = to;
+		data[3] = from;
+		
+		ObjectOutputStream toOos = userList.get(to.getId());
+		
+		try {
+			toOos.writeObject(data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public void replyRestaurant(Category category, Restaurant restaurant, Member to, Member from) {
+	public ArrayList<Address> findAddresses(Address address) {
+		ArrayList<Address> rtnList = new ArrayList<>();
 		
-	}
-
-	@Override
-	public Address findAddresses(Address address) {
-		
-		/*Connection conn = ConnectionManager.getConnection();
+		Connection conn = ConnectionManager.getConnection();
 		try {
 			String si_do = address.getSido();
 			String si_gun_gu = address.getSigungu();
-			String streatName = address.getStreetName();
+			String streetName = address.getStreetName();
 			String primBuildNum = address.getBuildPrimaryNo();
 			String secBuildNum = address.getBuildSecondaryNo();
 			
-			String sql = "select * from addresses where si_do=? and si_gun_gu=?"
-					+ " and street_name=? and building_primary_no=? and ";
-			try(PreparedStatement pstmt = conn.prepareCall(sql)){
-				pstmt.setString(1, restaurant.getCategory().getLocation().toString());
-				pstmt.executeUpdate();
+			StringBuilder stb = new StringBuilder("select * from addresses where");
+			if (si_do != null) stb.append(" si_do=?");
+			if (si_gun_gu != null) stb.append(" and si_gun_gu=?");
+			if (streetName != null) stb.append(" and street_name=?");
+			if (primBuildNum != null) stb.append(" and building_primary_no=?");
+			if (secBuildNum != null) stb.append(" and building_secondary_no=?");
+			
+			try(PreparedStatement pstmt = conn.prepareCall(stb.toString())){
+				
+				if (si_do != null) pstmt.setString(1, si_do);
+				if (si_gun_gu != null) pstmt.setString(2, si_gun_gu);
+				if (streetName != null) pstmt.setString(3, streetName);
+				if (primBuildNum != null) pstmt.setString(4, primBuildNum);
+				if (secBuildNum != null) pstmt.setString(5, secBuildNum);
+				
+				try(ResultSet rs = pstmt.executeQuery()){
+				
+					while(rs.next()){
+						Address addr = new Address();
+						addr.setSido(rs.getString("si_do"));
+						addr.setSigungu(rs.getString("si_gun_gu"));
+						addr.setStreetName(rs.getString("street_name"));
+						addr.setBuildingName(rs.getString("building_name"));
+						addr.setPostCode(rs.getString("zip_code"));
+						addr.setBuildPrimaryNo(rs.getString("building_primary_no"));
+						addr.setBuildSecondaryNo(rs.getString("building_secondary_no"));
+						addr.setDong(rs.getString("dong"));
+						addr.setRi(rs.getString("ri"));
+						rtnList.add(addr);
+					}
+				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
-				return false;
 			}
-			//null 
-			
 		}finally{
 			ConnectionManager.close(conn);
 		}
-		return address;*/
-		return null;
+		
+		return rtnList;
 	}
 }
