@@ -23,9 +23,9 @@ public class test {
 		Connection conn = ConnectionManager.getConnection();
 		String sql = "select * from restaurants where location like ? and food_type=? and average_score=?";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, "%¼­¿ï%");
+			pstmt.setString(1, null);
 			pstmt.setInt(2, 1);
-			pstmt.setDouble(3, 3);
+			pstmt.setDouble(3, 0);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				System.out.println(rs.getString(1));

@@ -46,18 +46,18 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="server.ServerThread"/>
 <fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
-<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 <fullyQualifiedTypeName name="java.sql.Statement"/>
 <fullyQualifiedTypeName name="vo.Address"/>
 <fullyQualifiedTypeName name="vo.Category"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="vo.Evaluation"/>
-<fullyQualifiedTypeName name="vo.Restaurant"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="server.ConnectionManager"/>
 <fullyQualifiedTypeName name="vo.Member"/>
 <fullyQualifiedTypeName name="server.test"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="vo.Evaluation"/>
+<fullyQualifiedTypeName name="vo.Restaurant"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 </qualifiedTypeNameHistroy>
