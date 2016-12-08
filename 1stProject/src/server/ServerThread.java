@@ -67,7 +67,8 @@ public class ServerThread implements Runnable {
 					
 				case "recommend" :
 					restaurant = (Restaurant) protocol[1];
-					boolean rstRecommend = manager.recommendRestaurant(restaurant);
+					Member member = (Member) protocol[2];
+					boolean rstRecommend = manager.recommendRestaurant(restaurant, member);
 					oos.writeObject(rstRecommend);
 					break;
 						

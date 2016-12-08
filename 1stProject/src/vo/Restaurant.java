@@ -13,12 +13,14 @@ public class Restaurant {
 	private ArrayList<ImageIcon> images;
 	private ArrayList<Evaluation> userEvaluations;
 	private ArrayList<String> menu;
+	private ArrayList<String> recommender;
 	private int recommendNum;
 	
 	public static final int BOUNDARY_OF_ASCEND = 3;
 	
 	public Restaurant(String restaurantName, String price, String operationHour, Category category,
-			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int recommendNum) {
+			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int recommendNum, 
+			ArrayList<String> recommender) {
 		this.restaurantName = restaurantName;
 		this.price = price;
 		this.operationHour = operationHour;
@@ -27,12 +29,21 @@ public class Restaurant {
 		this.userEvaluations = userEvaluations;
 		this.menu = menu;
 		this.recommendNum = recommendNum;
+		this.recommender = recommender;
 	}
 	
 	public Restaurant(){
 		
 	}
 	
+	public ArrayList<String> getRecommender() {
+		return recommender;
+	}
+
+	public void setRecommender(ArrayList<String> recommender) {
+		this.recommender = recommender;
+	}
+
 	public String getRestaurantName() {
 
 		return restaurantName;

@@ -89,7 +89,7 @@ public class ServerManager implements Interface{
 
 	@Override
 	public ArrayList<Restaurant> showList(Category category, int num) {
-		ArrayList<Restaurant> showList = new ArrayList<>();
+/*		ArrayList<Restaurant> showList = new ArrayList<>();
 		Connection connection = ConnectionManager.getConnection();
 		try {
 			Statement st = connection.createStatement();
@@ -178,16 +178,16 @@ public class ServerManager implements Interface{
 		}
 		if (num == 0) {
 			num = showList.size();
-		}
-		return showList;
+		}*/
+		return null;
 	}
 	
 	@Override
 	public boolean evaluateRestaurant(Evaluation evaluation, Restaurant restaurant) {
 		
 		boolean rtn = false;
-		
 		Connection conn = ConnectionManager.getConnection();
+		
 		try {
 				String sql = "select * from evaluations where id=? and location=?";
 				try(PreparedStatement pstmt = conn.prepareCall(sql)){
@@ -227,9 +227,32 @@ public class ServerManager implements Interface{
 	public boolean insertRestaurant(Restaurant restaurant) {
 		Connection conn = ConnectionManager.getConnection();
 		
-		String sql = "insert into stanby values(?, ?, ?, ?, ?,"
+		String sql = "select * from restaurants where location=?";
+		try(PreparedStatement pstmt = conn.prepareCall(sql);){
+			pstmt.setString(1, restaurant.getCategory().getLocation().toString());
+			try( ResultSet rs = pstmt.executeQuery();){
+				while(rs.next())
+					return false;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		sql = "select * from stanby where location=?";
+		try(PreparedStatement pstmt = conn.prepareCall(sql);){
+			pstmt.setString(1, restaurant.getCategory().getLocation().toString());
+			try( ResultSet rs = pstmt.executeQuery();){
+				while(rs.next())
+					return false;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		sql = "insert into stanby values(?, ?, ?, ?, ?,"
 											+ " ?, ?, ?, ?, ?,"
-											+ " ?, ?, ?, ?, ?)";
+											+ " ?, ?, ?, ?, ?,"
+											+ " ?)";
 		
 		ArrayList<String> tempImagePaths = new ArrayList<>();
 		
@@ -280,7 +303,7 @@ public class ServerManager implements Interface{
 			
 			pstmt.setInt(14, restaurant.getRecommendNum());
 			pstmt.setTimestamp(15, new Timestamp(new Date().getTime()));
-			
+			pstmt.setString(16, restaurant.getCategory().getEvaluation().getUser().getId());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e){
@@ -288,7 +311,8 @@ public class ServerManager implements Interface{
 			
 			for(String imgPath : tempImagePaths){
 				File file = new File(imgPath);
-				file.delete();
+				if(file.exists())
+					file.delete();
 			}
 			
 			return false;
@@ -300,15 +324,32 @@ public class ServerManager implements Interface{
 	}
 
 	@Override
-	public boolean recommendRestaurant(Restaurant restaurant) {
+	public boolean recommendRestaurant(Restaurant restaurant, Member valuer) {
+		
+		ArrayList<String> recommender = restaurant.getRecommender();
+		for(String s :recommender){
+			if ( valuer.getId().equals(s) )
+				return false;
+		}
+		
 		Connection conn = ConnectionManager.getConnection();
-		String sql = "update stanby set recommend=? where location=?";
+		String sql = "update stanby set recommend=?, recommender=? where location=?";
 		
 		try {
 			try(PreparedStatement pstmt = conn.prepareCall(sql)){
 				System.out.println(restaurant.getRecommendNum());
 				pstmt.setInt(1, restaurant.getRecommendNum());
-				pstmt.setString(2, restaurant.getCategory().getLocation().toString());
+				
+				StringBuilder sb = new StringBuilder();
+				for(String id : recommender){
+					sb.append(id);
+					sb.append(";");
+				}
+				sb.append(valuer.getId());
+				
+				pstmt.setString(2, sb.toString());	
+				
+				pstmt.setString(3, restaurant.getCategory().getLocation().toString());
 				
 				pstmt.executeUpdate();
 			} catch (SQLException e) {
@@ -447,7 +488,7 @@ public class ServerManager implements Interface{
 						addr.setBuildPrimaryNo(rs.getString("building_primary_no"));
 						String bsn = rs.getString("building_secondary_no");
 						if(!("0".equals(bsn)))
-						addr.setBuildSecondaryNo(bsn);
+							addr.setBuildSecondaryNo(bsn);
 						addr.setDong(rs.getString("dong"));
 						addr.setRi(rs.getString("ri"));
 						rtnList.add(addr);
@@ -514,7 +555,7 @@ public class ServerManager implements Interface{
 		restaurant.setImages(images);
 		Category category = new Category();
 		category.setType(Category.KOREAN);
-		Address address = new Address("(110034) 서울특별시 종로구 자하문로17길 4 (창성동);02-1111-1111");
+		Address address = new Address("(110034) 서울특별시 종로구 자하문로16길 4 (창성동) 02-1111-1111");
 		category.setLocation(address);
 		Evaluation evaluation= new Evaluation();
 		evaluation.setComment("스고이데스네");
@@ -532,30 +573,39 @@ public class ServerManager implements Interface{
 		
 		category.setEvaluation(evaluation);
 		restaurant.setCategory(category);
-		
-		boolean rst = testManager.insertRestaurant(restaurant);
-		System.out.println(rst); 
+		ArrayList<String> recommender = new ArrayList<>();
+		recommender.add("lullulalal");
+		recommender.add("equal0");
+		recommender.add("lullulalall");
+		recommender.add("lullulalalll");
+		recommender.add("lullulalallll");
+		restaurant.setRecommender(recommender);
+		//boolean rst = testManager.insertRestaurant(restaurant);
+		//System.out.println(rst); 
 		
 		//--------------------------------------------------------------
 //recommend test
-		//restaurant.plusRecommend();
-		//restaurant.plusRecommend();
-		//restaurant.plusRecommend();
-		//boolean rst = testManager.recommendRestaurant(restaurant);
-		//System.out.println(rst); 
+		/*restaurant.plusRecommend();
+		restaurant.plusRecommend();
+		restaurant.plusRecommend();
+		Member commentor = new Member();
+		commentor.setId("lullulalallll");
+		commentor.setPermission(2);
+		boolean rst = testManager.recommendRestaurant(restaurant, commentor);
+		System.out.println(rst); */
 		
 		//-------------------------------------------------------------
 //evaluateResataurant test
-		/*Evaluation e = new Evaluation();
+		Evaluation e = new Evaluation();
 		e.setAverage(1);
 		e.setComment("쓰레기네요");
 		e.setHygiene(2);
 		e.setService(3); 
 		e.setTaste(4);
 		Member commentor = new Member();
-		commentor.setId("equal0");
+		commentor.setId("lullulalallll");
 		commentor.setPermission(2);
 		e.setUser(commentor);
-		testManager.evaluateRestaurant(e, restaurant);*/
+		System.out.println(testManager.evaluateRestaurant(e, restaurant));
 	}
 }
