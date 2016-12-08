@@ -25,8 +25,8 @@ public class Evaluation {
 		this.user = user;
 	}
 	
-	public Evaluation() {
-
+	public Evaluation(){
+		
 	}
 	
 	public double getTaste() {
@@ -65,12 +65,4 @@ public class Evaluation {
 	public void setUser(Member user) {
 		this.user = user;
 	}
-
-	@Override
-	public String toString() {
-		return "Evaluation [taste=" + taste + ", service=" + service + ", hygiene=" + hygiene + ", average=" + average
-				+ ", comment=" + comment + ", user=" + user + "]";
-	}
-	
-	
 }

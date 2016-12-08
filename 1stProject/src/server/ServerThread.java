@@ -52,29 +52,26 @@ public class ServerThread implements Runnable {
 					int showList = (int) protocol[2];
 					break;
 				
-				//lullulalal
 				case "insert":
 					Restaurant restaurant = (Restaurant) protocol[1];
 					boolean rstInsert = manager.insertRestaurant(restaurant);
 					oos.writeObject(rstInsert);
 					break;
 
-				//lullulalal
 				case "evaluate":
 					Evaluation evaluation = (Evaluation) protocol[1];
 					restaurant = (Restaurant) protocol[2];
-					boolean rstEvaluation = manager.evaluateResataurant(evaluation, restaurant);
+					boolean rstEvaluation = manager.evaluateRestaurant(evaluation, restaurant);
 					oos.writeObject(rstEvaluation);
 					break;
 					
-				//lullulalal
 				case "recommend" :
 					restaurant = (Restaurant) protocol[1];
-					boolean rstRecommend = manager.recommendRestaurant(restaurant);
+					Member member = (Member) protocol[2];
+					boolean rstRecommend = manager.recommendRestaurant(restaurant, member);
 					oos.writeObject(rstRecommend);
 					break;
-					
-				//lullulalal	
+						
 				case "findAddress" :
 					Address address = (Address) protocol[1];
 					ArrayList<Address> addresses = manager.findAddresses(address);
@@ -94,6 +91,9 @@ public class ServerThread implements Runnable {
 					Restaurant restaurant2 = (Restaurant) protocol[1];
 					Member memberTo = (Member) protocol[2];
 					Member memberFrom = (Member) protocol[3];
+					
+					manager.replyRestaurant(restaurant2, memberTo, memberFrom);
+					
 					break;
 
 				default:

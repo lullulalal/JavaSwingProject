@@ -12,7 +12,7 @@ public class Address {
 	private String buildSecondaryNo;
 	private String dong;
 	private String ri;
-	private String detail;
+	private String phone;//ÀüÈ­¹ø
 	
 	private String completedAddress;
 	
@@ -26,7 +26,6 @@ public class Address {
 		this.postCode = postCode;
 		this.detail = detail;*/
 	}
-	
 	public Address(String str) {
 		completedAddress = str;
 	}
@@ -55,6 +54,7 @@ public class Address {
 	public void setRi(String ri) {
 		this.ri = ri;
 	}
+
 
 	public String getSido() {
 		return sido;
@@ -92,33 +92,42 @@ public class Address {
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
 	}
-	public String getDetail() {
-		return detail;
+	public String getPhone() {
+		return phone;
 	}
-	public void setDetail(String detail) {
-		this.detail = detail;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	//lullulalal
 	@Override
 	public String toString() {
 		String rtnStr = null;
-		if(sido != null){
+		if(completedAddress == null){
 			StringBuilder strb = new StringBuilder();
-			strb.append("(");
-			strb.append(postCode);
-			strb.append(") ");
+			
+			if (postCode != null){
+				strb.append("(");
+				strb.append(postCode);
+				strb.append(") ");
+			}
+			
 			if (sido != null) strb.append(sido);
 			if (sigungu != null) strb.append(" " + sigungu);
 			if (eubmyundong != null) strb.append(" " + eubmyundong);
 			if (streetName != null) strb.append(" " + streetName);
 			if (buildPrimaryNo != null) strb.append(" " + buildPrimaryNo);
-			if (buildSecondaryNo != null) strb.append("-" + buildSecondaryNo);
-			strb.append(" (");
-			if (dong != null) strb.append(dong);
-			if (ri != null) strb.append(" ," + ri);
-			if (buildingName != null) strb.append(" ," + buildingName);
-			strb.append(")");
+			if (buildSecondaryNo != null ) strb.append("-" + buildSecondaryNo);
+			
+			if( dong != null || ri != null || buildingName != null){
+				strb.append(" (");
+				if (dong != null) strb.append(dong);
+				if (ri != null) strb.append(" ," + ri);
+				if (buildingName != null) strb.append(" ," + buildingName);
+				strb.append(")");
+			}
+			
+			if (phone != null ) strb.append(" " + phone);
 			rtnStr = strb.toString();
 		}
 		else

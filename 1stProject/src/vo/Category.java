@@ -17,6 +17,10 @@ public class Category {
 		this.evaluation = evaluation;
 	}
 	
+	public Category() {
+		
+	}
+	
 	public Address getLocation() {
 		return location;
 	}
@@ -35,12 +39,5 @@ public class Category {
 	public void setEvaluation(Evaluation evaluation) {
 		this.evaluation = evaluation;
 	}
-
-	@Override
-	public String toString() {
-		return "Category [location=" + location + ", type=" + type + ", evaluation=" + evaluation + "]";
-	}
-	
-	
 	
 }

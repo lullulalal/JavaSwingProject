@@ -12,8 +12,8 @@ public interface Interface {
 	public boolean insertRestaurant(Restaurant restaurant);
 	public boolean login(Member member);
 	public boolean join(Member member);
-	public boolean evaluateResataurant(Evaluation evalauation, Restaurant restaurant);
-	public boolean recommendRestaurant(Restaurant restaurant);
+	public boolean evaluateRestaurant(Evaluation evalauation, Restaurant restaurant);
+	public boolean recommendRestaurant(Restaurant restaurant, Member valuer);
 	public ArrayList<Restaurant> showList(Category category, int num);
 	public boolean logout(Member member);
 	public void askRestaurant(Category category, Member member, boolean isRandom);
