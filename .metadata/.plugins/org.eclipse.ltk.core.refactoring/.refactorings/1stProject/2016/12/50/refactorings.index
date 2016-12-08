@@ -9,3 +9,5 @@
 1481090831879	Rename local variable 'evaluatorID'
 1481090965980	Rename local variable 'Recommend'
 1481090975025	Rename local variable 'recommendNo'
+1481115004358	Rename local variable 'sql'
+1481154211673	Rename local variable 'evaluation'

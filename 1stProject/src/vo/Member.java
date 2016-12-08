@@ -62,6 +62,13 @@ public class Member {
 	public void setBirth(String birth) {
 		this.birth = birth;
 	}
+
+	@Override
+	public String toString() {
+		return "Member [id=" + id + ", password=" + password + ", name=" + name + ", permission=" + permission
+				+ ", birth=" + birth + "]";
+	}
+	
 	
 	
 }

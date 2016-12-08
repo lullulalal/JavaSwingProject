@@ -35,5 +35,12 @@ public class Category {
 	public void setEvaluation(Evaluation evaluation) {
 		this.evaluation = evaluation;
 	}
+
+	@Override
+	public String toString() {
+		return "Category [location=" + location + ", type=" + type + ", evaluation=" + evaluation + "]";
+	}
+	
+	
 	
 }

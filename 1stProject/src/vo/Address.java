@@ -27,6 +27,10 @@ public class Address {
 		this.detail = detail;*/
 	}
 	
+	public Address(String str) {
+		completedAddress = str;
+	}
+	
 	public String getBuildSecondaryNo() {
 		return buildSecondaryNo;
 	}
@@ -52,10 +56,6 @@ public class Address {
 		this.ri = ri;
 	}
 
-	public Address(String str) {
-		completedAddress = str;
-	}
-	
 	public String getSido() {
 		return sido;
 	}

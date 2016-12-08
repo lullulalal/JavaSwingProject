@@ -79,5 +79,14 @@ public class Restaurant {
 	public void plusRecommend() {
 		recommendNum++;
 	}
+
+	@Override
+	public String toString() {
+		return "Restaurant [restaurantName=" + restaurantName + ",\n price=" + price + ",\n operationHour=" + operationHour
+				+ ",\n category=" + category + ",\n images=" + images + ",\n userEvaluations=" + userEvaluations + ",\n menu="
+				+ menu + ",\n recommendNum=" + recommendNum + "]";
+	}
+	
+	
 	
 }
