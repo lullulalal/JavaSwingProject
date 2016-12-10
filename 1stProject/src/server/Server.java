@@ -23,6 +23,7 @@ public class Server {
 				st = new ServerThread(ois, oos);
 				Thread thread = new Thread(st);
 				thread.start();
+				System.out.println("클라이언트 접속");
 			}
 		} catch (IOException e) {
 			System.out.println("IOE..");
