@@ -20,6 +20,7 @@ public class ServerThread implements Runnable {
 	public ServerThread(ObjectInputStream ois, ObjectOutputStream oos) {
 		this.ois = ois;
 		this.oos = oos;
+		
 	}
 
 	@Override
@@ -28,54 +29,78 @@ public class ServerThread implements Runnable {
 		while (flag) {
 			try {
 				Object[] protocol = (Object[]) ois.readObject();
-				switch ((String) protocol[0]) {
+				String proto = (String)protocol[0];
+				switch (proto) {
+				case "test":
+					Object[] testResponse = {proto};
+					oos.writeObject(testResponse);
+					break;
+					
 				case "join":
 					Member member1 = (Member) protocol[1];
 					boolean rstJoin = manager.join(member1);
-					oos.writeObject(rstJoin);
+					
+					Object[] joinResponse = {proto, rstJoin};
+					oos.writeObject(joinResponse);
 					break;
 
 				case "login":
 					Member member2 = (Member) protocol[1];
 					boolean rstLogin = manager.login(member2);
-					oos.writeObject(rstLogin);
+					
+					Object[] loginResponse = {proto, rstLogin};
+					oos.writeObject(loginResponse);
 					break;
 
 				case "logout":
 					Member member3 = (Member) protocol[1];
 					boolean rstLogout = manager.logout(member3);
-					oos.writeObject(rstLogout);
+					
+					Object[] logoutResponse = {proto, rstLogout};
+					oos.writeObject(logoutResponse);
 					break;
 					
 				case "showList":
 					Category category1 = (Category) protocol[1];
-					int showList = (int) protocol[2];
+					int showNum = (int) protocol[2];
+					ArrayList<Restaurant> rList = manager.showList(category1, showNum);
+					
+					Object[] showListResponse = {proto, rList};
+					oos.writeObject(showListResponse);
 					break;
 				
 				case "insert":
 					Restaurant restaurant = (Restaurant) protocol[1];
 					boolean rstInsert = manager.insertRestaurant(restaurant);
-					oos.writeObject(rstInsert);
+					
+					Object[] insertResponse = {proto, rstInsert};
+					oos.writeObject(insertResponse);
 					break;
 
 				case "evaluate":
 					Evaluation evaluation = (Evaluation) protocol[1];
 					restaurant = (Restaurant) protocol[2];
 					boolean rstEvaluation = manager.evaluateRestaurant(evaluation, restaurant);
-					oos.writeObject(rstEvaluation);
+					
+					Object[] evaluationResponse = {proto, rstEvaluation};
+					oos.writeObject(evaluationResponse);
 					break;
 					
 				case "recommend" :
 					restaurant = (Restaurant) protocol[1];
 					Member member = (Member) protocol[2];
 					boolean rstRecommend = manager.recommendRestaurant(restaurant, member);
-					oos.writeObject(rstRecommend);
+					
+					Object[] recommendResponse = {proto, rstRecommend};
+					oos.writeObject(recommendResponse);
 					break;
 						
 				case "findAddress" :
 					Address address = (Address) protocol[1];
 					ArrayList<Address> addresses = manager.findAddresses(address);
-					oos.writeObject(addresses);
+					
+					Object[] findAddressResponse = {proto, addresses};
+					oos.writeObject(findAddressResponse);
 					break;
 
 				case "askRestaurant":
@@ -99,6 +124,7 @@ public class ServerThread implements Runnable {
 				default:
 					break;
 				}
+				oos.reset();
 			} catch (ClassNotFoundException e) {
 				System.out.println("ClassNotFoundException");
 				e.printStackTrace();

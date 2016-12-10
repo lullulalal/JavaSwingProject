@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
- 
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -103,14 +103,11 @@ public class ServerManager implements Interface{
 		else
 			stb = new StringBuilder("select * from restaurants where");
 		
-		
-		
 		int[] t = {0, 0, 0};
 		int test = 0;
 		if (category.getLocation() != null){
 			test++;
 			t[0] = test;
-			//stb.append(" where");
 			stb.append(" location like ?");
 		}
 		if (category.getType() != 0){
@@ -131,6 +128,7 @@ public class ServerManager implements Interface{
 			
 			stb.append(" average_score>=?");
 		}
+		
 		stb.append(" order by insert_date desc");
 		
 		try (PreparedStatement pstmt = conn.prepareStatement(stb.toString())) {
@@ -474,6 +472,7 @@ public class ServerManager implements Interface{
 			    ObjectOutputStream oos = entry.getValue();
 			    try {
 					oos.writeObject(data);
+					oos.reset();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -491,9 +490,10 @@ public class ServerManager implements Interface{
 		data[3] = from;
 		
 		ObjectOutputStream toOos = userList.get(to.getId());
-		
+	
 		try {
 			toOos.writeObject(data);
+			toOos.reset();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -670,8 +670,9 @@ public class ServerManager implements Interface{
 		evaluation.setAverage(2);
 		//category.setEvaluation(evaluation);
 		Address location = new Address();
-		location.setSido("서울특별시");
-		location.setSigungu("종로구");
+		//location.setSido("서울특별시");
+		//location.setSigungu("종로구");
+		location.setPhone("02-1111-1111");
 		category.setLocation(location);
 		//System.out.println(location);
 		ArrayList<Restaurant> t = testManager.showList(category, 1);
