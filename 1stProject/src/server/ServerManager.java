@@ -127,6 +127,7 @@ public class ServerManager implements Interface{
 			t[2] = test;
 			
 			if(test > 0)
+				
 				stb.append(" and");
 			
 			stb.append(" average_score>=?");

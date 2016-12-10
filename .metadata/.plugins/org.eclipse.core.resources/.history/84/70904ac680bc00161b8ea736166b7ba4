@@ -1,0 +1,91 @@
+package server;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
+import vo.Address;
+import vo.Category;
+import vo.Evaluation;
+import vo.Member;
+import vo.Restaurant;
+
+public class test {
+
+	public ArrayList<Restaurant> showList(Category category, int num) {
+		
+		ArrayList<Restaurant> showList = new ArrayList<>();
+		
+		Connection conn = ConnectionManager.getConnection();
+		String sql = "select * from restaurants where location like ? and food_type=? and average_score=?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setString(1, "%" + category.getLocation().toString() + "%");
+			pstmt.setInt(2, category.getType());
+			pstmt.setDouble(3, category.getEvaluation().getAverage());
+			try(ResultSet rs = pstmt.executeQuery()){
+				String restaurantName = rs.getString("restaurant_name");
+				String location = rs.getString("location");
+				Address address = new Address(location);
+				int foodType = rs.getInt("food_type");
+				String price = rs.getString("price_range");
+				String operationHour = rs.getString("operation_Hour"); 
+				String id = rs.getString("id");
+				String sql2 = "select * from users where id = ?";
+				try(PreparedStatement pstmt2 = conn.prepareStatement(sql2)){
+					pstmt2.setString(1, id);
+					try(ResultSet rs2 = pstmt2.executeQuery()){
+						Member evaluator = null;
+						while(rs2.next()){
+							String password = rs2.getString("password");
+							String name = rs2.getString("name");
+							int permission = rs2.getInt("permission");
+							String birth = rs2.getString("birth");
+							evaluator = new Member(id, password, name, permission, birth);
+						}
+						if (evaluator != null) {
+							
+						}
+					}
+				}
+				
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionManager.close(conn);
+		}
+		
+		return showList;
+	}
+
+	public static void main(String[] args) {
+		test t = new test();
+
+		Address address = new Address("서울특별시 종로구 자하문로16길 4");
+		// address.setSido("서울특별시");
+		// address.set
+		// address.setStreetName("자하문로16길");
+		// address.setBuildPrimaryNo("4");
+
+		// Member m = new Member();
+
+		Evaluation evaluation = new Evaluation();
+		evaluation.setAverage(4);
+
+		Category category = new Category(address, 2, evaluation);
+
+		int num = 0;
+
+		ArrayList<Restaurant> list = t.showList(category, num);
+
+		System.out.println(list);
+	}
+}

@@ -1,0 +1,57 @@
+package client;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JComboBox;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
+
+public class insertUserEvaluations extends JFrame{
+	private JComboBox location;
+	private JComboBox food_type;
+	private JComboBox average_score;
+	
+	public insertUserEvaluations() {
+		this.setBounds(500, 200, 350, 370);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		North();
+		
+	}
+	
+	public void North(){
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		location = new JComboBox();
+		panel.add(location);
+		
+		food_type = new JComboBox();
+		panel.add(food_type);
+		
+		average_score = new JComboBox();
+		panel.add(average_score);
+		this.setVisible(true);
+	}
+
+	
+	
+	
+	
+	class Action implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new insertUserEvaluations();
+	}
+}

@@ -1,0 +1,89 @@
+package client;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
+import java.awt.GridLayout;
+import javax.swing.SwingConstants;
+
+public class insertUserEvaluations extends JFrame{
+	private JRadioButton sel_spoon5;
+	private JRadioButton sel_spoon4;
+	private JRadioButton sel_spoon3;
+	private JRadioButton sel_spoon2;
+	private JRadioButton sel_spoon1;
+	private JButton btn_insert;
+	private JButton btn_cancel;
+	
+	
+	public insertUserEvaluations() {
+		this.setBounds(500, 200, 250, 300);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		North();
+		south();
+		this.setVisible(true);
+	}
+	
+	public void North(){
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new GridLayout(7, 1));
+		
+		JRadioButton sel_spoon5 = new JRadioButton();
+	
+		sel_spoon5.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(sel_spoon5);
+		
+		JRadioButton sel_spoon4 = new JRadioButton("New radio button");
+		sel_spoon4.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(sel_spoon4);
+		
+		JRadioButton sel_spoon3 = new JRadioButton("New radio button");
+		sel_spoon3.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(sel_spoon3);
+		
+		JRadioButton sel_spoon2 = new JRadioButton("New radio button");
+		sel_spoon2.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(sel_spoon2);
+		
+		JRadioButton sel_spoon1 = new JRadioButton("New radio button");
+		sel_spoon1.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(sel_spoon1);
+	}
+	
+	public void south(){
+		JPanel panel_1 = new JPanel();
+		getContentPane().add(panel_1, BorderLayout.SOUTH);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		btn_insert = new JButton("\uB4F1\uB85D");
+		panel_1.add(btn_insert);
+		
+		btn_cancel = new JButton("\uCDE8\uC18C");
+		panel_1.add(btn_cancel);
+	}
+
+	
+	
+	
+	
+	class Action implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new insertUserEvaluations();
+	}
+}

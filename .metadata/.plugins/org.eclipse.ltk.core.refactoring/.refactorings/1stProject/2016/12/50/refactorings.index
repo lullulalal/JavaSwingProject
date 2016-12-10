@@ -11,3 +11,12 @@
 1481090975025	Rename local variable 'recommendNo'
 1481115004358	Rename local variable 'sql'
 1481154211673	Rename local variable 'evaluation'
+1481349921380	Delete element
+1481351481090	Rename field 'comboBox'
+1481351492447	Rename field 'comboBox_1'
+1481353697751	Rename local variable 'btnNewButton'
+1481353713255	Rename local variable 'btnNewButton_1'
+1481355372670	Rename local variable 'rdbtnNewRadioButton_2'
+1481355381807	Rename local variable 'rdbtnNewRadioButton_3'
+1481355394970	Rename local variable 'rdbtnNewRadioButton_4'
+1481355404555	Rename local variable 'rdbtnNewRadioButton_1'
