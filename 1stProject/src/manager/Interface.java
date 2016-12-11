@@ -19,4 +19,5 @@ public interface Interface {
 	public void askRestaurant(Category category, Member member, boolean isRandom);
 	public void replyRestaurant(Restaurant restaurant, Member to, Member from);
 	public ArrayList<Address> findAddresses(Address address);
+	
 }

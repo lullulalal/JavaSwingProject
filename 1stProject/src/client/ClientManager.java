@@ -2,93 +2,66 @@ package client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
-import manager.Interface;
 import vo.Address;
 import vo.Category;
 import vo.Evaluation;
 import vo.Member;
 import vo.Restaurant;
 
-public class ClientManager implements Interface {
+public class ClientManager  {
 
-	ObjectOutputStream oos;
+	private static ObjectOutputStream oos;
+	private static ReentrantLock lock = new ReentrantLock();
 	
-	public void setOos(ObjectOutputStream oos){
-		this.oos = oos;
+	public static void setOos(ObjectOutputStream oos){
+		ClientManager.oos = oos;
 	}
 
-	@Override
-	public boolean insertRestaurant(Restaurant restaurant) {
-		// TODO Auto-generated method stub
-		return false;
+	public void insertRestaurant(int guiId, Restaurant restaurant) {
 	}
 
-	@Override
-	public boolean login(Member member) {
-		// TODO Auto-generated method stub
-		return false;
+	public void login(int guiId, Member member) {
 	}
 
-	@Override
-	public boolean join(Member member) {
-		// TODO Auto-generated method stub
-		return false;
+	public void join(int guiId, Member member) {
 	}
 
-	@Override
-	public boolean evaluateRestaurant(Evaluation evalauation, Restaurant restaurant) {
-		// TODO Auto-generated method stub
-		return false;
+	public void evaluateRestaurant(int guiId, Evaluation evalauation, Restaurant restaurant) {
 	}
 
-	@Override
-	public boolean recommendRestaurant(Restaurant restaurant, Member valuer) {
-		// TODO Auto-generated method stub
-		return false;
+	public void recommendRestaurant(int guiId, Restaurant restaurant, Member valuer) {
 	}
 
-	@Override
-	public ArrayList<Restaurant> showList(Category category, int num) {
-		// TODO Auto-generated method stub
-		return null;
+	public void showList(int guiId, Category category, int num) {
 	}
 
-	@Override
-	public boolean logout(Member member) {
-		// TODO Auto-generated method stub
-		return false;
+	public void logout(int guiId, Member member) {
 	}
 
-	@Override
-	public void askRestaurant(Category category, Member member, boolean isRandom) {
-		// TODO Auto-generated method stub
-		
+	public void askRestaurant(int guiId, Category category, Member member, boolean isRandom) {
 	}
 
-	@Override
-	public void replyRestaurant(Restaurant restaurant, Member to, Member from) {
-		// TODO Auto-generated method stub
-		
+	public void replyRestaurant(int guiId, Restaurant restaurant, Member to, Member from) {
 	}
 
-	@Override
-	public ArrayList<Address> findAddresses(Address address) {
-		// TODO Auto-generated method stub
-		return null;
+	public void findAddresses(int guiId, Address address) {
 	}
 	
 	public void test(){
-		Object[] data = {"test"};
+		Object[] data = {0, "test"};
 		request(data);
 	}
 	
-	private synchronized void request(Object data){
+	private void request(Object data){
 		try {
+			lock.lock();
 			oos.writeObject(data);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally{
+			lock.unlock();
 		}
 	}
 	

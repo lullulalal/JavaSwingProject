@@ -6,19 +6,40 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientReceiver implements Runnable{
 	
-	private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
-	
-	private MainGui mainGui;
-	private ClientManager manager = new ClientManager();
+	//private ClientManager manager = new ClientManager();
+
+	public static int MAIN_GUI_ID = 0; 
+	private static int guiId = 1;
+	private static ConcurrentHashMap<Integer, LinkedBlockingQueue<Object>> guiReceiveQlist= new ConcurrentHashMap<>();
+
+	MainGui gui;
 	
 	public ClientReceiver(){
-		new Thread(new Handler()).start();
-		mainGui = new MainGui(manager);
+		gui = new MainGui();
 	}
+	
+	public static int getGuiID(){
+		int rtn = guiId;
+		guiId++;
+		return rtn;
+	}
+	public static void addQueue(int guiId, LinkedBlockingQueue<Object> q) {
+		guiReceiveQlist.put(guiId, q);
+	}
+	public static void deleteQueue(int guiId) {
+		LinkedBlockingQueue<Object> queue = guiReceiveQlist.get(guiId);	
+		
+		Object[] exit = {"exit"};
+		queue.add(exit);
+		
+		guiReceiveQlist.remove(guiId);
+	}
+	
 	
 	@Override
 	public void run() {
@@ -30,11 +51,14 @@ public class ClientReceiver implements Runnable{
 					
 					System.out.println("서버 연결 성공~!");
 					//mainGui.connected(oos);
-					manager.setOos(oos);
-					manager.test();
+					ClientManager.setOos(oos);
+					gui.test();
 					while(true){
 						try {
-							queue.add(ois.readObject());
+							Object responseData = ois.readObject();
+							int gid = (int)(((Object[])responseData)[0]);
+							LinkedBlockingQueue<Object> q = guiReceiveQlist.get(gid);
+							q.add(responseData);
 						} catch (ClassNotFoundException e) {
 							e.printStackTrace();
 						}
@@ -55,49 +79,5 @@ public class ClientReceiver implements Runnable{
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private class Handler implements Runnable{
-
-		@Override
-		public void run() {
-			while(true) {
-				try {
-					Object[] receive = (Object[])queue.take();
-					String proto = (String)receive[0];
-					
-					switch(proto){
-					case "test" :
-						System.out.println("테스트입니다");
-						break;
-					case "join" :
-						break;
-					case "login":
-						break;
-					case "showList":
-						break;
-					case "insert":
-						break;
-					case "evaluate":
-						break;
-					case "logout":
-						break;
-					case "askRestaurant":
-						break;
-					case "replyRestaurant":
-						break;
-					case "findAddress":
-						break;
-					case "recommend":
-						break;
-						
-					}
-					
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
 	}
 }

@@ -17,6 +17,7 @@ public class Server {
 		try(ServerSocket server = new ServerSocket(8888)) {
 			
 			while(true){
+				System.out.println("서버실행");
 				client = server.accept();
 				ois = new ObjectInputStream(client.getInputStream());
 				oos = new ObjectOutputStream(client.getOutputStream());
