@@ -1,0 +1,87 @@
+package client;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
+
+public class ValuerEvaluationsGUI extends JFrame{
+
+	private JButton btn_insert;
+	private JButton btn_cancel;
+	private JComboBox sido;
+	private JComboBox gungu;
+	private JTextField specific;
+	private JPanel location;
+	private JComboBox food_type;
+	
+	public ValuerEvaluationsGUI() {
+		this.setBounds(525,150,300, 500);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		north();
+		south();
+		
+		this.setVisible(true);
+	}
+	
+	public void south(){
+		JPanel south = new JPanel();
+		getContentPane().add(south, BorderLayout.SOUTH);
+		
+		btn_insert = new JButton("insert");
+		south.add(btn_insert);
+		
+		btn_cancel = new JButton("cancel");
+		south.add(btn_cancel);
+	}
+	
+	public void north(){
+		JPanel north = new JPanel();
+		getContentPane().add(north, BorderLayout.NORTH);
+		north.setLayout(new GridLayout(3,1));
+		
+		location = new JPanel();
+		north.add(location);
+		
+		sido = new JComboBox();
+		location.add(sido);
+		sido.setModel(new DefaultComboBoxModel(new String[] {"서울특별시"}));
+		
+		gungu = new JComboBox();
+		location.add(gungu);
+		gungu.setModel(new DefaultComboBoxModel(new String[] {"\uAC15\uB0A8\uAD6C", "\uAD00\uC545\uAD6C", "\uC1A1\uD30C\uAD6C", "\uB178\uC6D0\uAD6C"}));
+		
+		specific = new JTextField();
+		specific.setColumns(8);
+		location.add(specific);
+		
+		JPanel type = new JPanel();
+		north.add(type);
+		
+		food_type = new JComboBox();
+		food_type.setModel(new DefaultComboBoxModel(new String[] {"한식","중식","일식"}));
+		type.add(food_type);
+		
+	}
+	
+	class Action implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new ValuerEvaluationsGUI();
+	}
+
+}

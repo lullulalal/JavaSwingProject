@@ -1,0 +1,76 @@
+package client;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
+
+public class ValuerEvaluationsGUI extends JFrame{
+
+	private JButton btn_insert;
+	private JButton btn_cancel;
+	private JComboBox comboBox;
+	private JComboBox comboBox_1;
+	private JTextField textField;
+	
+	public ValuerEvaluationsGUI() {
+		this.setBounds(525,150,300, 500);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		north();
+		south();
+		
+		this.setVisible(true);
+	}
+	
+	public void south(){
+		JPanel south = new JPanel();
+		getContentPane().add(south, BorderLayout.SOUTH);
+		
+		btn_insert = new JButton("insert");
+		south.add(btn_insert);
+		
+		btn_cancel = new JButton("cancel");
+		south.add(btn_cancel);
+	}
+	
+	public void north(){
+		JPanel north = new JPanel();
+		getContentPane().add(north, BorderLayout.NORTH);
+		north.setLayout(new GridLayout(3,0));
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"\uC11C\uC6B8\uD2B9\uBCC4\uC2DC"}));
+		north.add(comboBox);
+		
+		comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"\uAC15\uB0A8\uAD6C", "\uAD00\uC545\uAD6C"}));
+		north.add(comboBox_1);
+		
+		textField = new JTextField();
+		north.add(textField);
+		textField.setColumns(10);
+		
+		
+	}
+	
+	class Action implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new ValuerEvaluationsGUI();
+	}
+
+}

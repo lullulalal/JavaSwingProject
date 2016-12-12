@@ -1,0 +1,84 @@
+package client;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+public class insertUserEvaluations extends JFrame{
+	private JButton score5;
+	private JButton score4;
+	private JButton score3;
+	private JButton score2;
+	private JButton score1;
+	private JButton btn_insert;
+	private JButton btn_cancel;
+	
+	public insertUserEvaluations() {
+		this.setBounds(500, 200, 250, 270);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		north();
+		south();
+		center();
+		this.setVisible(true);
+	}
+	
+	public void north(){
+		JPanel north = new JPanel();
+		getContentPane().add(north, BorderLayout.NORTH);
+		north.setLayout(new GridLayout(0,5));
+
+		score5 = new JButton("5");
+		north.add(score5);
+		
+		score4 = new JButton("4");
+		north.add(score4);
+		
+		score3 = new JButton("3");
+		north.add(score3);
+		
+		score2 = new JButton("2");
+		north.add(score2);
+		
+		score1 = new JButton("1");
+		north.add(score1);
+	}
+	
+	public void center(){
+		JScrollPane scroll = new JScrollPane();
+		JTextArea comments = new JTextArea();
+		scroll.setViewportView(comments);
+		this.add(scroll, BorderLayout.CENTER);
+	}
+	
+	public void south(){
+		JPanel south = new JPanel();
+		this.add(south,BorderLayout.SOUTH);
+		
+		btn_insert = new JButton("insert");
+		btn_cancel = new JButton("cancel");
+		south.add(btn_insert);
+		south.add(btn_cancel);	
+	}
+	
+	class Action implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		new insertUserEvaluations();
+	}
+}

@@ -1,0 +1,22 @@
+package client;
+
+import javax.swing.JFrame;
+
+public class ValuerEvaluationsGUI extends JFrame{
+
+	public ValuerEvaluationsGUI() {
+		this.setSize(300, 500);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		
+		this.setVisible(true);
+		
+	
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		new ValuerEvaluationsGUI();
+	}
+
+}
