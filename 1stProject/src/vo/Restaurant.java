@@ -1,10 +1,11 @@
 package vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class Restaurant {
+public class Restaurant implements Serializable{
 	
 	private String restaurantName;
 	private String price;
