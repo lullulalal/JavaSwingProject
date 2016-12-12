@@ -1,6 +1,8 @@
 package vo;
 
-public class Evaluation {
+import java.io.Serializable;
+
+public class Evaluation implements Serializable{
 	
 	private double taste;
 	private double service;

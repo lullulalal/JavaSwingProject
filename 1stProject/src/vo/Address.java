@@ -1,6 +1,8 @@
 package vo;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable{
 
 	private String sido;
 	private String sigungu;

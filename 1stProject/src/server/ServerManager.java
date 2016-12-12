@@ -124,7 +124,6 @@ public class ServerManager implements Interface{
 			t[2] = test;
 			
 			if(test > 0)
-				
 				stb.append(" and");
 			
 			stb.append(" average_score>=?");
@@ -446,13 +445,13 @@ public class ServerManager implements Interface{
 			Restaurant restaurant = restaurants.get(randomNum);
 
 			Object[] data = new Object[4];
-			
-			data[0] = "replyRestaurant";
-			data[1] = restaurant;
-			data[2] = member;
+			data[0] = 0;
+			data[1] = "replyRestaurant";
+			data[2] = restaurant;
+			data[3] = member;
 			Member from = new Member();
 			from.setId("¿Ü°èÀÎ »ß·ç»×»×");
-			data[3] = from; 
+			data[4] = from; 
 			
 			ObjectOutputStream toOos = userList.get(member.getId());
 			
@@ -464,16 +463,17 @@ public class ServerManager implements Interface{
 		}
 		else{
 			Object[] data = new Object[3];
-			data[0] = "askRestaurant";
-			data[1] = category;
-			data[2] = member;
+			data[0] = 0;
+			data[1] = "askRestaurant";
+			data[2] = category;
+			data[3] = member;
 			
 			for(Map.Entry<String, ObjectOutputStream> entry : userList.entrySet()) {
 			    //String key = entry.getKey();
-			    ObjectOutputStream oos = entry.getValue();
+			    ObjectOutputStream toOos = entry.getValue();
 			    try {
-					oos.writeObject(data);
-					oos.reset();
+			    	toOos.writeObject(data);
+			    	toOos.reset();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -484,11 +484,11 @@ public class ServerManager implements Interface{
 	@Override
 	public void replyRestaurant( Restaurant restaurant, Member to, Member from) {
 		Object[] data = new Object[4];
-		
-		data[0] = "replyRestaurant";
-		data[1] = restaurant;
-		data[2] = to;
-		data[3] = from;
+		data[0] = 0;
+		data[1] = "replyRestaurant";
+		data[2] = restaurant;
+		data[3] = to;
+		data[4] = from;
 		
 		ObjectOutputStream toOos = userList.get(to.getId());
 	
