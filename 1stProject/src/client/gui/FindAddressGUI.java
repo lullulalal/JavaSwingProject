@@ -1,7 +1,8 @@
-package client;
+package client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,16 +13,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-
+import client.ClientManager;
+import client.ClientReceiver;
 import vo.Address;
-import java.awt.FlowLayout;
 
 public class FindAddressGUI extends JDialog {
 

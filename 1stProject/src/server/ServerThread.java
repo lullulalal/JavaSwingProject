@@ -15,11 +15,11 @@ public class ServerThread implements Runnable {
 
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-	private ServerManager manager = new ServerManager(oos);
+	private ServerManager manager; 
 	public ServerThread(ObjectInputStream ois, ObjectOutputStream oos) {
 		this.ois = ois;
 		this.oos = oos;
-		
+		manager = new ServerManager(oos);
 	}
 
 	@Override
@@ -35,19 +35,29 @@ public class ServerThread implements Runnable {
 					oos.writeObject(testResponse);
 					break;
 					
+				case "check":
+					Object[] checkResponse = {protocol[0], proto, 
+							ServerManager.RESTAURANTS_UPDATE_COUNTER,
+							ServerManager.STANBY_UPDATE_COUNTER};
+					System.out.println("server - check test");
+					oos.writeObject(checkResponse);
+					break;	
+					
 				case "join":
 					Member member1 = (Member) protocol[2];
 					boolean rstJoin = manager.join(member1);
-					
+					System.out.println(rstJoin);
 					Object[] joinResponse = {protocol[0], proto, rstJoin};
+					System.out.println("여기서");
 					oos.writeObject(joinResponse);
+					System.out.println("요기서");
 					break;
 
 				case "login":
 					Member member2 = (Member) protocol[2];
-					boolean rstLogin = manager.login(member2);
+					member2 = manager.login(member2);
 					
-					Object[] loginResponse = {protocol[0], proto, rstLogin};
+					Object[] loginResponse = {protocol[0], proto, member2};
 					oos.writeObject(loginResponse);
 					break;
 
@@ -60,9 +70,11 @@ public class ServerThread implements Runnable {
 					break;
 					
 				case "showList":
+					System.out.println("haha");
 					Category category1 = (Category) protocol[2];
 					int showNum = (int) protocol[3];
-					ArrayList<Restaurant> rList = manager.showList(category1, showNum);
+					String table = (String) protocol[4];
+					ArrayList<Restaurant> rList = manager.showList(category1, showNum, table);
 					
 					Object[] showListResponse = {protocol[0], proto, rList};
 					oos.writeObject(showListResponse);

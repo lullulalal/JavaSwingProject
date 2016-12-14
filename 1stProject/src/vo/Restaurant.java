@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class Restaurant implements Serializable{
-	
+
 	private String restaurantName;
 	private String price;
 	private String operationHour;
@@ -29,7 +29,6 @@ public class Restaurant implements Serializable{
 		this.images = images;
 		this.userEvaluations = userEvaluations;
 		this.menu = menu;
-		
 		this.recommendNum = recommendNum;
 		this.recommender = recommender;
 	}

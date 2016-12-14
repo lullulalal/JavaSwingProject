@@ -9,25 +9,18 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import client.gui.MainGui;
+
 public class ClientReceiver implements Runnable{
 	
 	public static int MAIN_GUI_ID = 0; 
 	private static int guiId = 1;
 	private static ConcurrentHashMap<Integer, LinkedBlockingQueue<Object>> guiReceiveQlist= new ConcurrentHashMap<>();
 
-	MainGui gui;
-	UserEvaluationsGUI userEvaluation;
-	InsertRestaurantsGUI insertRestaurant;
-	FindAddressGUI findAddress;
-	RecommendGUI recommend;
-	RandomRecommGUI randomRecomm;
+//	MainGui gui;
 	
 	public ClientReceiver(){
-		//findAddress = new FindAddressGUI();
-		//userEvaluation = new UserEvaluationsGUI();
-		//insertRestaurant = new InsertRestaurantsGUI();
-		//recommend = new RecommendGUI();
-		//randomRecomm = new randomRecommGUI(String area, String type, double score);
+	//	gui = new MainGui();
 	}
 	
 	public static int getGuiID(){
@@ -57,9 +50,9 @@ public class ClientReceiver implements Runnable{
 					ObjectInputStream ois = new ObjectInputStream(client.getInputStream())){
 					
 					System.out.println("서버 연결 성공~!");
-					//mainGui.connected(oos);
 					ClientManager.setOos(oos);
-					//gui.test();
+					MainGui gui = new MainGui();
+					//gui.connected();
 					while(true){
 						try {
 							Object responseData = ois.readObject();

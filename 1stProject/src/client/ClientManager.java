@@ -44,8 +44,8 @@ public class ClientManager  {
 		request(sendData);
 	}
 
-	public void showList(int guiId, Category category, int num) {
-		Object[] sendData = {guiId, "showList", category, num};
+	public void showList(int guiId, Category category, int num, String table) {
+		Object[] sendData = {guiId, "showList", category, num, table};
 		request(sendData);
 	}
 
@@ -72,6 +72,11 @@ public class ClientManager  {
 	public void test(){
 		Object[] data = {0, "test"};
 		request(data);
+	}
+	
+	public void checkStatement(int guiId){
+		Object[] sendData = {guiId, "check"};
+		request(sendData);
 	}
 	
 	private void request(Object data){

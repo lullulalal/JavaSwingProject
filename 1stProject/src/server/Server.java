@@ -20,7 +20,6 @@ public class Server {
 				System.out.println("서버실행");
 				client = server.accept();
 				ois = new ObjectInputStream(client.getInputStream());
-				
 				oos = new ObjectOutputStream(client.getOutputStream());
 				st = new ServerThread(ois, oos);
 				Thread thread = new Thread(st);
