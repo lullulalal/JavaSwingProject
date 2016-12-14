@@ -1,0 +1,12 @@
+package client;
+
+public class ClientMain {
+
+	public static void main(String[] args) {
+		Runnable comm = new ClientReceiver();
+		if (comm != null){
+			new Thread(comm).start();
+		}
+	}
+
+}

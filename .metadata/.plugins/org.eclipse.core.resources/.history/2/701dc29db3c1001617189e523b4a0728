@@ -1,0 +1,44 @@
+package client;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Config implements Serializable{
+
+	private static Config instance = new Config();
+
+	private Config(){
+		ObjectInputStream oos = new ObjectInputStream(new FileInputSteam(CONIG_PATH))
+	}
+
+	public static Config getInstance(){
+		return instance;
+	}
+
+	private static String CONIG_PATH = "config.dat";
+	private boolean onAutoLogin;
+	
+	public boolean getAutoLoginConig(){
+		return onAutoLogin;
+	}
+	
+	public void setAutoLoginConig(boolean state){
+		onAutoLogin = state;
+		saveConfig();
+	}
+	
+	private void saveConfig(){
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CONIG_PATH));) {
+			oos.writeObject(instance);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+}

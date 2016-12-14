@@ -1,0 +1,13 @@
+package client;
+
+import vo.Member;
+
+public class LoginStatement {
+	private Member loginUser;
+	
+	public LoginStatement(){
+		if(loginUser == null){
+			
+		}
+	}
+}

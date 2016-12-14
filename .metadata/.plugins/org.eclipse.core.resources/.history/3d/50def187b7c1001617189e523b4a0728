@@ -1,0 +1,66 @@
+package client;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+import vo.Member;
+
+public class Config implements Serializable{
+
+	private static Config instance = new Config();
+
+	private Config(){
+		try(ObjectInputStream oos = new ObjectInputStream(new FileInputStream(CONIG_PATH));) {
+			instance = (Config) oos.readObject();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static Config test(){
+		Sytem.out.println("test");
+	}
+	public static Config getInstance(){
+		return instance;
+	}
+
+	private static String CONIG_PATH = "config.dat";
+	
+	private boolean onAutoLogin;
+	private Member autoLoginUser;
+	
+	public boolean getAutoLoginConig(){
+		return onAutoLogin;
+	}
+	
+	public void setAutoLoginConig(boolean state){
+		onAutoLogin = state;
+	}
+	
+	public Member getAutoLoginUser() {
+		return autoLoginUser;
+	}
+
+	public void setAutoLoginUser(Member autoLoginUser) {
+		this.autoLoginUser = autoLoginUser;
+	}
+
+	public void saveConfig(){
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(CONIG_PATH));) {
+			oos.writeObject(instance);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,6 +1,8 @@
 package vo;
 
-public class Member {
+import java.io.Serializable;
+
+public class Member implements Serializable{
 	
 	private String id;
 	private String password;
@@ -17,6 +19,10 @@ public class Member {
 		this.name = name;
 		this.permission = permission;
 		this.birth = birth;
+	}
+	
+	public Member() {
+		
 	}
 
 	public String getName() {

@@ -1,0 +1,13 @@
+package client;
+
+import vo.Member;
+
+public class LoginStatement {
+	private static Member loginUser = new Member();
+	
+	
+	
+	
+	
+	
+}

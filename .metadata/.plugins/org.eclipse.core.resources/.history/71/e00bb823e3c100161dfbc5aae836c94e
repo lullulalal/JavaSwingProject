@@ -1,0 +1,102 @@
+package client.gui;
+
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class JoinGui extends JDialog implements ActionListener {
+	private static final int WIDTH = 300;
+	private static final int HEIGHT = 330;
+	private JTextField tf_id;
+	private JPasswordField tf_pwd;
+	private JTextField tf_name;
+	private JTextField tf_birth;
+	
+	public JoinGui(MainGui gui){
+		super(gui, Dialog.ModalityType.APPLICATION_MODAL);
+		
+		this.setSize(WIDTH, HEIGHT);
+		
+		Font font = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 14);
+		
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 292, 292);
+		panel.setBackground(new Color(255, 255, 255));
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		tf_id = new JTextField();
+		tf_id.setBounds(103, 72, 123, 21);
+		panel.add(tf_id);
+		tf_id.setColumns(10);
+		
+		tf_pwd = new JPasswordField();
+		tf_pwd.setBounds(103, 103, 123, 21);
+		panel.add(tf_pwd);
+		tf_pwd.setColumns(10);
+		
+		tf_name = new JTextField();
+		tf_name.setBounds(103, 134, 123, 21);
+		panel.add(tf_name);
+		tf_name.setColumns(10);
+		
+		tf_birth = new JTextField();
+		tf_birth.setBounds(103, 165, 123, 21);
+		panel.add(tf_birth);
+		tf_birth.setColumns(10);
+		
+		
+		
+		Font fontJoinLb = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 25);
+		JLabel lb_join = new JLabel("È¸¿ø°¡ÀÔ");
+		lb_join.setBounds(23, 10, 203, 52);
+		panel.add(lb_join);
+		lb_join.setFont(fontJoinLb);
+		
+		JButton btn_ok = new JButton("\uD655\uC778");
+		btn_ok.setBounds(96, 205, 50, 25);
+		panel.add(btn_ok);
+		btn_ok.setFont(font);
+		
+		JLabel lb_id = new JLabel("\uC544\uC774\uB514");
+		lb_id.setBounds(23, 72, 57, 15);
+		panel.add(lb_id);
+		lb_id.setFont(font);
+		
+		JLabel lb_pwd = new JLabel("\uBE44\uBC00\uBC88\uD638");
+		lb_pwd.setBounds(23, 104, 57, 15);
+		panel.add(lb_pwd);
+		
+		
+		JLabel lb_name = new JLabel("\uC774   \uB984");
+		lb_name.setBounds(23, 137, 57, 15);
+		panel.add(lb_name);
+		lb_name.setFont(font);
+		
+		JLabel lb_birth = new JLabel("\uC0DD   \uC77C");
+		lb_birth.setBounds(23, 168, 57, 15);
+		panel.add(lb_birth);
+		lb_birth.setFont(font);
+		
+		this.setBounds((int)gui.getLocation().getX() + 40, 
+				(int)gui.getLocation().getY() + 150, WIDTH, HEIGHT);
+		this.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

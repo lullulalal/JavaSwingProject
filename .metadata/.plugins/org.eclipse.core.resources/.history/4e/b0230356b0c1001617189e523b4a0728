@@ -1,0 +1,14 @@
+package client;
+
+import vo.Member;
+
+public final class LoginStatement {
+	private Member loginUser;
+	
+	private LoginStatement(){
+		if(loginUser == null){
+			loginUser = new Member();
+		}
+	}
+	
+}

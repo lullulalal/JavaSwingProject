@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move 2 elements to &apos;1stProject/src/client.gui&apos;&#x0D;&#x0A;- Original project: &apos;1stProject&apos;&#x0D;&#x0A;- Destination element: &apos;1stProject/src/client.gui&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     client.LogInGui.java&#x0D;&#x0A;     client.MainGui.java&#x0D;&#x0A;- Update references to refactored element" description="Move compilation units" destination="/src&lt;client.gui" element1="/src&lt;client{LogInGui.java" element2="/src&lt;client{MainGui.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1481687081724" units="2" version="1.0"/>
+</session>

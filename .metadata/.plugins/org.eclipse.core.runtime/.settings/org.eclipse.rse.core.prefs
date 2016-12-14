@@ -1,3 +1,4 @@
+activeuserprofiles=8\uAC15\uC758\uC2E415\uBC88;Team;equal0-PC
 eclipse.preferences.version=1
-org.eclipse.rse.systemtype.local.systemType.defaultUserId=equal0
-useridperkey=equal0-PC.Local\=equal0;
+org.eclipse.rse.systemtype.local.systemType.defaultUserId=user
+useridperkey=8\uAC15\uC758\uC2E415\uBC88.Local\=user;equal0-PC.Local\=user;

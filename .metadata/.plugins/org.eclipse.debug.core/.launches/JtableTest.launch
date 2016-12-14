@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/수업/JTable/수업/JtableTest.java"/>
+<listEntry value="/Jtable_test/src/JtableTest.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="수업.JtableTest"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="수업"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="JtableTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Jtable_test"/>
 </launchConfiguration>

@@ -1,0 +1,15 @@
+package client;
+
+import vo.Member;
+
+public class LoginStatement {
+	private static LoginStatement loginState = new LoginStatement();
+	
+	private LoginStatement() {};
+	
+	public static Member getInstance(){
+	      return loginUser;
+	}
+	
+	
+}
