@@ -20,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import client.Config;
 import manager.Interface;
 import vo.Address;
 import vo.Category;
@@ -29,6 +30,9 @@ import vo.Restaurant;
 
 public class ServerManager implements Interface{
 
+	public static int RESTAURANTS_UPDATE_COUNTER = 0;
+	public static int STANBY_UPDATE_COUNTER = 0;
+	
 	private ObjectOutputStream oos;
 	private static ConcurrentHashMap<String, ObjectOutputStream> userList = new ConcurrentHashMap<>();
 	
@@ -39,6 +43,7 @@ public class ServerManager implements Interface{
 	public ServerManager() {
 
 	}
+	
 	
 	@Override
 	public boolean join(Member member) {
@@ -52,7 +57,6 @@ public class ServerManager implements Interface{
 			ps.setString(5, member.getBirth());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		} finally {
 			ConnectionManager.close(connection);
@@ -61,34 +65,43 @@ public class ServerManager implements Interface{
 	}
 
 	@Override
-	public boolean login(Member member) {
+	public Member login(Member member) {
 		Connection connection = ConnectionManager.getConnection();
 		try(Statement st = connection.createStatement();) {
 			
-			String sql = "select id, password from users where id = '" + member.getId() 
+			String sql = "select * from users where id = '" + member.getId() 
 							+ "' and password = '" + member.getPassword() + "'";
 			try(ResultSet rs = st.executeQuery(sql);){
 				if(rs.next()){
+					String id = member.getId();
+					System.out.println(id + " " + oos);
 					userList.put(member.getId(), oos);
-					return true;
+					member.setName(rs.getString("name"));
+					member.setBirth(rs.getString("birth"));
+					member.setPermission(rs.getInt("permission"));
+					return member;
 				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		finally{
 			ConnectionManager.close(connection);
 		}
-		return false;
+		return null;
 	}
 
 	@Override
 	public boolean logout(Member member) {
+		System.out.println(member.getId());
 		userList.remove(member.getId());
 		return true;
 	}
 
 	@Override
-	public ArrayList<Restaurant> showList(Category category, int num) {
+	public ArrayList<Restaurant> showList(Category category, int num, String table) {
 
 		ArrayList<Restaurant> showList = new ArrayList<>();
 
@@ -98,10 +111,15 @@ public class ServerManager implements Interface{
 		if (category.getEvaluation() == null && 
 				category.getLocation() == null && 
 				category.getType() == 0){
-			stb = new StringBuilder("select * from restaurants");
+			stb = new StringBuilder("select * from ");
+			stb.append(table);
 		}
-		else
-			stb = new StringBuilder("select * from restaurants where");
+		else {
+			stb = new StringBuilder("select * from ");
+			stb.append(table);
+			stb.append(" where");
+		}
+
 		
 		int[] t = {0, 0, 0};
 		int test = 0;
@@ -110,21 +128,23 @@ public class ServerManager implements Interface{
 			t[0] = test;
 			stb.append(" location like ?");
 		}
+		System.out.println(category.getType());
 		if (category.getType() != 0){
-			test++;
-			t[1] = test;
-			
 			if(test > 0)
 				stb.append(" and");
+			
+			test++;
+			t[1] = test;
 			
 			stb.append(" food_type=?");
 		}
 		if (category.getEvaluation() != null){
-			test++;
-			t[2] = test;
 			
 			if(test > 0)
 				stb.append(" and");
+			
+			test++;
+			t[2] = test;
 			
 			stb.append(" average_score>=?");
 		}
@@ -369,6 +389,7 @@ public class ServerManager implements Interface{
 			ConnectionManager.close(conn);
 		}
 		
+		ServerManager.STANBY_UPDATE_COUNTER++;
 		return true;
 	}
 
@@ -411,7 +432,7 @@ public class ServerManager implements Interface{
 				try(PreparedStatement pstmt = conn.prepareCall(sql)){
 					pstmt.setString(1, restaurant.getCategory().getLocation().toString());
 					pstmt.executeUpdate();
-					
+					RESTAURANTS_UPDATE_COUNTER++;
 				} catch (SQLException e) {
 					e.printStackTrace();
 					return false;
@@ -438,7 +459,7 @@ public class ServerManager implements Interface{
 	public void askRestaurant(Category category, Member member, boolean isRandom) {
 		if (isRandom == true){
 
-			ArrayList<Restaurant> restaurants = showList(category, 0);
+			ArrayList<Restaurant> restaurants = showList(category, 0, Config.RESTAURANT_TABLE);
 			
 			int randomNum = (int)(Math.random() * restaurants.size());
 			
@@ -563,7 +584,7 @@ public class ServerManager implements Interface{
 	}
 	
 	public static void main(String[] args){
-		ServerManager testManager = new ServerManager();
+		//ServerManager testManager = new ServerManager();
 //findAddress test
 		/*Address address = new Address();
 		
@@ -580,9 +601,9 @@ public class ServerManager implements Interface{
 		}*/
 		//-----------------------------------------------------
 //insert test
-		/*Restaurant restaurant = new Restaurant();
+		Restaurant restaurant = new Restaurant();
 
-		restaurant.setRestaurantName("오크우드");
+		restaurant.setRestaurantName("카페테리아");
 		restaurant.setPrice("4500");
 		restaurant.setOperationHour("09:00~17:00");
 		ArrayList<String> menus = new ArrayList<>();
@@ -602,7 +623,7 @@ public class ServerManager implements Interface{
 			sourceimage = new File("d:/test/3.jpg");
 			image = ImageIO.read(sourceimage);
 			images.add(new ImageIcon(image));
-			sourceimage = new File("d:/test/4.jpg");
+			sourceimage = new File("d:/test/3.jpg");
 			image = ImageIO.read(sourceimage);
 			images.add(new ImageIcon(image));
 		} catch (IOException e) {
@@ -612,7 +633,7 @@ public class ServerManager implements Interface{
 		restaurant.setImages(images);
 		Category category = new Category();
 		category.setType(Category.KOREAN);
-		Address address = new Address("(110034) 서울특별시 종로구 자하문로16길 4 (창성동) 02-1111-1111");
+		Address address = new Address("(110035) 서울특별시 종로구 자하문로16길 4 (창성동) 02-1111-1111");
 		category.setLocation(address);
 		Evaluation evaluation= new Evaluation();
 		evaluation.setComment("스고이데스네");
@@ -635,21 +656,21 @@ public class ServerManager implements Interface{
 		recommender.add("equal0");
 		recommender.add("lullulalall");
 		recommender.add("lullulalalll");
-		recommender.add("lullulalallll");
-		restaurant.setRecommender(recommender);*/
+		//recommender.add("lullulalallll");
+		restaurant.setRecommender(recommender);
 		//boolean rst = testManager.insertRestaurant(restaurant);
 		//System.out.println(rst); 
 		
 		//--------------------------------------------------------------
 //recommend test
-		/*restaurant.plusRecommend();
+		restaurant.plusRecommend();
 		restaurant.plusRecommend();
 		restaurant.plusRecommend();
 		Member commentor = new Member();
 		commentor.setId("lullulalallll");
 		commentor.setPermission(2);
-		boolean rst = testManager.recommendRestaurant(restaurant, commentor);
-		System.out.println(rst); */
+		//boolean rst = testManager.recommendRestaurant(restaurant, commentor);
+	//	System.out.println(rst); 
 		
 		//-------------------------------------------------------------
 //evaluateResataurant test
@@ -664,7 +685,10 @@ public class ServerManager implements Interface{
 		commentor.setPermission(2);
 		e.setUser(commentor);
 		System.out.println(testManager.evaluateRestaurant(e, restaurant));*/
-		Category category = new Category();
+
+		//-------------------------------------------------------------	
+//showList test
+	/*	Category category = new Category();
 		category.setType(Category.KOREAN);
 		//
 		Evaluation evaluation = new Evaluation();
@@ -731,6 +755,6 @@ public class ServerManager implements Interface{
 				System.out.println(e1.getUser().getId());
 				System.out.println("============================");
 			}
-		}
+		}*/
 	}
 }

@@ -11,6 +11,7 @@ public class Evaluation implements Serializable{
 	private String comment;
 	private Member user;
 	
+	public static final double ZERO = 0;
 	public static final double ONE = 1;
 	public static final double TWO = 2;
 	public static final double THREE = 3;
@@ -29,6 +30,58 @@ public class Evaluation implements Serializable{
 	
 	public Evaluation(){
 		
+	}
+	
+	public static double getScoreFromStarRate(String star){
+		double score = 0;
+	
+		switch(star){
+		case "�١١١١�":
+			score = ZERO;
+			break;
+		case "�ڡ١١١�":
+			score = ONE;
+			break;
+		case "�ڡڡ١١�":
+			score = TWO;
+			break;
+		case "�ڡڡڡ١�":
+			score = THREE;
+			break;
+		case "�ڡڡڡڡ�":
+			score = FOUR;
+			break;
+		case "�ڡڡڡڡ�":
+			score = FIVE;
+			break;
+		}
+		
+		return score;
+	}
+	
+	public static String getStarRateFromScore(double score){
+		String s_avg = null;
+		switch( (int)Math.round(score) ){
+		case 0:
+			s_avg = "�١١١١�";
+			break;
+		case 1:
+			s_avg = "�ڡ١١١�";
+			break;
+		case 2:
+			s_avg = "�ڡڡ١١�";
+			break;
+		case 3:
+			s_avg = "�ڡڡڡ١�";
+			break;
+		case 4:
+			s_avg = "�ڡڡڡڡ�";
+			break;
+		case 5:
+			s_avg = "�ڡڡڡڡ�";
+			break;
+		}
+		return s_avg;
 	}
 	
 	public double getTaste() {
@@ -67,12 +120,4 @@ public class Evaluation implements Serializable{
 	public void setUser(Member user) {
 		this.user = user;
 	}
-
-	@Override
-	public String toString() {
-		return "Evaluation [taste=" + taste + ", service=" + service + ", hygiene=" + hygiene + ", average=" + average
-				+ ", comment=" + comment + ", user=" + user + "]";
-	}
-	
-	
 }

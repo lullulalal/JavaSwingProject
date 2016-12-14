@@ -1,4 +1,4 @@
-package client;
+package client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import client.ClientManager;
+import client.ClientReceiver;
 import vo.Address;
 import vo.Category;
 import vo.Evaluation;

@@ -1,4 +1,4 @@
-package client;
+package client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -19,7 +19,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +29,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import client.ClientManager;
+import client.ClientReceiver;
 import vo.Address;
 import vo.Category;
 import vo.Evaluation;
