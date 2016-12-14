@@ -21,7 +21,7 @@ public class RandomRecommGUI extends JDialog{
 		
 		this.setSize(320,400);
 
-		
+		//north 라벨띄우기
 		JPanel north = new JPanel();
 		this.add(north, BorderLayout.NORTH);
 		
@@ -32,13 +32,17 @@ public class RandomRecommGUI extends JDialog{
 		north.add(lbl_area);
 		north.add(lbl_score);
 		north.add(lbl_type);
+		
+		//center 간략 소개 띄우기_소개 누르면 레스토랑 상세정보 화면으로
+		
+		//south 다른 추천 받기버튼, 완료버튼
 
 		this.setVisible(true);
 	
 	}
 	
 	public static void main(String[] args) {
-		new RandomRecommGUI("강남구", "중식", 5.0);
+		new RandomRecommGUI("강남구", "중식", 5.0); 
 	}
 	
 }

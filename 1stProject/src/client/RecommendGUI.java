@@ -105,7 +105,9 @@ public class RecommendGUI extends JDialog{
 					score = 5.0;
 				} RandomRecommGUI randomGui = new RandomRecommGUI(area, type, score);
 				randomGui.setVisible(true);
-			}
+			} else if(e.getSource() == btn_user){
+				//현재 접속자들에게 추천요청메시지 broadcast
+			} 
 		}
 		
 	}
