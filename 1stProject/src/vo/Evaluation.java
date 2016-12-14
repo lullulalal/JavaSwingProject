@@ -67,4 +67,12 @@ public class Evaluation implements Serializable{
 	public void setUser(Member user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Evaluation [taste=" + taste + ", service=" + service + ", hygiene=" + hygiene + ", average=" + average
+				+ ", comment=" + comment + ", user=" + user + "]";
+	}
+	
+	
 }

@@ -16,9 +16,18 @@ public class ClientReceiver implements Runnable{
 	private static ConcurrentHashMap<Integer, LinkedBlockingQueue<Object>> guiReceiveQlist= new ConcurrentHashMap<>();
 
 	MainGui gui;
+	UserEvaluationsGUI userEvaluation;
+	InsertRestaurantsGUI insertRestaurant;
+	FindAddressGUI findAddress;
+	RecommendGUI recommend;
+	RandomRecommGUI randomRecomm;
 	
 	public ClientReceiver(){
-		gui = new MainGui();
+		//findAddress = new FindAddressGUI();
+		//userEvaluation = new UserEvaluationsGUI();
+		//insertRestaurant = new InsertRestaurantsGUI();
+		//recommend = new RecommendGUI();
+		//randomRecomm = new randomRecommGUI(String area, String type, double score);
 	}
 	
 	public static int getGuiID(){
@@ -50,7 +59,7 @@ public class ClientReceiver implements Runnable{
 					System.out.println("서버 연결 성공~!");
 					//mainGui.connected(oos);
 					ClientManager.setOos(oos);
-					gui.test();
+					//gui.test();
 					while(true){
 						try {
 							Object responseData = ois.readObject();

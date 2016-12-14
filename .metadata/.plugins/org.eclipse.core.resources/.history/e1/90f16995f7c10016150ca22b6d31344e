@@ -1,0 +1,64 @@
+package client;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import java.awt.Font;
+import javax.swing.JLabel;
+
+public class RecommendGUI extends JDialog{
+	
+	public RecommendGUI() {
+		//super(main, Dialog.ModalityType.APPLICATION_MODAL);
+		this.setSize(320,300);
+		
+		//north 필터
+		JPanel north = new JPanel();
+		getContentPane().add(north,BorderLayout.NORTH);
+		
+		JPanel pnl_area = new JPanel();
+		JComboBox<String> cb_area = new JComboBox<>();
+		cb_area.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
+		cb_area.setModel(new DefaultComboBoxModel<>(new String[] {"지역","강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구",
+						"마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"}));
+		JPanel pnl_type = new JPanel();
+		JComboBox<String> cb_type = new JComboBox<>();
+		cb_type.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
+		cb_type.setModel(new DefaultComboBoxModel<>(new String[] {"종류","한식","중식","일식","양식"}));
+		
+		JPanel pnl_score = new JPanel();
+		JComboBox<String> cb_score = new JComboBox<>();
+		cb_score.setFont(new Font("맑은 고딕", Font.PLAIN, 11));
+		cb_score.setModel(new DefaultComboBoxModel<>(new String[] {"평점","☆☆☆☆★","☆☆☆★★","☆☆★★★","☆★★★★","★★★★★"}));
+		
+		north.add(cb_area);
+		north.add(cb_type);
+		north.add(cb_score);
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		
+		ImageIcon randomImage = new ImageIcon("img/random.png");
+		JLabel lbl_random = new JLabel(randomImage);
+		lbl_random.setBounds(24, 20, 47, 49);
+		panel.add(lbl_random);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBounds(39, 122, 57, 15);
+		panel.add(lblNewLabel_1);
+		
+		//추천방법선택
+		
+		
+		
+		
+		this.setVisible(true);
+	}
+}

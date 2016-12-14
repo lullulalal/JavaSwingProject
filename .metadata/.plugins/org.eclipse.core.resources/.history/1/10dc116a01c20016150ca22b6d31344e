@@ -1,0 +1,22 @@
+package client;
+
+import java.awt.Dialog;
+
+import javax.swing.JDialog;
+
+public class randomRecommGUI extends JDialog{
+
+	public randomRecommGUI(String area, String type, double score) {
+		//super(main, Dialog.ModalityType.APPLICATION_MODAL);
+		
+		
+		
+		this.setSize(320,400);
+		
+		
+		
+		this.setVisible(true);
+	
+	}
+	
+}

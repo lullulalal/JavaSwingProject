@@ -29,6 +29,7 @@ public class Restaurant implements Serializable{
 		this.images = images;
 		this.userEvaluations = userEvaluations;
 		this.menu = menu;
+		
 		this.recommendNum = recommendNum;
 		this.recommender = recommender;
 	}

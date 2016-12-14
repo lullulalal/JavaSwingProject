@@ -35,7 +35,7 @@ public class ClientManager  {
 	}
 
 	public void evaluateRestaurant(int guiId, Evaluation evalauation, Restaurant restaurant) {
-		Object[] sendData = {guiId, "join", evalauation, restaurant};
+		Object[] sendData = {guiId, "evaluate", evalauation, restaurant};
 		request(sendData);
 	}
 

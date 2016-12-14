@@ -19,3 +19,75 @@
 1481467554704	Rename field 'textField'
 1481467690945	Rename local variable 'food_type'
 1481516605963	Rename field 'score_hygiene'
+1481538621747	Rename local variable 'openSuccess'
+1481538931749	Rename type 'ValuerEvaluationsGUI'
+1481538950791	Rename type 'InsertRestaurants'
+1481549844488	Rename field 'score_hygeine'
+1481550080227	Rename local variable 'comments'
+1481550492536	Rename field 'imageList'
+1481607684492	Rename type 'FindAddress'
+1481610222306	Rename local variable 'lbl_btnSearch'
+1481628135760	Rename local variable 'tf_startM'
+1481628161839	Rename local variable 'tf_startH'
+1481636161135	Convert local variable 'ppp' to field
+1481689059389	Rename field 'ppp'
+1481689290301	Rename field 'btnNewButton'
+1481692088246	Convert local variable 'pnl_name' to field
+1481692092210	Convert local variable 'flowLayout' to field
+1481692095292	Convert local variable 'cb_type' to field
+1481692101913	Convert local variable 'lbl_1name' to field
+1481692103749	Convert local variable 'tf_name' to field
+1481692130871	Convert local variable 'pnl_location' to field
+1481692138445	Convert local variable 'btn_location' to field
+1481692145399	Convert local variable 'tf_location' to field
+1481692148855	Convert local variable 'pnl_call' to field
+1481692152079	Convert local variable 'lbl_call' to field
+1481692154615	Convert local variable 'tf_call' to field
+1481692157050	Convert local variable 'tf_call2' to field
+1481692159280	Convert local variable 'tf_call3' to field
+1481692161682	Convert local variable 'lbl_bar' to field
+1481692164326	Convert local variable 'lbl_bar2' to field
+1481692167635	Convert local variable 'pnl_menu' to field
+1481692171110	Convert local variable 'lbl_menu' to field
+1481692173692	Convert local variable 'tf_menu' to field
+1481692177521	Convert local variable 'pnl_time' to field
+1481692184205	Convert local variable 'lbl_time' to field
+1481692187561	Convert local variable 'tf_openH' to field
+1481692190157	Convert local variable 'lbl_colonS' to field
+1481692192427	Convert local variable 'tf_openM' to field
+1481692195216	Convert local variable 'lbl_con' to field
+1481692197485	Convert local variable 'tf_closeH' to field
+1481692199846	Convert local variable 'lbl_colonC' to field
+1481692202300	Convert local variable 'tf_closeM' to field
+1481692206436	Convert local variable 'pnl_price' to field
+1481692209914	Convert local variable 'lbl_price' to field
+1481692220226	Convert local variable 'tf_startP' to field
+1481692224468	Convert local variable 'lbl_won1' to field
+1481692226939	Convert local variable 'lbl_conP' to field
+1481692230415	Convert local variable 'tf_endP' to field
+1481692233136	Convert local variable 'lbl_won2' to field
+1481692236841	Convert local variable 'pnl_score' to field
+1481692240369	Convert local variable 'cb_taste' to field
+1481692243735	Convert local variable 'cb_service' to field
+1481692246053	Convert local variable 'cb_hygiene' to field
+1481692249374	Convert local variable 'lbl_comments' to field
+1481692262494	Convert local variable 'imagePanel' to field
+1481703018303	Rename local variable 'flowLayout_3'
+1481717154442	Delete element
+1481717631780	Delete elements
+1481718127467	Rename local variable 'lblNewLabel_1'
+1481718498667	Rename local variable 'btnNewButton'
+1481718818638	Rename local variable 'btnNewButton'
+1481721391632	Convert local variable 'north' to field
+1481721394437	Convert local variable 'pnl_area' to field
+1481721396922	Convert local variable 'pnl_type' to field
+1481721399594	Convert local variable 'pnl_score' to field
+1481721402296	Convert local variable 'cb_area' to field
+1481721404621	Convert local variable 'cb_type' to field
+1481721407469	Convert local variable 'cb_score' to field
+1481721416445	Convert local variable 'panel' to field
+1481721418667	Convert local variable 'lbl_random' to field
+1481721421680	Convert local variable 'lbl_user' to field
+1481721423809	Convert local variable 'btn_random' to field
+1481721426170	Convert local variable 'btn_user' to field
+1481722341822	Rename type 'randomRecommGUI'
