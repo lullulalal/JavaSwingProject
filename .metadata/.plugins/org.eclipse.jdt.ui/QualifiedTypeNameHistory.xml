@@ -54,10 +54,10 @@
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
-<fullyQualifiedTypeName name="client.gui.AskRestaurant"/>
 <fullyQualifiedTypeName name="client.ClientReceiver"/>
 <fullyQualifiedTypeName name="client.Config"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="client.gui.AskRestaurant.Handler"/>
+<fullyQualifiedTypeName name="client.gui.AskRestaurant"/>
 </qualifiedTypeNameHistroy>
