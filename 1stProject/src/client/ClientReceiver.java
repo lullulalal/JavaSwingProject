@@ -16,8 +16,6 @@ public class ClientReceiver implements Runnable{
 	public static int MAIN_GUI_ID = 0; 
 	private static int guiId = 1;
 	private static ConcurrentHashMap<Integer, LinkedBlockingQueue<Object>> guiReceiveQlist= new ConcurrentHashMap<>();
-
-//	MainGui gui;
 	
 	public ClientReceiver(){
 	//	gui = new MainGui();

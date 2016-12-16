@@ -29,7 +29,6 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.sql.Timestamp"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
-<fullyQualifiedTypeName name="vo.Evaluation"/>
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="java.awt.event.MouseEvent"/>
@@ -37,11 +36,16 @@
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
 <fullyQualifiedTypeName name="client.LogInGui"/>
 <fullyQualifiedTypeName name="client.Config"/>
-<fullyQualifiedTypeName name="client.LoginStatement"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
-<fullyQualifiedTypeName name="vo.Member"/>
-<fullyQualifiedTypeName name="client.ClientReceiver"/>
 <fullyQualifiedTypeName name="javax.swing.Timer"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="javax.swing.text.AttributeSet"/>
+<fullyQualifiedTypeName name="java.awt.event.MouseListener"/>
+<fullyQualifiedTypeName name="vo.Category"/>
+<fullyQualifiedTypeName name="javax.swing.JTabbedPane"/>
+<fullyQualifiedTypeName name="vo.Evaluation"/>
+<fullyQualifiedTypeName name="vo.Member"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="client.LoginStatement"/>
+<fullyQualifiedTypeName name="client.ClientReceiver"/>
 </qualifiedTypeNameHistroy>

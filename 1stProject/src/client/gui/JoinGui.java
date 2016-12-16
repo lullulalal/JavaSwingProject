@@ -19,6 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 import client.ClientManager;
 import client.ClientReceiver;
@@ -40,8 +43,8 @@ public class JoinGui extends JDialog implements ActionListener {
 	private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 	
 	private ClientManager manager = new ClientManager();
-	private JTextField month;
-	private JTextField day;
+	private JTextField tf_month;
+	private JTextField tf_day;
 	
 	public JoinGui(MainGui gui){
 		
@@ -52,7 +55,6 @@ public class JoinGui extends JDialog implements ActionListener {
 		this.setSize(WIDTH, HEIGHT);
 		
 		Font font = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 12);
-		
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 292, 292);
@@ -79,7 +81,7 @@ public class JoinGui extends JDialog implements ActionListener {
 		tf_year.setBounds(103, 165, 32, 21);
 		panel.add(tf_year);
 		tf_year.setColumns(10);
-		
+		tf_year.setDocument((new JTextFieldLimit(2)));
 		
 		
 		Font fontJoinLb = new Font("³ª´®¹Ù¸¥°íµñ", Font.PLAIN, 25);
@@ -114,15 +116,17 @@ public class JoinGui extends JDialog implements ActionListener {
 		panel.add(lb_birth);
 		lb_birth.setFont(font);
 		
-		month = new JTextField();
-		month.setColumns(10);
-		month.setBounds(148, 165, 32, 21);
-		panel.add(month);
+		tf_month = new JTextField();
+		tf_month.setColumns(10);
+		tf_month.setBounds(148, 165, 32, 21);
+		panel.add(tf_month);
+		tf_month.setDocument((new JTextFieldLimit(2)));
 		
-		day = new JTextField();
-		day.setColumns(10);
-		day.setBounds(194, 165, 32, 21);
-		panel.add(day);
+		tf_day = new JTextField();
+		tf_day.setColumns(10);
+		tf_day.setBounds(194, 165, 32, 21);
+		panel.add(tf_day);
+		tf_day.setDocument((new JTextFieldLimit(2)));
 		
 		this.setBounds((int)gui.getLocation().getX() + 40, 
 				(int)gui.getLocation().getY() + 150, WIDTH, HEIGHT);
@@ -135,7 +139,12 @@ public class JoinGui extends JDialog implements ActionListener {
 			String id = tf_id.getText();
 			String pwd = new String(tf_pwd.getPassword());
 			String name = tf_name.getText();
-			String birth = tf_year.getText();
+			String birth = tf_year.getText() + "/" + tf_month.getText() + "/" +tf_day.getText();
+			
+			if( "".equals(tf_year.getText()) ||
+					"".equals(tf_month.getText()) ||
+					"".equals(tf_day.getText()))
+				return;
 			
 			if( !"".equals(id) && !"".equals(pwd) &&
 				!"".equals(name) && !"".equals(birth)	){
@@ -194,6 +203,35 @@ public class JoinGui extends JDialog implements ActionListener {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	
+	class JTextFieldLimit extends PlainDocument {
+		private int limit;
+		private boolean toUppercase = false;
+
+		JTextFieldLimit(int limit) {
+			super();
+			this.limit = limit;
+		}
+
+		JTextFieldLimit(int limit, boolean upper) {
+			super();
+			this.limit = limit;
+			this.toUppercase = upper;
+		}
+
+		public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+			if (str == null) {
+				return;
+			}
+
+			if ( (getLength() + str.length()) <= limit) {
+				if (toUppercase) {
+					str = str.toUpperCase();
+				}
+				super.insertString(offset, str, attr);
 			}
 		}
 	}
