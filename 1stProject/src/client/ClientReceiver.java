@@ -55,6 +55,7 @@ public class ClientReceiver implements Runnable{
 					//gui.connected();
 					while(true){
 						try {
+							System.out.println("readObject!");
 							Object responseData = ois.readObject();
 							int gid = (int)(((Object[])responseData)[0]);
 							LinkedBlockingQueue<Object> q = guiReceiveQlist.get(gid);

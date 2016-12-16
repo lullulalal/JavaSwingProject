@@ -3,13 +3,16 @@ package client.gui;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -45,6 +48,7 @@ public class FindAddressGUI extends JDialog {
 	private JPanel south;
 	private JButton btn_complete;
 	private JButton btn_cancel;
+	private Font font;
 
 	private int guiId = ClientReceiver.getGuiID();
 	private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
@@ -64,6 +68,7 @@ public class FindAddressGUI extends JDialog {
 		
 		this.setTitle("상세주소검색");
 		this.setSize(320, 400);
+		font = new Font("나눔바른고딕",Font.PLAIN, 12);
 		//this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 
 		// north
@@ -75,10 +80,12 @@ public class FindAddressGUI extends JDialog {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		si = new JComboBox<>();
 		si.setModel(new DefaultComboBoxModel<>(new String[] { "서울특별시" }));
+		si.setFont(font);
 		gu = new JComboBox<>();
 		gu.setModel(new DefaultComboBoxModel<>(
 				new String[] { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구",
 						"마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구" }));
+		gu.setFont(font);
 		pnl_sigu.add(si);
 		pnl_sigu.add(gu);
 
@@ -86,8 +93,16 @@ public class FindAddressGUI extends JDialog {
 		FlowLayout flowLayout_1 = (FlowLayout) pnl_search.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		lbl_search = new JLabel("도로명");
+		lbl_search.setFont(new Font("나눔고딕",Font.BOLD, 14));
 		tf_search = new JTextField(14);
-		btn_search = new JButton("검색");
+		tf_search.setFont(font);
+		
+		ImageIcon getImage = new ImageIcon("img/mimi.png");
+		Image getIcon = getImage.getImage().getScaledInstance(13, 13, Image.SCALE_DEFAULT);
+		ImageIcon icon = new ImageIcon(getIcon);
+		
+		btn_search = new JButton(getImage);
+		
 		pnl_search.add(lbl_search);
 		pnl_search.add(tf_search);
 		pnl_search.add(btn_search);

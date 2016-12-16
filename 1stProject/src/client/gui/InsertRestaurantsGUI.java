@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -31,6 +32,7 @@ import javax.swing.SwingConstants;
 
 import client.ClientManager;
 import client.ClientReceiver;
+import client.LoginStatement;
 import vo.Address;
 import vo.Category;
 import vo.Evaluation;
@@ -44,7 +46,6 @@ public class InsertRestaurantsGUI extends JFrame {
 	private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 	private ClientManager manager = new ClientManager();
 	
-	
 	private JButton btn_insert;
 	private JButton btn_cancel;
 	private JPanel center;
@@ -52,7 +53,6 @@ public class InsertRestaurantsGUI extends JFrame {
 	private JPanel panel;
 	private JButton btn_open;
 	private JFileChooser openFile;
-	private JTextField menu;
 	private ImageIcon icon;
 	private JTextArea tf_comments;
 	private ArrayList<ImageIcon> images = new ArrayList<>();
@@ -80,6 +80,9 @@ public class InsertRestaurantsGUI extends JFrame {
 	private JPanel pnl_menu;
 	private JLabel lbl_menu;
 	private JTextField tf_menu;
+	private JTextField tf_menu2;
+	private JTextField tf_menu3;
+	private JTextField tf_menu4;
 	private JPanel pnl_time;
 	private JLabel lbl_time;
 	private JTextField tf_openH;
@@ -102,13 +105,19 @@ public class InsertRestaurantsGUI extends JFrame {
 	private JComboBox<String> cb_hygiene;
 	private JLabel lbl_comments;
 	private JPanel imagePanel;
+	private Font font;
+	private Font font2;
 
 	public InsertRestaurantsGUI() {
 		ClientReceiver.addQueue(guiId, queue);
 		new Thread(new Handler(this)).start();
 
 		this.setSize(350, 650);
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+
+		font = new Font("나눔고딕",Font.BOLD, 12);
+		font2 = new Font("나눔바른고딕", Font.PLAIN, 12);
+		
 		north();
 		south();
 		center();
@@ -129,16 +138,10 @@ public class InsertRestaurantsGUI extends JFrame {
 					Object[] receive = (Object[]) queue.take();
 					String proto = (String) receive[1];
 					switch (proto) {
-					case "insert":
-						boolean result = (boolean) receive[2];
-						if (result) {
-							JOptionPane.showMessageDialog(gui, "등록성공");
-						} else
-							JOptionPane.showMessageDialog(gui, "등록실패");
+
 					case "exit":
 						if (gui != null) {
 							gui.dispose();
-							System.exit(0);
 						}
 						return;
 					}
@@ -154,10 +157,12 @@ public class InsertRestaurantsGUI extends JFrame {
 		getContentPane().add(south, BorderLayout.SOUTH);
 
 		btn_insert = new JButton("insert");
+		btn_insert.setFont(font);
 		south.add(btn_insert);
 		btn_insert.addActionListener(new Action());
 
 		btn_cancel = new JButton("cancel");
+		btn_cancel.setFont(font);
 		south.add(btn_cancel);
 		btn_cancel.addActionListener(new Action());
 	}
@@ -168,12 +173,16 @@ public class InsertRestaurantsGUI extends JFrame {
 		getContentPane().add(north, BorderLayout.NORTH);
 
 		pnl_name = new JPanel();
+		//pnl_name.setBackground(new Color(252, 146, 83));
 		flowLayout = (FlowLayout) pnl_name.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		cb_type = new JComboBox<>();
-		cb_type.setModel(new DefaultComboBoxModel<>(new String[] { "한식", "중식", "일식", "양식" }));
+		cb_type.setModel(new DefaultComboBoxModel<>(new String[] { "한 식", "중 식", "일 식", "양 식" }));
+		cb_type.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
 		lbl_name = new JLabel("상호명 ");;
+		lbl_name.setFont(font);
 		tf_name = new JTextField(14);
+		tf_name.setFont(font2);
 		pnl_name.add(cb_type);
 		pnl_name.add(lbl_name);
 		pnl_name.add(tf_name);
@@ -182,8 +191,9 @@ public class InsertRestaurantsGUI extends JFrame {
 		FlowLayout flowLayout_4 = (FlowLayout) pnl_location.getLayout();
 		flowLayout_4.setAlignment(FlowLayout.LEFT);
 		btn_location = new JButton("주소찾기");
+		btn_location.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
 		tf_location = new JTextField(18);
-		// tf_location.setText(FindAddressGUI.location.toString());
+		tf_location.setFont(font2);
 		pnl_location.add(btn_location);
 		pnl_location.add(tf_location);
 
@@ -191,9 +201,13 @@ public class InsertRestaurantsGUI extends JFrame {
 		FlowLayout flowLayout_5 = (FlowLayout) pnl_call.getLayout();
 		flowLayout_5.setAlignment(FlowLayout.LEFT);
 		lbl_call = new JLabel("전화번호");
+		lbl_call.setFont(font);
 		tf_call = new JTextField(3);
 		tf_call2 = new JTextField(3);
 		tf_call3 = new JTextField(4);
+		tf_call.setFont(font2);
+		tf_call2.setFont(font2);
+		tf_call3.setFont(font2);
 		lbl_bar = new JLabel("-");
 		lbl_bar2 = new JLabel("-");
 		pnl_call.add(lbl_call);
@@ -207,21 +221,38 @@ public class InsertRestaurantsGUI extends JFrame {
 		FlowLayout flowLayout_2 = (FlowLayout) pnl_menu.getLayout();
 		flowLayout_2.setAlignment(FlowLayout.LEFT);
 		lbl_menu = new JLabel("메뉴 ");
-		tf_menu = new JTextField(21);
+		lbl_menu.setFont(font);
+		tf_menu = new JTextField(4);
+		tf_menu2 = new JTextField(4);
+		tf_menu3 = new JTextField(4);
+		tf_menu4 = new JTextField(4);
+		tf_menu.setFont(font2);
+		tf_menu2.setFont(font2);
+		tf_menu3.setFont(font2);
+		tf_menu4.setFont(font2);
 		pnl_menu.add(lbl_menu);
 		pnl_menu.add(tf_menu);
+		pnl_menu.add(tf_menu2);
+		pnl_menu.add(tf_menu3);
+		pnl_menu.add(tf_menu4);
 
 		pnl_time = new JPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) pnl_time.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		lbl_time = new JLabel("영업시간 ");
+		lbl_time.setFont(font);
 		tf_openH = new JTextField(2);
+		tf_openH.setFont(font2);
 		lbl_colonS = new JLabel(":");
 		tf_openM = new JTextField(2);
+		tf_openM.setFont(font2);
 		lbl_con = new JLabel("~");
+		lbl_con.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
 		tf_closeH = new JTextField(2);
+		tf_closeH.setFont(font2);
 		lbl_colonC = new JLabel(":");
 		tf_closeM = new JTextField(2);
+		tf_closeM.setFont(font2);
 		pnl_time.add(lbl_time);
 		pnl_time.add(tf_openH);
 		pnl_time.add(lbl_colonS);
@@ -235,11 +266,17 @@ public class InsertRestaurantsGUI extends JFrame {
 		FlowLayout flowLayout_3 = (FlowLayout) pnl_price.getLayout();
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
 		lbl_price = new JLabel("가격대 ");
+		lbl_price.setFont(font);
 		tf_startP = new JTextField(5);
+		tf_startP.setFont(font2);
 		lbl_won1 = new JLabel("원");
+		lbl_won1.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
 		lbl_conP = new JLabel("~");
+		lbl_conP.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
 		tf_endP = new JTextField(5);
+		tf_endP.setFont(font2);
 		lbl_won2 = new JLabel("원");
+		lbl_won2.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
 		pnl_price.add(lbl_price);
 		pnl_price.add(tf_startP);
 		pnl_price.add(lbl_won1);
@@ -249,15 +286,15 @@ public class InsertRestaurantsGUI extends JFrame {
 
 		pnl_score = new JPanel();
 		cb_taste = new JComboBox<>();
-		cb_taste.setFont(new Font("굴림", Font.PLAIN, 10));
+		cb_taste.setFont(new Font("나눔바른고딕", Font.PLAIN, 11));
 		cb_taste.setModel(
 				new DefaultComboBoxModel<>(new String[] { "맛", "☆☆☆☆★", "☆☆☆★★", "☆☆★★★", "☆★★★★", "★★★★★" }));
 		cb_service = new JComboBox<>();
-		cb_service.setFont(new Font("굴림", Font.PLAIN, 10));
+		cb_service.setFont(new Font("나눔바른고딕", Font.PLAIN, 11));
 		cb_service.setModel(
 				new DefaultComboBoxModel<>(new String[] { "서비스", "☆☆☆☆★", "☆☆☆★★", "☆☆★★★", "☆★★★★", "★★★★★" }));
 		cb_hygiene = new JComboBox<>();
-		cb_hygiene.setFont(new Font("굴림", Font.PLAIN, 10));
+		cb_hygiene.setFont(new Font("나눔바른고딕", Font.PLAIN, 11));
 		cb_hygiene.setModel(
 				new DefaultComboBoxModel<>(new String[] { "청결도", "☆☆☆☆★", "☆☆☆★★", "☆☆★★★", "☆★★★★", "★★★★★" }));
 		pnl_score.add(cb_taste);
@@ -265,6 +302,7 @@ public class InsertRestaurantsGUI extends JFrame {
 		pnl_score.add(cb_hygiene);
 
 		lbl_comments = new JLabel("comments");
+		lbl_comments.setFont(new Font("나눔고딕", Font.BOLD, 14));
 		lbl_comments.setVerticalAlignment(SwingConstants.BOTTOM);
 		lbl_comments.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -292,6 +330,7 @@ public class InsertRestaurantsGUI extends JFrame {
 		// 코멘트박스
 		JScrollPane scroll = new JScrollPane();
 		tf_comments = new JTextArea();
+		tf_comments.setFont(font);
 		scroll.setViewportView(tf_comments);
 		center.add(scroll);
 
@@ -300,6 +339,7 @@ public class InsertRestaurantsGUI extends JFrame {
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
 		lblNewLabel = new JLabel("photo");
+		lblNewLabel.setFont(new Font("나눔고딕",Font.BOLD,14));
 		lblNewLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		imagePanel.add(lblNewLabel, BorderLayout.NORTH);
 
@@ -309,6 +349,7 @@ public class InsertRestaurantsGUI extends JFrame {
 		imagePanel.add(panel, BorderLayout.SOUTH);
 
 		btn_open = new JButton("Open");
+		btn_open.setFont(font);
 		panel.add(btn_open);
 		btn_open.addActionListener(new Action(this));
 
@@ -319,6 +360,7 @@ public class InsertRestaurantsGUI extends JFrame {
 		FlowLayout flowLayout_1 = (FlowLayout) pnl_photobox.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.CENTER);
 		lbl_image = new JLabel("사진을 추가해주세요!");
+		lbl_image.setFont(new Font("나눔바른고딕", Font.PLAIN, 11));
 		pnl_photobox.add(lbl_image);
 		imagePanel.add(pnl_photobox, BorderLayout.CENTER);
 	}
@@ -346,7 +388,6 @@ public class InsertRestaurantsGUI extends JFrame {
 				if (choosedFile == JFileChooser.APPROVE_OPTION) {
 					File file = openFile.getSelectedFile();
 					icon = new ImageIcon(file.getPath());
-					//images.add(icon);
 
 					pnl_photobox.remove(lbl_image);
 					
@@ -364,13 +405,8 @@ public class InsertRestaurantsGUI extends JFrame {
 						public void mouseClicked(MouseEvent e) {
 							super.mouseClicked(e);
 							
-							
 							lbl_imagelist.remove(mapIndex);
 							imageList.remove(mapIndex);
-						//	pnl_photobox=null;
-							//pnl_photobox.repaint();
-							
-							System.out.println("mouse " + lbl_imagelist.size());
 		
 							imagePanel.remove(pnl_photobox);
 							
@@ -379,34 +415,26 @@ public class InsertRestaurantsGUI extends JFrame {
 							flowlayout.setAlignment(FlowLayout.LEFT);
 			
 							imagePanel.add(pnl_ah, BorderLayout.CENTER);
-							//gui.repaint();
-						//	pnl_ah.repaint();
+
 							pnl_photobox = pnl_ah;
 							for(Map.Entry<Integer, JLabel> entry : lbl_imagelist.entrySet()){
 								pnl_photobox.add(entry.getValue());
 							}
 							gui.revalidate();
 							gui.repaint();
-							//
-							//images.remove(o)
 						}
 					});
 					
 					lbl_imagelist.put(imageIndex++, lbl_image);
 					imageList.put(imageIndex++, icon);
-					
 					for(Map.Entry<Integer, JLabel> entry : lbl_imagelist.entrySet()){
 						pnl_photobox.add(entry.getValue());
 					}
-					
-					
 				}
 			}
 			
 			if(e.getSource() == btn_location){
-				System.out.println("생성");
-				FindAddressGUI findAddress = new FindAddressGUI(this, InsertRestaurantsGUI.this);
-				//findAddress.setVisible(true);
+				new FindAddressGUI(this, InsertRestaurantsGUI.this);
 			}
 
 			if (e.getSource() == btn_insert) {
@@ -422,6 +450,7 @@ public class InsertRestaurantsGUI extends JFrame {
 				location.setSigungu(FindAddressGUI.location.getSigungu());
 				location.setStreetName(FindAddressGUI.location.getStreetName());
 				location.setEubmyundong(FindAddressGUI.location.getEubmyundong());
+				location.setDong(FindAddressGUI.location.getDong());
 				location.setBuildPrimaryNo(FindAddressGUI.location.getBuildPrimaryNo());
 				location.setBuildSecondaryNo(FindAddressGUI.location.getBuildSecondaryNo());
 				location.setBuildingName(FindAddressGUI.location.getBuildingName());
@@ -441,53 +470,51 @@ public class InsertRestaurantsGUI extends JFrame {
 				}
 				Double service = 0.0;
 				if (cb_service.getSelectedItem() == "★★★★★") {
-					taste = 5.0;
+					service = 5.0;
 				} else if (cb_service.getSelectedItem() == "☆★★★★") {
-					taste = 4.0;
+					service = 4.0;
 				} else if (cb_service.getSelectedItem() == "☆☆★★★") {
-					taste = 3.0;
+					service = 3.0;
 				} else if (cb_service.getSelectedItem() == "☆☆☆★★") {
-					taste = 2.0;
+					service = 2.0;
 				} else if (cb_service.getSelectedItem() == "☆☆☆☆★") {
-					taste = 1.0;
+					service = 1.0;
 				}
 				Double hygiene = 0.0;
 				if (cb_hygiene.getSelectedItem() == "★★★★★") {
-					taste = 5.0;
+					hygiene = 5.0;
 				} else if (cb_hygiene.getSelectedItem() == "☆★★★★") {
-					taste = 4.0;
+					hygiene = 4.0;
 				} else if (cb_hygiene.getSelectedItem() == "☆☆★★★") {
-					taste = 3.0;
+					hygiene = 3.0;
 				} else if (cb_hygiene.getSelectedItem() == "☆☆☆★★") {
-					taste = 2.0;
+					hygiene = 2.0;
 				} else if (cb_hygiene.getSelectedItem() == "☆☆☆☆★") {
-					taste = 1.0;
+					hygiene = 1.0;
 				}
 				Double average = (taste + service + hygiene) / 3;
 				String comment = tf_comments.getText();
-				Member user = new Member();
-				user.setId("equal0"); // singleton Member class 만들어서 수정해야함
+				Member user = LoginStatement.getLoginUser();
 				Evaluation evaluation = new Evaluation(taste, service, hygiene, average, comment, user);
 				int type = 0;
-				if (cb_type.getSelectedItem() == "한식") {
+				if (cb_type.getSelectedItem() == "한 식") {
 					type = Category.KOREAN;
-				} else if (cb_type.getSelectedItem() == "중식") {
+				} else if (cb_type.getSelectedItem() == "중 식") {
 					type = Category.CHINA;
-				} else if (cb_type.getSelectedItem() == "일식") {
+				} else if (cb_type.getSelectedItem() == "일 식") {
 					type = Category.JAPAN;
-				} else if (cb_type.getSelectedItem() == "양식") {
+				} else if (cb_type.getSelectedItem() == "양 식") {
 					type = Category.WESTERN;
 				}
 				Category category = new Category();
 				category.setLocation(location);
 				category.setEvaluation(evaluation);
 				category.setType(type);
-				String menus = tf_menu.getText();
-				String[] splitedMenus = menus.split(",");
+				String[] splitedMenus = {tf_menu.getText(),tf_menu2.getText(),tf_menu3.getText(),tf_menu4.getText()};
 				ArrayList<String> menuList = new ArrayList<>();
 				for (int i = 0; i < splitedMenus.length; i++) {
 					menuList.add(splitedMenus[i]);
-				} // 스플릿 예외가 발생하지 않도록 처리해야함
+				}
 				restaurant = new Restaurant();
 				restaurant.setRestaurantName(name);
 				restaurant.setCategory(category);
@@ -496,7 +523,8 @@ public class InsertRestaurantsGUI extends JFrame {
 				restaurant.setImages(images);
 				restaurant.setMenu(menuList);
 
-				manager.insertRestaurant(guiId, restaurant);
+				manager.insertRestaurant(ClientReceiver.MAIN_GUI_ID, restaurant);
+				ClientReceiver.deleteQueue(guiId);
 			} else if (e.getSource() == btn_cancel) {
 				ClientReceiver.deleteQueue(guiId);
 			}

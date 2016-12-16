@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 
 import client.ClientManager;
 import client.ClientReceiver;
+import client.LoginStatement;
 import vo.Address;
 import vo.Category;
 import vo.Evaluation;
@@ -70,6 +71,7 @@ public class UserEvaluationsGUI extends JFrame {
 						boolean result = (boolean) receive[2];
 						if(result){
 							JOptionPane.showMessageDialog(gui, "등록완료!");
+							
 							return;
 						}else
 							JOptionPane.showMessageDialog(gui, "한 번만 등록할 수 있습니당");
@@ -171,16 +173,13 @@ public class UserEvaluationsGUI extends JFrame {
 					evaluation.setAverage(1);
 				}
 				if (comments != null) {
-					Member user = new Member();
-					user.setId("lullulalal");
-					evaluation.setUser(user); // Member 싱글톤패턴으로 클래스만들어 사용할 예정
+					Member user = LoginStatement.getLoginUser();
 					evaluation.setComment(comments.getText());
-					
 					Category category = new Category();
+					
 					Address location = new Address("서울특별시 종로구 자하문로12길 4");
 					category.setLocation(location);
-					restaurant.setCategory(category);
-					//레스토랑GUI클래스의 생성자를 호출하여 바로 사용할 예정
+					
 					
 					manager.evaluateRestaurant(guiId, evaluation, restaurant);
 				}

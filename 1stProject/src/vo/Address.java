@@ -49,6 +49,10 @@ public class Address implements Serializable{
 		this.buildPrimaryNo = buildPrimaryNo;
 	}
 
+	public String getDong(){
+		return dong;
+	}
+	
 	public void setDong(String dong) {
 		this.dong = dong;
 	}

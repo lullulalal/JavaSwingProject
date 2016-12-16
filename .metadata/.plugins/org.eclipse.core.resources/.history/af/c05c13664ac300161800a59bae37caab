@@ -1,0 +1,13 @@
+package client.gui;
+
+import javax.swing.JDialog;
+
+import vo.Category;
+import vo.Member;
+
+public class AskRestaurant extends JDialog{
+	
+	public AskRestaurant(Category category, Member member) {
+		// TODO Auto-generated constructor stub
+	}
+}

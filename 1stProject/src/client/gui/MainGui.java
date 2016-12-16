@@ -365,6 +365,18 @@ public class MainGui extends JFrame implements ActionListener{
 									"이미 등록 된 식당 입니다.");
 						}
 						break;
+
+					case "replyRestaurant":
+						Restaurant restaurant = (Restaurant) receive[2];
+						Member requestor = (Member) receive[3];
+						Member member = (Member) receive[4];
+						new ReplyRestaurantGUI(restaurant, requestor, member);
+						break;
+					case "askRestaurant":
+						Category category = (Category) receive[2];
+						Member member2 = (Member) receive[3];
+						new AskRestaurant(category,member2);
+						break;
 	
 					case "check" :
 						if(LoginStatement.getLoginUser() == null)
@@ -437,9 +449,18 @@ public class MainGui extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
+		case "맛집등록":
+			InsertRestaurantsGUI insertGui = new InsertRestaurantsGUI();
+			break;
+			
 		case "대기맛집":
 			lb_new.setText("");
 			manager.showList(guiId, new Category() , 0, Config.STANBY_TABLE);
+			break;
+			
+		case "추천받기":
+			new RecommendGUI(this);
+			
 			break;
 		
 		case "회원가입":

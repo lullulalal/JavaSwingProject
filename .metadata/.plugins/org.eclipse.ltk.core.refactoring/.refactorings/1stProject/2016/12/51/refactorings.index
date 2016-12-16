@@ -91,3 +91,16 @@
 1481721423809	Convert local variable 'btn_random' to field
 1481721426170	Convert local variable 'btn_user' to field
 1481722341822	Rename type 'randomRecommGUI'
+1481786505119	Rename type 'RandomRecommGUI'
+1481790795368	Rename local variable 'recommmend'
+1481816924323	Convert local variable 'north' to field
+1481816929582	Convert local variable 'lbl_message' to field
+1481816933500	Convert local variable 'center' to field
+1481816935538	Convert local variable 'recommend' to field
+1481816938642	Convert local variable 'image' to field
+1481816942709	Convert local variable 'lbl_image' to field
+1481816948298	Convert local variable 'lbl_name' to field
+1481816956751	Convert local variable 'lbl_type' to field
+1481816960310	Convert local variable 'lbl_score' to field
+1481816963393	Convert local variable 'lbl_location' to field
+1481872349273	Rename local variable 'btnNewButton'
