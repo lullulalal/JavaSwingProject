@@ -44,8 +44,8 @@ public class ClientManager  {
 		request(sendData);
 	}
 
-	public void showList(int guiId, Category category, int num, String table) {
-		Object[] sendData = {guiId, "showList", category, num, table};
+	public void showList(int guiId, Category category, int num, String table, Member from) {
+		Object[] sendData = {guiId, "showList", category, num, table, from};
 		request(sendData);
 	}
 

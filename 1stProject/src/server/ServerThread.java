@@ -75,8 +75,8 @@ public class ServerThread implements Runnable {
 					int showNum = (int) protocol[3];
 					String table = (String) protocol[4];
 					ArrayList<Restaurant> rList = manager.showList(category1, showNum, table);
-					
-					Object[] showListResponse = {protocol[0], proto, rList};
+			
+					Object[] showListResponse = {protocol[0], proto, rList,  protocol[5]};
 					oos.writeObject(showListResponse);
 					break;
 				

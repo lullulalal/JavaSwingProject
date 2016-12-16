@@ -2,13 +2,13 @@ package client.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -16,15 +16,12 @@ import javax.swing.JTextArea;
 import client.ClientManager;
 import client.ClientReceiver;
 import client.LoginStatement;
-import vo.Address;
-import vo.Category;
 import vo.Evaluation;
-import vo.Member;
 import vo.Restaurant;
 
-public class UserEvaluationsGUI extends JFrame {
-	private int guiId = ClientReceiver.getGuiID();
-	private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
+public class UserEvaluationsGUI extends JDialog {
+	//private int guiId = ClientReceiver.getGuiID();
+	//private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
 	private ClientManager manager = new ClientManager();
 
 	private JButton score5;
@@ -37,57 +34,20 @@ public class UserEvaluationsGUI extends JFrame {
 	private JButton btn_cancel;
 	private String selected;
 	private Evaluation evaluation = new Evaluation();
-	private Restaurant restaurant = new Restaurant();
+	private Restaurant restaurant;
 
-	public UserEvaluationsGUI() {
-		ClientReceiver.addQueue(guiId, queue);
-		new Thread(new Handler(this)).start();
+	public UserEvaluationsGUI(Restaurant r, JDialog jd) {
+		super(jd, Dialog.ModalityType.APPLICATION_MODAL);		
+		this.restaurant = r;
 
 		this.setBounds(500, 200, 250, 230);
-		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		north();
 		south();
 		center();
 		setScoreButton();
 		this.setVisible(true);
-	}
-
-	private class Handler implements Runnable {
-		JFrame gui;
-
-		public Handler(JFrame gui) {
-			this.gui = gui;
-		}
-
-		@Override
-		public void run() {
-			while (true) {
-				try {
-					Object[] receive = (Object[]) queue.take();
-					String proto = (String) receive[1];
-					switch (proto) {
-					case "evaluate":
-						boolean result = (boolean) receive[2];
-						if(result){
-							JOptionPane.showMessageDialog(gui, "등록완료!");
-							
-							return;
-						}else
-							JOptionPane.showMessageDialog(gui, "한 번만 등록할 수 있습니당");
-						break;
-					case "exit":
-						if (gui != null) {
-							gui.dispose();
-							System.exit(0);
-						}
-						return;
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	public void north() {
@@ -173,18 +133,14 @@ public class UserEvaluationsGUI extends JFrame {
 					evaluation.setAverage(1);
 				}
 				if (comments != null) {
-					Member user = LoginStatement.getLoginUser();
+					evaluation.setUser(LoginStatement.getLoginUser()); // Member 싱글톤패턴으로 클래스만들어 사용할 예정
 					evaluation.setComment(comments.getText());
-					Category category = new Category();
 					
-					Address location = new Address("서울특별시 종로구 자하문로12길 4");
-					category.setLocation(location);
-					
-					
-					manager.evaluateRestaurant(guiId, evaluation, restaurant);
+					manager.evaluateRestaurant(ClientReceiver.MAIN_GUI_ID, evaluation, restaurant);
+					UserEvaluationsGUI.this.dispose();
 				}
 			} else if (e.getSource() == btn_cancel) {
-				ClientReceiver.deleteQueue(guiId);
+				UserEvaluationsGUI.this.dispose();
 			}
 		}
 	}

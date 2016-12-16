@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
@@ -40,12 +41,14 @@ import vo.Member;
 import vo.Restaurant;
 
 public class MainGui extends JFrame implements ActionListener{
+	
+	private static MainGui MAIN_GUI;
+	
 	private static final int LOGOUT = 0;
 	private static final int LOGIN_USER = 1;
 	private static final int LOGIN_VALUER = 2;
 	
 	public static Color MOUSEOVER_COLOR;
-	
 	
 	private int guiId = ClientReceiver.MAIN_GUI_ID;
 	
@@ -96,6 +99,10 @@ public class MainGui extends JFrame implements ActionListener{
 			btn_four.setVisible(true);
 			break;
 		}
+	}
+	
+	public static MainGui getMainGui(){
+		return MAIN_GUI;
 	}
 	
 	public MainGui(){
@@ -179,7 +186,8 @@ public class MainGui extends JFrame implements ActionListener{
 		combo_loc.setPreferredSize( new Dimension( 90, 24 ) );
 		
 		String[] type = {"종  류", Category.S_KOREAN, 
-				Category.S_JAPAN, Category.S_WESTERN};
+				Category.S_JAPAN, Category.S_CHINA, 
+				Category.S_WESTERN};
 		combo_type = new JComboBox(type);
 		p_search.add(combo_type);
 		combo_type.setFont(font);
@@ -208,21 +216,22 @@ public class MainGui extends JFrame implements ActionListener{
 		viewListPanelInit();
 
 		//-----------------------------------------------------------
-		manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE);
+		manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE, null);
 		if(Config.getInstance().getAutoLoginConfig() == true){
 			manager.login(ClientReceiver.MAIN_GUI_ID, Config.getInstance().getAutoLoginUser());
 		}
 		
-		Timer timer = new Timer(20000, new ActionListener(){
+		//Timer timer = new Timer(20000, new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				manager.checkStatement(guiId);
-			}
+		//	@Override
+		//	public void actionPerformed(ActionEvent e) {
+		//		manager.checkStatement(guiId);
+		//	}
 			
-		});
-	//	timer.setInitialDelay(pause);
-		timer.start(); 
+		//});
+	//	timer.start(); 
+		
+		MAIN_GUI = this;
 		
 		buttonSet(LOGOUT);
 		this.pack();
@@ -237,7 +246,7 @@ public class MainGui extends JFrame implements ActionListener{
 		p_in.setPreferredSize( new Dimension( 280 , 300 ) );
 	}
 	
-	private void addRestaurantPanel(Restaurant restaurant) {
+	private void addRestaurantPanel(Restaurant restaurant, Member from) {
 		
 		//boolean alreadyRecommend = false;
 		ArrayList<String> recommenders = 
@@ -331,6 +340,17 @@ public class MainGui extends JFrame implements ActionListener{
 		lb_score.setFont(fontScore);
 		
 		p_restaurant.setBounds(4, 4, 262, 192);
+		
+		p_outerRestaurant.addMouseListener(new MouseAdapter(){
+			Restaurant r = restaurant;
+			Member m = from;
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				//Member from = ;
+				DetailRestaurantGui.getDetailRIfoDlg().addPanel(r, from);
+			}
+		});
+		
 		p_outerRestaurant.add(p_restaurant);
 		p_in.add(p_outerRestaurant);
 		this.pack();
@@ -355,17 +375,6 @@ public class MainGui extends JFrame implements ActionListener{
 						System.out.println("테스트입니다");
 						break;
 						
-					case "insert" :
-						System.out.println("client - insert test");
-						boolean insertRst = (boolean)receive[2];
-						if (insertRst == true){
-							manager.showList(guiId, new Category() , 5, Config.RESTAURANT_TABLE);
-						}else{
-							JOptionPane.showMessageDialog(gui, 
-									"이미 등록 된 식당 입니다.");
-						}
-						break;
-
 					case "replyRestaurant":
 						Restaurant restaurant = (Restaurant) receive[2];
 						Member requestor = (Member) receive[3];
@@ -376,6 +385,41 @@ public class MainGui extends JFrame implements ActionListener{
 						Category category = (Category) receive[2];
 						Member member2 = (Member) receive[3];
 						new AskRestaurant(category,member2);
+						break;
+						
+					case "recommend":
+						
+						boolean recommendRst = (boolean)receive[2];
+						
+						if(recommendRst == true){
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "추천 성공~");
+						}
+						else{
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "한번만 추천 가능 합니다~!");
+						}
+						break;
+					case "evaluate":
+						
+						boolean evaluateRst = (boolean)receive[2];
+						
+						if(evaluateRst == true){
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "등록 성공~");
+						}
+						else{
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "한번만 등록 가능 합니다~!");
+						}
+						
+						break;
+						
+					case "insert" :
+						System.out.println("client - insert test");
+						boolean insertRst = (boolean)receive[2];
+						if (insertRst == true){
+							manager.showList(guiId, new Category() , 5, Config.RESTAURANT_TABLE, null);
+						}else{
+							JOptionPane.showMessageDialog(gui, 
+									"이미 등록 된 식당 입니다.");
+						}
 						break;
 	
 					case "check" :
@@ -404,7 +448,7 @@ public class MainGui extends JFrame implements ActionListener{
 							//}
 							Config.getInstance().saveConfig();
 							gui.setTitle(LoginStatement.getLoginUser().getId());
-							manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE);
+							manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE, null);
 						} else {
 							JOptionPane.showMessageDialog(gui, "아이디 또는 비밀번호가 틀렸습니다.");
 							Config.getInstance().setAutoLoginConfig(false);
@@ -419,7 +463,7 @@ public class MainGui extends JFrame implements ActionListener{
 							ArrayList<Restaurant> rList = (ArrayList<Restaurant>)receive[2];
 							System.out.println(rList.size());
 							for(Restaurant r : rList){
-								addRestaurantPanel(r);
+								addRestaurantPanel(r, (Member)receive[3]);
 							}
 							
 						});
@@ -455,7 +499,7 @@ public class MainGui extends JFrame implements ActionListener{
 			
 		case "대기맛집":
 			lb_new.setText("");
-			manager.showList(guiId, new Category() , 0, Config.STANBY_TABLE);
+			manager.showList(guiId, new Category() , 0, Config.STANBY_TABLE, null);
 			break;
 			
 		case "추천받기":
@@ -472,6 +516,7 @@ public class MainGui extends JFrame implements ActionListener{
 			manager.logout(guiId, LoginStatement.getLoginUser());
 			LoginStatement.setLogOutUser();
 			setTitle("");
+			manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE, null);
 			break;
 			
 		case "로그인":
@@ -501,7 +546,7 @@ public class MainGui extends JFrame implements ActionListener{
 			}
 			searchInfo.setType(Category.getIntFoodType(type));
 			
-			manager.showList(guiId, searchInfo , 0, Config.RESTAURANT_TABLE);
+			manager.showList(guiId, searchInfo , 0, Config.RESTAURANT_TABLE, null);
 			break;
 		}
 		

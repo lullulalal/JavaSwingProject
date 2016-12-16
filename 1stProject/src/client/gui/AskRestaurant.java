@@ -131,8 +131,8 @@ public class AskRestaurant extends JDialog{
 		btn_recomm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				category.getEvaluation().setUser(member);
-				manager.showList(ClientReceiver.MAIN_GUI_ID, category, 0, Config.RESTAURANT_TABLE);
+			//	category.getEvaluation().setUser(member);
+				manager.showList(ClientReceiver.MAIN_GUI_ID, category, 0, Config.RESTAURANT_TABLE, member);
 				dispose();
 				//ClientReceiver.deleteQueue(guiId);
 			}
