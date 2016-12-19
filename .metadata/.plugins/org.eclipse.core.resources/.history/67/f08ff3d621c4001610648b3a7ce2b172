@@ -1,0 +1,9 @@
+package client.gui;
+
+import javax.swing.JDialog;
+
+public class ImagePringDialog extends JDialog{
+	public ImagePringDialog(){
+		
+	}
+}

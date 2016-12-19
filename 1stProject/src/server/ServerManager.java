@@ -215,9 +215,10 @@ public class ServerManager implements Interface{
 					}
 
 					String sql3 = "select eval.id, eval.score, eval.comments from evaluations eval, restaurants rest "
-							+ "where eval.location = rest.location";
+							+ "where eval.location = rest.location and eval.location = ? order by eval.insert_date desc";
 					ArrayList<Evaluation> userEvaluations = new ArrayList<>();
 					try (PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
+						pstmt3.setString(1, location);
 						try (ResultSet rs3 = pstmt3.executeQuery()) {
 							while (rs3.next()) {
 								String userId = rs3.getString("ID");
@@ -273,12 +274,13 @@ public class ServerManager implements Interface{
 					return rtn;
 				}
 				
-				sql = "insert into evaluations values(?, ?, ?, ?)";
+				sql = "insert into evaluations values(?, ?, ?, ?, ?)";
 				try(PreparedStatement pstmt = conn.prepareCall(sql)){
 					pstmt.setString(1, evaluation.getUser().getId());
 					pstmt.setString(2, restaurant.getCategory().getLocation().toString());
 					pstmt.setDouble(3, evaluation.getAverage());
 					pstmt.setString(4, evaluation.getComment());
+					pstmt.setTimestamp(5, new Timestamp(new Date().getTime()));
 					pstmt.executeUpdate();
 					rtn = true;
 				} catch (SQLException e) {
@@ -457,44 +459,48 @@ public class ServerManager implements Interface{
 	
 	@Override
 	public void askRestaurant(Category category, Member member, boolean isRandom) {
-		if (isRandom == true){
+		if (isRandom == true) {
 
 			ArrayList<Restaurant> restaurants = showList(category, 0, Config.RESTAURANT_TABLE);
 			
-			int randomNum = (int)(Math.random() * restaurants.size());
-			
-			Restaurant restaurant = restaurants.get(randomNum);
-
-			Object[] data = new Object[4];
-			data[0] = 0;
-			data[1] = "replyRestaurant";
-			data[2] = restaurant;
-			data[3] = member;
-			Member from = new Member();
-			from.setId("¿Ü°èÀÎ »ß·ç»×»×");
-			data[4] = from; 
-			
-			ObjectOutputStream toOos = userList.get(member.getId());
-			
-			try {
-				toOos.writeObject(data);
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(restaurants.size() != 0){
+				int randomNum = (int) (Math.random() * restaurants.size());
+				System.out.println("¸ÀÁý ¼ö´Â " + restaurants.size());
+				Restaurant restaurant = restaurants.get(randomNum);
+				
+				Object[] data = new Object[5];
+				data[0] = 0;
+				data[1] = "replyRestaurant";
+				data[2] = restaurant;
+				data[3] = member;
+					Member from = new Member();
+					from.setId("¿Ü°èÀÎ »ß·ç»×»×");
+					data[4] = from;
+	
+					ObjectOutputStream toOos = userList.get(member.getId());
+	
+					try {
+						toOos.writeObject(data);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 			}
-		}
-		else{
-			Object[] data = new Object[3];
+		} else {
+			Object[] data = new Object[4];
 			data[0] = 0;
 			data[1] = "askRestaurant";
 			data[2] = category;
 			data[3] = member;
-			
-			for(Map.Entry<String, ObjectOutputStream> entry : userList.entrySet()) {
-			    //String key = entry.getKey();
-			    ObjectOutputStream toOos = entry.getValue();
-			    try {
-			    	toOos.writeObject(data);
-			    	toOos.reset();
+
+			for (Map.Entry<String, ObjectOutputStream> entry : userList.entrySet()) {
+				String key = entry.getKey();
+				if(key.equals(member.getId())){
+					continue;
+				}
+				ObjectOutputStream toOos = entry.getValue();
+				try {
+					toOos.writeObject(data);
+					toOos.reset();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -503,23 +509,23 @@ public class ServerManager implements Interface{
 	}
 
 	@Override
-	public void replyRestaurant( Restaurant restaurant, Member to, Member from) {
-		Object[] data = new Object[4];
+	public void replyRestaurant(Restaurant restaurant, Member to, Member from) {
+		Object[] data = new Object[5];
 		data[0] = 0;
 		data[1] = "replyRestaurant";
 		data[2] = restaurant;
 		data[3] = to;
 		data[4] = from;
-		
+
 		ObjectOutputStream toOos = userList.get(to.getId());
-	
+
 		try {
 			toOos.writeObject(data);
 			toOos.reset();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	//ÁÖÀÇ »çÇ×

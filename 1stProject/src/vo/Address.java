@@ -101,6 +101,9 @@ public class Address implements Serializable{
 		this.phone = phone;
 	}
 	
+	public String getDong() {
+		return dong;
+	}
 	//lullulalal
 	@Override
 	public String toString() {

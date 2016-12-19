@@ -26,6 +26,7 @@ public class Server {
 				thread.start();
 				System.out.println("클라이언트 접속");
 			}
+			
 		} catch (IOException e) {
 			System.out.println("IOE..");
 			e.printStackTrace();

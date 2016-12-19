@@ -1,7 +1,6 @@
 package client.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -14,11 +13,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -26,7 +27,9 @@ import javax.swing.JTextArea;
 
 import client.ClientManager;
 import client.ClientReceiver;
+import client.Config;
 import client.LoginStatement;
+import vo.Category;
 import vo.Evaluation;
 import vo.Member;
 import vo.Restaurant;
@@ -38,16 +41,35 @@ public class DetailRestaurantGui extends JDialog{
 	private JTabbedPane tabbedPane;
 	private ClientManager manager = new ClientManager();
 	
+	private int imageIndex = 0;
+	
+	private int guiId = ClientReceiver.getGuiID();
+	private LinkedBlockingQueue<Object> queue = new LinkedBlockingQueue<>();
+	private JScrollPane pRecentely;
+	
+	public int getGuiID(){
+		return guiId;
+	}
+	
 	private DetailRestaurantGui() {
+		
+		ClientReceiver.addQueue(guiId, queue);
+		new Thread(new Handler(this)).start();
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setPreferredSize(new Dimension(400, 530));
+		panel.setPreferredSize(new Dimension(420, 530));
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panel.add(tabbedPane);
-		tabbedPane.setPreferredSize(new Dimension(400, 520));
-
+		tabbedPane.setPreferredSize(new Dimension(420, 520));
+		tabbedPane.addMouseListener(new MouseAdapter(){
+			public void mouseReleased(MouseEvent e) {
+				System.out.println("여기들어왔냐");
+				pRecentely = (JScrollPane) tabbedPane.getSelectedComponent();
+				imageIndex = 0;
+			}	
+		});
 		
 		this.addWindowListener(new WindowHandler());
 		this.setVisible(false);
@@ -62,8 +84,10 @@ public class DetailRestaurantGui extends JDialog{
 	}
 
 	public void addPanel(Restaurant r, Member from){
+		imageIndex = 0;
+		
 		Point mainGuiP = MainGui.getMainGui().getLocation();
-		this.setBounds(mainGuiP.x-400, mainGuiP.y, 453, 605);
+		this.setBounds(mainGuiP.x-412, mainGuiP.y, 465, 605);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		//System.out.println(tabbedPane+ " " + scrollPane);
@@ -73,6 +97,7 @@ public class DetailRestaurantGui extends JDialog{
 		JPanel p_restaurant = new JPanel();
 		scrollPane.setViewportView(p_restaurant);
 		p_restaurant.setPreferredSize(new Dimension(370, 450));
+		pRecentely = scrollPane;
 		
 		JLabel lb_rname = new JLabel(r.getRestaurantName());
 		lb_rname.setFont(new Font("나눔바른고딕", Font.PLAIN, 16));
@@ -84,16 +109,17 @@ public class DetailRestaurantGui extends JDialog{
 		p_restaurant.add(lb_evaluate);
 		lb_evaluate.setPreferredSize(new Dimension(110, 20));
 		
-		JButton btn_delete = new JButton("x");
-		btn_delete.setFont(new Font("나눔바른고딕", Font.PLAIN, 12));
+		JButton btn_delete = new JButton("X");
+		btn_delete.setFont(new Font("나눔바른고딕", Font.PLAIN, 10));
 		p_restaurant.add(btn_delete);
-		btn_delete.setPreferredSize(new Dimension(15, 15));
+		btn_delete.setPreferredSize(new Dimension(27, 15));
 		btn_delete.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(tabbedPane.getTabCount() > 1)
 					tabbedPane.remove(scrollPane);
 				else{
+					manager.showList(ClientReceiver.MAIN_GUI_ID, new Category(), 0, Config.RESTAURANT_TABLE, null);
 					drGui.setVisible(false);
 					tabbedPane.removeAll();
 				}
@@ -113,6 +139,8 @@ public class DetailRestaurantGui extends JDialog{
 		ArrayList<ImageIcon> images  = r.getImages();
 		ArrayList<ImageIcon> resizeds = new ArrayList<>();
 		
+		
+		
 		for(ImageIcon m : images){
 			Image hi = m.getImage().getScaledInstance(200, 120 , Image.SCALE_DEFAULT);
 			ImageIcon newIIcon = new ImageIcon(hi);
@@ -125,6 +153,8 @@ public class DetailRestaurantGui extends JDialog{
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
+				new ImagePrintDialog(images.get(imageIndex), drGui);
+				
 				
 			}
 		});
@@ -135,6 +165,7 @@ public class DetailRestaurantGui extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				lbl_image.setIcon(resizeds.get(0));
+				imageIndex = 0;
 			}
 		});
 		
@@ -145,6 +176,7 @@ public class DetailRestaurantGui extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					lbl_image.setIcon(resizeds.get(1));
+					imageIndex = 1;
 				}
 			});
 		}
@@ -156,6 +188,7 @@ public class DetailRestaurantGui extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					lbl_image.setIcon(resizeds.get(2));
+					imageIndex = 2;
 				}
 			});
 		}
@@ -167,6 +200,7 @@ public class DetailRestaurantGui extends JDialog{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					lbl_image.setIcon(resizeds.get(3));
+					imageIndex = 3;
 				}
 			});
 		}
@@ -386,7 +420,9 @@ public class DetailRestaurantGui extends JDialog{
 					lb_btn = new JLabel(new ImageIcon("resource/recommend.png"));
 					lb_btn.addMouseListener(new MouseAdapter(){
 						public void mouseReleased(MouseEvent e) {
-							manager.recommendRestaurant(ClientReceiver.MAIN_GUI_ID,
+							//ArrayList<String> rl = r.getRecommender();
+							//rl.add(LoginStatement.getLoginUser().getId());
+							manager.recommendRestaurant(guiId,
 									r, LoginStatement.getLoginUser());
 						}
 					});
@@ -416,7 +452,7 @@ public class DetailRestaurantGui extends JDialog{
 		
 		int rsize = 520;
 		for(Evaluation e : userElist){
-		JPanel lbl_user = new JPanel();
+			JPanel lbl_user = new JPanel();
 			p_restaurant.add(lbl_user);
 			lbl_user.setPreferredSize(new Dimension(370, 25));
 			
@@ -445,8 +481,77 @@ public class DetailRestaurantGui extends JDialog{
 	
 	private class WindowHandler extends WindowAdapter{
 		public void windowClosing (WindowEvent e){
+			//임시로 
+			manager.showList(ClientReceiver.MAIN_GUI_ID, new Category(), 0, Config.RESTAURANT_TABLE, null);
+			
 			drGui.setVisible(false);
 			tabbedPane.removeAll();
+		}
+	}
+	
+	private class Handler implements Runnable{
+		DetailRestaurantGui gui ;
+		
+		public Handler(DetailRestaurantGui gui){
+			this.gui = gui;
+		}
+		
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					Object[] receive = (Object[])queue.take();
+					String proto = (String)receive[1];
+					
+					switch(proto){
+					
+					case "evaluate":
+						
+						boolean evaluateRst = (boolean)receive[2];
+						
+						if(evaluateRst == true){
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "등록 성공~");
+							tabbedPane.remove(pRecentely);
+							Restaurant r = (Restaurant)receive[3];
+							Evaluation e = (Evaluation)receive[4];
+							r.getUserEvaluations().add(0, e);
+							addPanel(r, null);
+						}
+						else{
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "한번만 등록 가능 합니다~!");
+						}
+						
+						break;
+						
+					case "recommend":
+						
+						boolean recommendRst = (boolean)receive[2];
+						
+						if(recommendRst == true){
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "추천 했습니다~!");
+							tabbedPane.remove(pRecentely);
+							Restaurant r = (Restaurant)receive[3];
+							Member m = (Member)receive[4];
+							r.getRecommender().add(m.getId());
+							addPanel(r, null);
+						}
+						else{
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "한번만 추천 가능 합니다~!");
+						}
+						break;
+						
+						
+					//case "exit" :
+					//	if(gui != null) {
+					//		gui.dispose();
+					//	}
+					//	return;
+					}
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

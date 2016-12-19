@@ -1,0 +1,21 @@
+package client.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+
+public class ImagePringDialog extends JDialog{
+	
+	public ImagePringDialog(ImageIcon img, JDialog parents){
+		
+		super(parents, Dialog.ModalityType.APPLICATION_MODAL);
+		
+		JLabel lblNewLabel = new JLabel(img);
+		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
+		
+		this.setVisible(true);
+	}
+}

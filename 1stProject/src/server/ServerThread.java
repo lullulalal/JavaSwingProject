@@ -27,6 +27,7 @@ public class ServerThread implements Runnable {
 		boolean flag = true;
 		while (flag) {
 			try {
+
 				Object[] protocol = (Object[]) ois.readObject();
 				String proto = (String)protocol[1];
 				switch (proto) {
@@ -39,7 +40,6 @@ public class ServerThread implements Runnable {
 					Object[] checkResponse = {protocol[0], proto, 
 							ServerManager.RESTAURANTS_UPDATE_COUNTER,
 							ServerManager.STANBY_UPDATE_COUNTER};
-					System.out.println("server - check test");
 					oos.writeObject(checkResponse);
 					break;	
 					
@@ -70,13 +70,12 @@ public class ServerThread implements Runnable {
 					break;
 					
 				case "showList":
-					System.out.println("haha");
 					Category category1 = (Category) protocol[2];
 					int showNum = (int) protocol[3];
 					String table = (String) protocol[4];
 					ArrayList<Restaurant> rList = manager.showList(category1, showNum, table);
-					
-					Object[] showListResponse = {protocol[0], proto, rList, category1};
+			
+					Object[] showListResponse = {protocol[0], proto, rList,  protocol[5]};
 					oos.writeObject(showListResponse);
 					break;
 				
@@ -93,7 +92,7 @@ public class ServerThread implements Runnable {
 					restaurant = (Restaurant) protocol[3];
 					boolean rstEvaluation = manager.evaluateRestaurant(evaluation, restaurant);
 					
-					Object[] evaluationResponse = {protocol[0], proto, rstEvaluation};
+					Object[] evaluationResponse = {protocol[0], proto, rstEvaluation, restaurant, evaluation};
 					oos.writeObject(evaluationResponse);
 					break;
 					
@@ -102,11 +101,12 @@ public class ServerThread implements Runnable {
 					Member member = (Member) protocol[3];
 					boolean rstRecommend = manager.recommendRestaurant(restaurant, member);
 					
-					Object[] recommendResponse = {protocol[0], proto, rstRecommend};
+					Object[] recommendResponse = {protocol[0], proto, rstRecommend, restaurant, member};
 					oos.writeObject(recommendResponse);
 					break;
 						
 				case "findAddress" :
+					System.out.println("why");
 					Address address = (Address) protocol[2];
 					ArrayList<Address> addresses = manager.findAddresses(address);
 					
@@ -136,6 +136,7 @@ public class ServerThread implements Runnable {
 					break;
 				}
 				oos.reset();
+				//ois.reset();
 			} catch (ClassNotFoundException e) {
 				System.out.println("ClassNotFoundException");
 				e.printStackTrace();

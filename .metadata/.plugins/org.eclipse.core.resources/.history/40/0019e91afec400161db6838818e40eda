@@ -1,0 +1,9 @@
+package client.gui;
+
+import javax.swing.JDialog;
+
+public class DetailSearchGui extends JDialog{
+	public DetailSearchGui(){
+		
+	}
+}

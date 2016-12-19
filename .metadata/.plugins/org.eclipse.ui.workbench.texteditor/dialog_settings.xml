@@ -2,29 +2,29 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="addPanel" key="selection"/>
+		<item value="JButton" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="addPanel"/>
-			<item value="restaurant"/>
-			<item value="mouseadapter"/>
-			<item value="MouseAdapter"/>
-			<item value="dimen"/>
-			<item value="comment"/>
-			<item value="와구와구"/>
-			<item value="lb_new"/>
+			<item value="JButton"/>
+			<item value="search"/>
+			<item value="find"/>
+			<item value="delete"/>
+			<item value="setBound"/>
+			<item value="pRecentely"/>
+			<item value="evaluateRestaurant"/>
+			<item value="evaluate"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="293" key="DIALOG_WIDTH"/>
+		<item value="342" key="DIALOG_WIDTH"/>
 		<item value="1|굴림|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|굴림" key="DIALOG_FONT_NAME"/>
-		<item value="516" key="DIALOG_HEIGHT"/>
-		<item value="41" key="DIALOG_X_ORIGIN"/>
-		<item value="214" key="DIALOG_Y_ORIGIN"/>
+		<item value="474" key="DIALOG_HEIGHT"/>
+		<item value="50" key="DIALOG_X_ORIGIN"/>
+		<item value="235" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

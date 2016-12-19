@@ -1,0 +1,55 @@
+package client.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dialog;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class DetailSearchGui extends JDialog{
+	private JTextField textField;
+	public DetailSearchGui(JFrame mainGui){
+		
+		super(mainGui, Dialog.ModalityType.APPLICATION_MODAL);
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 292, 223);
+		panel.setBackground(new Color(255, 255, 255));
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("\uB0B4\uAC00 \uCD94\uCC9C\uD55C \uB9DB\uC9D1");
+		chckbxNewCheckBox_1.setBounds(37, 101, 138, 23);
+		panel.add(chckbxNewCheckBox_1);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(26, 10, 57, 15);
+		panel.add(lblNewLabel);
+		
+		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("\uB0B4\uAC00 \uB4F1\uB85D\uD55C \uB9DB\uC9D1");
+		chckbxNewCheckBox_2.setBounds(37, 126, 149, 23);
+		panel.add(chckbxNewCheckBox_2);
+		
+		textField = new JTextField();
+		textField.setBounds(62, 64, 109, 21);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(47, 155, 99, 25);
+		panel.add(btnNewButton);
+		
+		JLabel label = new JLabel("\uC774\uB984");
+		label.setBounds(26, 67, 24, 15);
+		panel.add(label);
+		
+		this.setVisible(true);
+	}
+}

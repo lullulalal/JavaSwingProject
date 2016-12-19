@@ -60,6 +60,8 @@ public class MainGui extends JFrame implements ActionListener{
 	private final int width = 320;
 	private final int height = 500; 
 	
+	private int p_inInitHeight = 50;
+	
 	JButton btn_one;
 	JButton btn_two;
 	JButton btn_three;
@@ -179,11 +181,20 @@ public class MainGui extends JFrame implements ActionListener{
 		p_search.setPreferredSize( new Dimension( width, height / 15 ) );
 		getContentPane().add(p_search);
 		
-		String[] loc = {"지 역", "강남구", "영등포구", "마포구"};
+		String[] loc = {"지 역", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구",
+				"마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"};
 		combo_loc = new JComboBox(loc);
 		p_search.add(combo_loc);
 		combo_loc.setFont(font);
 		combo_loc.setPreferredSize( new Dimension( 90, 24 ) );
+		combo_loc.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RefreshList();
+			}
+			
+		});
 		
 		String[] type = {"종  류", Category.S_KOREAN, 
 				Category.S_JAPAN, Category.S_CHINA, 
@@ -192,17 +203,35 @@ public class MainGui extends JFrame implements ActionListener{
 		p_search.add(combo_type);
 		combo_type.setFont(font);
 		combo_type.setPreferredSize( new Dimension( 70, 24 ) );
+		combo_type.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RefreshList();
+			}
+			
+		});
+		
 		
 		String[] score = {"☆☆☆☆☆", "★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"};
 		combo_score = new JComboBox(score);
 		p_search.add(combo_score);
 		combo_score.setFont(font);
 		combo_score.setPreferredSize( new Dimension( 100, 24 ) );
+		combo_score.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RefreshList();
+			}
+			
+		});
 		
-		JButton btn_search = new JButton("\uAC80\uC0C9");
-		p_search.add(btn_search);
-		btn_search.addActionListener(this);
-		btn_search.setPreferredSize( new Dimension( height / 20 , height / 20 ) );
+		
+		//JButton btn_search = new JButton("\uAC80\uC0C9");
+		//p_search.add(btn_search);
+		//btn_search.addActionListener(this);
+		//btn_search.setPreferredSize( new Dimension( height / 20 , height / 20 ) );
 		//-------------------------------------------------------------------------------------------------
 		
 		JPanel p_list = new JPanel();
@@ -216,12 +245,12 @@ public class MainGui extends JFrame implements ActionListener{
 		viewListPanelInit();
 
 		//-----------------------------------------------------------
-		manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE);
+		manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE, null);
 		if(Config.getInstance().getAutoLoginConfig() == true){
 			manager.login(ClientReceiver.MAIN_GUI_ID, Config.getInstance().getAutoLoginUser());
 		}
 		
-		Timer timer = new Timer(20000, new ActionListener(){
+		Timer timer = new Timer(1000, new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -229,8 +258,7 @@ public class MainGui extends JFrame implements ActionListener{
 			}
 			
 		});
-	//	timer.setInitialDelay(pause);
-		timer.start(); 
+		timer.start();
 		
 		MAIN_GUI = this;
 		
@@ -239,15 +267,17 @@ public class MainGui extends JFrame implements ActionListener{
 		this.setVisible(true);
 		
 	}
-	
+
 	private void viewListPanelInit(){
+		p_inInitHeight = 0;
 		p_in = new JPanel();
 		scrollPane.setViewportView(p_in);
 		p_in.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		p_in.setPreferredSize( new Dimension( 280 , 300 ) );
+		p_in.setPreferredSize( new Dimension( 280 , p_inInitHeight ) );
 	}
 	
-	private void addRestaurantPanel(Restaurant restaurant, Evaluation evaluation) {
+	private void addRestaurantPanel(Restaurant restaurant, Member from) {
+		
 		
 		//boolean alreadyRecommend = false;
 		ArrayList<String> recommenders = 
@@ -344,11 +374,11 @@ public class MainGui extends JFrame implements ActionListener{
 		
 		p_outerRestaurant.addMouseListener(new MouseAdapter(){
 			Restaurant r = restaurant;
-			Evaluation ee = evaluation;
+			Member m = from;
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				//Member from = ;
-				DetailRestaurantGui.getDetailRIfoDlg().addPanel(r, ee.getUser() );
+				DetailRestaurantGui.getDetailRIfoDlg().addPanel(r, m);
 			}
 		});
 		
@@ -376,35 +406,49 @@ public class MainGui extends JFrame implements ActionListener{
 						System.out.println("테스트입니다");
 						break;
 						
-					case "recommend":
+					case "replyRestaurant":
+						Restaurant restaurant = (Restaurant) receive[2];
+						Member requestor = (Member) receive[3];
+						Member member = (Member) receive[4];
+						new ReplyRestaurantGUI(restaurant, requestor, member);
+						break;
+					case "askRestaurant":
+						Category category = (Category) receive[2];
+						Member member2 = (Member) receive[3];
+						new AskRestaurant(category,member2);
+						break;
+						
+				/*	case "recommend":
 						
 						boolean recommendRst = (boolean)receive[2];
 						
 						if(recommendRst == true){
-							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "추천 성공~");
+							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "추천 했습니다~!");
 						}
 						else{
 							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "한번만 추천 가능 합니다~!");
 						}
 						break;
+						
 					case "evaluate":
 						
 						boolean evaluateRst = (boolean)receive[2];
 						
 						if(evaluateRst == true){
 							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "등록 성공~");
+							
 						}
 						else{
 							JOptionPane.showMessageDialog(DetailRestaurantGui.getDetailRIfoDlg(), "한번만 등록 가능 합니다~!");
 						}
 						
-						break;
+						break;*/
 						
 					case "insert" :
 						System.out.println("client - insert test");
 						boolean insertRst = (boolean)receive[2];
 						if (insertRst == true){
-							manager.showList(guiId, new Category() , 5, Config.RESTAURANT_TABLE);
+							manager.showList(guiId, new Category() , 5, Config.RESTAURANT_TABLE, null);
 						}else{
 							JOptionPane.showMessageDialog(gui, 
 									"이미 등록 된 식당 입니다.");
@@ -416,7 +460,6 @@ public class MainGui extends JFrame implements ActionListener{
 							break;
 						int serverRUpCount = (int)receive[2];
 						int serverSUpCount = (int)receive[3];
-						System.out.println("client - check test");
 						if(serverSUpCount != Config.STANBY_UPDATE_COUNTER){
 							lb_new.setIcon(new ImageIcon("resource/new.png"));
 							Config.STANBY_UPDATE_COUNTER = serverSUpCount;
@@ -437,7 +480,9 @@ public class MainGui extends JFrame implements ActionListener{
 							//}
 							Config.getInstance().saveConfig();
 							gui.setTitle(LoginStatement.getLoginUser().getId());
-							manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE);
+							manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE, null);
+							Config.STANBY_UPDATE_COUNTER = 0;
+							Config.RESTAURANTS_UPDATE_COUNTER = 0;
 						} else {
 							JOptionPane.showMessageDialog(gui, "아이디 또는 비밀번호가 틀렸습니다.");
 							Config.getInstance().setAutoLoginConfig(false);
@@ -452,7 +497,8 @@ public class MainGui extends JFrame implements ActionListener{
 							ArrayList<Restaurant> rList = (ArrayList<Restaurant>)receive[2];
 							System.out.println(rList.size());
 							for(Restaurant r : rList){
-								addRestaurantPanel(r, (Evaluation)receive[3]);
+								p_in.setPreferredSize(new Dimension(280, p_inInitHeight+=210));
+								addRestaurantPanel(r, (Member)receive[3]);
 							}
 							
 						});
@@ -482,10 +528,18 @@ public class MainGui extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch(e.getActionCommand()){
-		
+		case "맛집등록":
+			InsertRestaurantsGUI insertGui = new InsertRestaurantsGUI();
+			break;
+			
 		case "대기맛집":
-			lb_new.setText("");
-			manager.showList(guiId, new Category() , 0, Config.STANBY_TABLE);
+			lb_new.setIcon(null);
+			manager.showList(guiId, new Category() , 0, Config.STANBY_TABLE, null);
+			break;
+			
+		case "추천받기":
+			new RecommendGUI(this);
+			
 			break;
 		
 		case "회원가입":
@@ -497,7 +551,8 @@ public class MainGui extends JFrame implements ActionListener{
 			manager.logout(guiId, LoginStatement.getLoginUser());
 			LoginStatement.setLogOutUser();
 			setTitle("");
-			manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE);
+			lb_new.setIcon(null);
+			manager.showList(guiId, new Category(), 5, Config.RESTAURANT_TABLE, null);
 			break;
 			
 		case "로그인":
@@ -505,31 +560,35 @@ public class MainGui extends JFrame implements ActionListener{
 			break;
 			
 		case "검색":
-			Category searchInfo = new Category();
-			
-			String loc = (String)combo_loc.getSelectedItem();
-			String type = (String)combo_type.getSelectedItem();
-			String score = (String)combo_score.getSelectedItem();
-			
-			double dScore = Evaluation.getScoreFromStarRate(score);
-			
-			if(dScore > 0){
-				Evaluation evaluInfo = new Evaluation();
-				evaluInfo.setAverage(dScore);
-				searchInfo.setEvaluation(evaluInfo);
-			}
-			
-			if(!loc.equals("지 역")){
-				Address locInfo = new Address();
-				locInfo.setSido("서울특별시");
-				locInfo.setSigungu(loc);
-				searchInfo.setLocation(locInfo);
-			}
-			searchInfo.setType(Category.getIntFoodType(type));
-			
-			manager.showList(guiId, searchInfo , 0, Config.RESTAURANT_TABLE);
+			new DetailSearchGui(MainGui.this);
 			break;
 		}
 		
+	}
+	
+	private void RefreshList(){
+		Category searchInfo = new Category();
+		
+		String loc = (String)combo_loc.getSelectedItem();
+		String type = (String)combo_type.getSelectedItem();
+		String score = (String)combo_score.getSelectedItem();
+		
+		double dScore = Evaluation.getScoreFromStarRate(score);
+		
+		if(dScore > 0){
+			Evaluation evaluInfo = new Evaluation();
+			evaluInfo.setAverage(dScore);
+			searchInfo.setEvaluation(evaluInfo);
+		}
+		
+		if(!loc.equals("지 역")){
+			Address locInfo = new Address();
+			locInfo.setSido("서울특별시");
+			locInfo.setSigungu(loc);
+			searchInfo.setLocation(locInfo);
+		}
+		searchInfo.setType(Category.getIntFoodType(type));
+		
+		manager.showList(guiId, searchInfo , 0, Config.RESTAURANT_TABLE, null);
 	}
 }
