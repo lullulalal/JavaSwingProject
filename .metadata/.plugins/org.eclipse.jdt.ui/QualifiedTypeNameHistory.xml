@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.jws.soap.SOAPBinding.Style"/>
 <fullyQualifiedTypeName name="javax.swing.text.StyleConstants"/>
 <fullyQualifiedTypeName name="client.InsertRestaurantsGUI.mouseAction"/>
 <fullyQualifiedTypeName name="java.awt.event.MouseMotionListener"/>
@@ -14,7 +13,6 @@
 <fullyQualifiedTypeName name="client.FindAddressGUI"/>
 <fullyQualifiedTypeName name="client.MainGui"/>
 <fullyQualifiedTypeName name="java.awt.GridLayout"/>
-<fullyQualifiedTypeName name="javax.swing.JButton"/>
 <fullyQualifiedTypeName name="java.net.NoRouteToHostException"/>
 <fullyQualifiedTypeName name="java.awt.Dialog"/>
 <fullyQualifiedTypeName name="java.awt.Dialog.ModalityType"/>
@@ -23,7 +21,6 @@
 <fullyQualifiedTypeName name="client.RecommendGUI"/>
 <fullyQualifiedTypeName name="client.RecommendGUI.Action"/>
 <fullyQualifiedTypeName name="client.gui.InsertRestaurantsGUI"/>
-<fullyQualifiedTypeName name="client.ClientManager"/>
 <fullyQualifiedTypeName name="vo.Address"/>
 <fullyQualifiedTypeName name="vo.Evaluation"/>
 <fullyQualifiedTypeName name="client.LoginStatement"/>
@@ -39,25 +36,28 @@
 <fullyQualifiedTypeName name="javax.swing.DefaultComboBoxModel"/>
 <fullyQualifiedTypeName name="client.gui.FindAddressGUI"/>
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
-<fullyQualifiedTypeName name="vo.Category"/>
 <fullyQualifiedTypeName name="vo.Member"/>
 <fullyQualifiedTypeName name="java.lang.Runnable"/>
 <fullyQualifiedTypeName name="client.gui.ReplyRestaurantGUI.PopupTime"/>
 <fullyQualifiedTypeName name="vo.Restaurant"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javax.swing.Timer"/>
-<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
-<fullyQualifiedTypeName name="javax.swing.JLabel"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="java.awt.Font"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
-<fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
-<fullyQualifiedTypeName name="client.ClientReceiver"/>
-<fullyQualifiedTypeName name="client.Config"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="client.gui.AskRestaurant.Handler"/>
 <fullyQualifiedTypeName name="client.gui.AskRestaurant"/>
+<fullyQualifiedTypeName name="client.ClientManager"/>
+<fullyQualifiedTypeName name="client.Config"/>
+<fullyQualifiedTypeName name="client.ClientReceiver"/>
+<fullyQualifiedTypeName name="vo.Category"/>
+<fullyQualifiedTypeName name="javax.swing.JButton"/>
+<fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
+<fullyQualifiedTypeName name="client.gui.UserEvaluationsGUI.MouseAction"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="java.awt.Font"/>
 </qualifiedTypeNameHistroy>

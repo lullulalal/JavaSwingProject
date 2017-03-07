@@ -17,7 +17,7 @@ public class Restaurant implements Serializable{
 	private ArrayList<String> recommender;
 	private int recommendNum;
 	
-	public static final int BOUNDARY_OF_ASCEND = 3;
+	public static final int BOUNDARY_OF_ASCEND = 0;
 	
 	public Restaurant(String restaurantName, String price, String operationHour, Category category,
 			ArrayList<ImageIcon> images, ArrayList<Evaluation> userEvaluations, ArrayList<String> menu, int recommendNum, 

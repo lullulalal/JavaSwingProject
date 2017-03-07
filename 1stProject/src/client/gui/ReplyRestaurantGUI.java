@@ -72,9 +72,9 @@ public class ReplyRestaurantGUI extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("¾å¾å¾å¾å");
 				
+				DetailRestaurantGui.getDetailRIfoDlg().addPanel(restaurant, null);
 				
-				
-				dispose();
+				ReplyRestaurantGUI.this.dispose();
 				super.mouseClicked(e);
 			}
 		});
@@ -146,7 +146,7 @@ public class ReplyRestaurantGUI extends JDialog {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(3000); //10ºÐ
+				Thread.sleep(20000); //10ºÐ
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

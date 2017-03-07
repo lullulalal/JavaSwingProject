@@ -215,9 +215,10 @@ public class ServerManager implements Interface{
 					}
 
 					String sql3 = "select eval.id, eval.score, eval.comments from evaluations eval, restaurants rest "
-							+ "where eval.location = rest.location";
+							+ "where eval.location = rest.location and eval.location = ? order by eval.insert_date desc";
 					ArrayList<Evaluation> userEvaluations = new ArrayList<>();
 					try (PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
+						pstmt3.setString(1, location);
 						try (ResultSet rs3 = pstmt3.executeQuery()) {
 							while (rs3.next()) {
 								String userId = rs3.getString("ID");
@@ -273,12 +274,13 @@ public class ServerManager implements Interface{
 					return rtn;
 				}
 				
-				sql = "insert into evaluations values(?, ?, ?, ?)";
+				sql = "insert into evaluations values(?, ?, ?, ?, ?)";
 				try(PreparedStatement pstmt = conn.prepareCall(sql)){
 					pstmt.setString(1, evaluation.getUser().getId());
 					pstmt.setString(2, restaurant.getCategory().getLocation().toString());
 					pstmt.setDouble(3, evaluation.getAverage());
 					pstmt.setString(4, evaluation.getComment());
+					pstmt.setTimestamp(5, new Timestamp(new Date().getTime()));
 					pstmt.executeUpdate();
 					rtn = true;
 				} catch (SQLException e) {

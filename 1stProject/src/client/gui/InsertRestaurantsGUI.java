@@ -1,11 +1,11 @@
 package client.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,10 +20,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -39,7 +39,7 @@ import vo.Evaluation;
 import vo.Member;
 import vo.Restaurant;
 
-public class InsertRestaurantsGUI extends JFrame {
+public class InsertRestaurantsGUI extends JDialog {
 	static int imageIndex = 0;
 	
 	private int guiId = ClientReceiver.getGuiID();
@@ -113,6 +113,9 @@ public class InsertRestaurantsGUI extends JFrame {
 		new Thread(new Handler(this)).start();
 
 		this.setSize(350, 650);
+		Point mainGuiP = MainGui.getMainGui().getLocation();
+		this.setBounds(mainGuiP.x-297, mainGuiP.y, 350, 650);
+		
 		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 
 		font = new Font("³ª´®°íµñ",Font.BOLD, 12);
@@ -125,9 +128,9 @@ public class InsertRestaurantsGUI extends JFrame {
 	}
 
 	private class Handler implements Runnable {
-		JFrame gui;
+		InsertRestaurantsGUI gui;
 
-		public Handler(JFrame gui) {
+		public Handler(InsertRestaurantsGUI gui) {
 			this.gui = gui;
 		}
 

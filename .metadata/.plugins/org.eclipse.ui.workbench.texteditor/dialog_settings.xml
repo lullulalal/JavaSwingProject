@@ -2,17 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Font" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="font"/>
-			<item value="fonr"/>
-			<item value="추천"/>
-			<item value="btn_open"/>
-			<item value="insert"/>
+			<item value="syn"/>
+			<item value="openfi"/>
+			<item value="filechooser"/>
+			<item value="setbound"/>
+			<item value="p_restaurant"/>
+			<item value="한식"/>
+			<item value="from"/>
+			<item value="맛집을"/>
 		</list>
 		<list key="replacehistory">
 		</list>

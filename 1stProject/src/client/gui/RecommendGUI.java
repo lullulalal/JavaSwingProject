@@ -3,6 +3,7 @@ package client.gui;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -51,7 +52,10 @@ public class RecommendGUI extends JDialog{
 		ClientReceiver.addQueue(guiId, queue);
 		new Thread(new Handler(this)).start();
 		
-		this.setSize(320,264);
+		
+		Point p = MainGui.getMainGui().getLocation();
+		this.setBounds(p.x + 20, 
+				p.y + 170, 320, 264);
 		
 		Font font = new Font("나눔바른고딕", Font.PLAIN, 12);
 		
@@ -190,6 +194,7 @@ public class RecommendGUI extends JDialog{
 				boolean isRandom = false;
 				manager.askRestaurant(ClientReceiver.MAIN_GUI_ID, category, member, isRandom);
 				System.out.println("접속자추천");
+				dispose();
 				//현재 접속자들에게 추천요청메시지 broadcast
 			} 
 		}

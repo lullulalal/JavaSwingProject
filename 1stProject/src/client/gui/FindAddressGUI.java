@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -67,7 +68,9 @@ public class FindAddressGUI extends JDialog {
 		this.insertGuiAction = action;
 		
 		this.setTitle("상세주소검색");
+		Point p = parents.getLocation();
 		this.setSize(320, 400);
+		this.setBounds(p.x+15, p.y+100, 320, 400);
 		font = new Font("나눔바른고딕",Font.PLAIN, 12);
 		//this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 
